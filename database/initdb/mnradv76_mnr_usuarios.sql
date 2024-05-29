@@ -32,7 +32,7 @@ CREATE TABLE `usuarios` (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (12,'Rawlinson Filho',4,'21232f297a57a5a743894a0e4a801fc3','rawlinson.filho','N','A','rawlinson.filho@rawlinsonrolimadv.com'),(13,'Rawlinson Wagner Moraes Rolim',3,'a7062d8328ec35990de0e87e568b3b02','rawlinson','N','A','rawlinson.rolim@rawlinsonrolimadv.com'),(14,'Pedro GuimarÃ£es',1,'d41d8cd98f00b204e9800998ecf8427e','pedro.guimaraes','S','I','-'),(15,'Christino Moreira Neto',3,'2d788c42ef0e77e8e86c22943a8bb504','christino.moreira','S','I','-'),(16,'Gustavo Alvarenga',1,'93aa21a1d7658204b94d9b4c9099fc05','gustavo','S','I','-'),(17,'Matheus Rolim',5,'3ef26184cfc0656d1547a1075431c53d','matheus.rolim','N','A','-'),(18,'Alex Sandro Grijó',1,'e10adc3949ba59abbe56e057f20f883e','alex.grijo','S','A','alexsandro.grijo@rawlinsonrolimadv.com'),(19,'Elton Angelo Carvalho de Moraes',1,'3106f4f7687fbb1b852e3cf0ca0c451e','elton.moraes','S','I','elton.moraes@rawlinsonrolimadv.com'),(20,'Raissa Rolim',1,'8718e0d8cd6727b89119c14ea781329e','raissa.rolim','S','I','raissa.rolim@rawlinsonrolimadv.com'),(21,'Lucas Hosken Balzana Ramos',1,'dd95b1ca8dca61e3ab7ca3f18bbdef78','Lucas.Hosken','S','I','lucas.hosken@rawlinsonrolimadv.com'),(22,'Leticia Barreto Antunes dos Santos Lima',1,'e10adc3949ba59abbe56e057f20f883e','Leticia.Barreto','S','I','leticia.barreto@rawlinsonrolimadv.com');
+INSERT INTO `usuarios` VALUES (12,'Rawlinson Filho',4,'21232f297a57a5a743894a0e4a801fc3','rawlinson.filho','N','A','rawlinson.filho@rawlinsonrolimadv.com'),(13,'Rawlinson Wagner Moraes Rolim',3,'a7062d8328ec35990de0e87e568b3b02','rawlinson','N','A','rawlinson.rolim@rawlinsonrolimadv.com'),(14,'Pedro GuimarÃ£es',1,'d41d8cd98f00b204e9800998ecf8427e','pedro.guimaraes','S','I','-'),(15,'Christino Moreira Neto',3,'2d788c42ef0e77e8e86c22943a8bb504','christino.moreira','S','I','-'),(16,'Gustavo Alvarenga',1,'93aa21a1d7658204b94d9b4c9099fc05','gustavo','S','I','-'),(17,'Matheus Rolim',5,'3ef26184cfc0656d1547a1075431c53d','matheus.rolim','N','A','-'),(18,'Alex Sandro Grijó',1,'e10adc3949ba59abbe56e057f20f883e','alex.grijo','S','A','alexsandro.grijo@rawlinsonrolimadv.com'),(19,'Elton Angelo Carvalho de Moraes',1,'3106f4f7687fbb1b852e3cf0ca0c451e','elton.moraes','S','I','elton.moraes@rawlinsonrolimadv.com'),(20,'Raissa Rolim',1,'8718e0d8cd6727b89119c14ea781329e','raissa.rolim','S','I','raissa.rolim@rawlinsonrolimadv.com'),(21,'Lucas Hosken Balzana Ramos',1,'dd95b1ca8dca61e3ab7ca3f18bbdef78','Lucas.Hosken','S','I','lucas.hosken@rawlinsonrolimadv.com'),(22,'Leticia Barreto Antunes dos Santos Lima',1,'e10adc3949ba59abbe56e057f20f883e','Leticia.Barreto','S','I','leticia.barreto@rawlinsonrolimadv.com'),(23,'admin', 4, '21232f297a57a5a743894a0e4a801fc3', 'admin','N','A','admin@admin');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
