@@ -1,6 +1,15 @@
 import Head from 'next/head'
+import http from '../config/http'
 
 export default function Home() {
+
+  const logar = async () => {
+    await http.post("/api/login", {
+      username: "admin",
+      password: "admin"
+    })
+  }
+
   return (
     <div >
       <Head>
@@ -11,6 +20,10 @@ export default function Home() {
 
       <main>
         INDEX
+        <br />
+        <button onClick={logar}>
+          Logar
+        </button>
       </main>
     </div>
   )
