@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize"
 
-function connectDb() {
+export function connectDb() {
     try {
         const db = new Sequelize({
             dialect: 'mysql',
@@ -16,4 +16,12 @@ function connectDb() {
     }
 }
 
-export default connectDb();
+export async function query(sql=''){
+    try {
+        const db = connectDb();
+        const queryReturn = await db.query(sql);
+        return queryReturn[0];
+    } catch (e) {
+        throw new Error("Erro na query do banco de dados.", e);
+    }
+}
