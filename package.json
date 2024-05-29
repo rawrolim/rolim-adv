@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose up -d && next dev",
+    "dev": "node env-file.ts && docker-compose down -v && rm -vfr database/data && docker-compose up -d && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
     "mysql2": "^3.9.8",
     "next": "14.2.3",
