@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server';
 import axios from 'axios';
 
 export async function middleware(request: NextRequest) {
+    if(process.env.ENV == 'development'){
+        return NextResponse.next();
+    }
     const authHeader = request.headers.get('authorization');
     let Authorized = false;
 
