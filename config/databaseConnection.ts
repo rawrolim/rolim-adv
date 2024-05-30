@@ -20,6 +20,7 @@ export async function query(sql=''){
     try {
         const db = connectDb();
         const queryReturn = await db.query(sql);
+        await db.close()
         return queryReturn[0];
     } catch (e) {
         throw new Error("Erro na query do banco de dados.", e);

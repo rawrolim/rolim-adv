@@ -6,7 +6,7 @@ export default function Home() {
   const logar = async () => {
     await http.post("/api/login", {
       username: "admin",
-      password: "admin"
+      password: "admina"
     })
   }
 
