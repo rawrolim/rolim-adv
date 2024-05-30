@@ -7,7 +7,7 @@ export default function Home() {
   const logar = async () => {
     await http.post("/api/login", {
       username: "admin",
-      password: "admina"
+      password: "admin"
     })
   }
 
@@ -25,7 +25,7 @@ export default function Home() {
         <button onClick={logar}>
           Logar
         </button>
-        <button onClick={pdfHipo}>Generate Hipo</button>
+        <button onClick={() => pdfHipo(3607)}>Generate Hipo</button>
       </main>
     </div>
   )
