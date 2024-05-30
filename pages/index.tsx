@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import pdfHipo from './pdf';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
 
       <main>
         INDEX
+        <button onClick={pdfHipo}>Generate Hipo</button>
       </main>
     </div>
   )
