@@ -1,8 +1,9 @@
 import axios from "axios"
+import { toast } from "react-toastify";
 
 const http = {
     get: async (uri='', config = { headers: { authorization: '' } }, instancia = 0) => {
-        const authorization = getauthorization();
+        const authorization = getAuthorizarion();
         console.log(authorization)
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
@@ -14,14 +15,15 @@ const http = {
                     await refreshAuthorization();
                     return http.get(uri, config, instancia + 1);
                 } else {
-                    return e.response;
+                    toast.error(JSON.parse(e.request.response));
+                    return e.request;
                 }
             }
         }
     },
 
     post: async (uri='', data, config = { headers: { authorization: '' } }, instancia = 0) => {
-        const authorization = await getauthorization();
+        const authorization = await getAuthorizarion();
 
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
@@ -33,14 +35,15 @@ const http = {
                     await refreshAuthorization();
                     return http.post(uri, data, config, instancia + 1);
                 } else {
-                    return e.response;
+                    toast.error(JSON.parse(e.request.response));
+                    return e.request;
                 }
             }
         }
     },
 
     put: async (uri='', data, config = { headers: { authorization: '' } }, instancia = 0) => {
-        const authorization = getauthorization();
+        const authorization = getAuthorizarion();
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
@@ -51,14 +54,15 @@ const http = {
                     await refreshAuthorization();
                     return http.put(uri, data, config, instancia + 1);
                 } else {
-                    return e.response;
+                    toast.error(JSON.parse(e.request.response));
+                    return e.request;
                 }
             }
         }
     },
 
     delete: async (uri='', config = { headers: { authorization: '' } }, instancia = 0) => {
-        const authorization = getauthorization();
+        const authorization = getAuthorizarion();
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
@@ -69,18 +73,18 @@ const http = {
                     await refreshAuthorization();
                     return http.delete(uri, config, instancia + 1);
                 } else {
-                    return e.response;
+                    toast.error(JSON.parse(e.request.response));
+                    return e.request;
                 }
             }
         }
     },
-
 }
 
 export default http;
 
 async function refreshAuthorization() {
-    const authorization = getauthorization();
+    const authorization = getAuthorizarion();
     const empresa = JSON.parse(localStorage.getItem('empresa'));
     if (empresa) {
         const email = empresa.email;
@@ -102,7 +106,7 @@ async function refreshAuthorization() {
     }
 }
 
-function getauthorization(){
+function getAuthorizarion(){
     let authorizationLocalStorage = localStorage.getItem('authorization');
     if(authorizationLocalStorage){
         return JSON.parse(localStorage.getItem('authorization'));
