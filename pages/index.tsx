@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import pdfHipo from './pdf';
 import http from '../config/http'
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
   const logar = async () => {
     await http.post("/api/login", {
       username: "admin",
-      password: "admina"
+      password: "admin"
     })
   }
 
@@ -24,6 +25,7 @@ export default function Home() {
         <button onClick={logar}>
           Logar
         </button>
+        <button onClick={() => pdfHipo(3607)}>Generate Hipo</button>
       </main>
     </div>
   )
