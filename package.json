@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose up -d && next dev",
+    "dev": "node env-file.ts && docker compose down -v && rm -vfr database/data && docker compose up -d && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,11 +11,13 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
     "mysql2": "^3.9.8",
     "next": "14.2.3",
     "pdfmake": "^0.2.10",
     "pdfmake-unicode": "^0.0.1",
+    "pg-hstore": "^2.3.4",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-icons": "^5.2.1",

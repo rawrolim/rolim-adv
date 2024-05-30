@@ -1,7 +1,16 @@
 import Head from 'next/head';
 import pdfHipo from './pdf';
+import http from '../config/http'
 
 export default function Home() {
+
+  const logar = async () => {
+    await http.post("/api/login", {
+      username: "admin",
+      password: "admina"
+    })
+  }
+
   return (
     <div >
       <Head>
@@ -12,6 +21,10 @@ export default function Home() {
 
       <main>
         INDEX
+        <br />
+        <button onClick={logar}>
+          Logar
+        </button>
         <button onClick={pdfHipo}>Generate Hipo</button>
       </main>
     </div>

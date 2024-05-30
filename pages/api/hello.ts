@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import db from "../../config/databaseConnection";
+import { query } from "../../config/databaseConnection";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const clientes = await db.query("SELECT * FROM clientes");
+  const clientes = await query("SELECT * FROM clientes");
 
   console.log(clientes);
   
