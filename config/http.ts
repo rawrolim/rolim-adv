@@ -16,7 +16,7 @@ const http = {
                     return http.get(uri, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return e.request;
+                    return JSON.parse(e.request.response);
                 }
             }
         }
@@ -36,7 +36,7 @@ const http = {
                     return http.post(uri, data, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return e.request;
+                    return JSON.parse(e.request.response);
                 }
             }
         }
@@ -55,7 +55,7 @@ const http = {
                     return http.put(uri, data, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return e.request;
+                    return JSON.parse(e.request.response);
                 }
             }
         }
@@ -74,7 +74,7 @@ const http = {
                     return http.delete(uri, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return e.request;
+                    return JSON.parse(e.request.response);
                 }
             }
         }
@@ -85,32 +85,25 @@ export default http;
 
 async function refreshAuthorization() {
     const authorization = getAuthorizarion();
-    const empresa = JSON.parse(localStorage.getItem('empresa'));
-    if (empresa) {
-        const email = empresa.email;
-        if (authorization) {
-            const res = await axios.post('/refresh_authorization',
-                {
-                    email
-                },
-                {
-                    headers: {
-                        authorization
-                    }
+    if (authorization) {
+        const res = await axios.get('/api/refreshToken',
+            {
+                headers: {
+                    authorization
                 }
-            );
-            localStorage.setItem('authorization', JSON.stringify(res.data));
-        }
-    } else {
-        console.error('A empresa está indefinida.')
+            }
+        );
+        localStorage.setItem('authorization', JSON.stringify(res.data.jwtToken));
     }
 }
 
 function getAuthorizarion(){
     let authorizationLocalStorage = localStorage.getItem('authorization');
     if(authorizationLocalStorage){
-        return JSON.parse(localStorage.getItem('authorization'));
-    }else{
-        return process.env.API_KEY;
-    }
+        authorizationLocalStorage = JSON.parse(authorizationLocalStorage)
+        if(authorizationLocalStorage){
+            return JSON.parse(localStorage.getItem('authorization'));
+        }
+    }   
+    return process.env.API_KEY;
 }
