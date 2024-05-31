@@ -23,6 +23,6 @@ export async function query(sql=''){
         await db.close()
         return queryReturn[0];
     } catch (e) {
-        throw new Error("Erro na query do banco de dados.", e);
+        throw new Error(`Erro na query do banco de dados. ${sql}`);
     }
 }

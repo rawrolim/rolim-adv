@@ -1,14 +1,26 @@
 import Head from 'next/head';
 import pdfHipo from './pdf';
 import http from '../config/http'
+import useLoacalStorage from '../hooks/useLocalStorage';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const [token, setToken] = useLoacalStorage('authorization','')
+
+  useEffect(()=>{
+    setToken("")
+  },[])
 
   const logar = async () => {
-    await http.post("/api/login", {
+    const res = await http.post("/api/login", {
       username: "admin",
       password: "admin"
-    })
+    });
+    setToken(res.jwtToken)
+  }
+
+  const testAuth = async () => {
+    await http.get('/api/test');
   }
 
   return (
@@ -22,9 +34,8 @@ export default function Home() {
       <main>
         INDEX
         <br />
-        <button onClick={logar}>
-          Logar
-        </button>
+        <button onClick={logar}>Logar</button>
+        <button onClick={testAuth}>Test auth</button>
         <button onClick={() => pdfHipo(3607)}>Generate Hipo</button>
       </main>
     </div>
