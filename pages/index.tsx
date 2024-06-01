@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import LoginPage from './LoginPage'
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       </Head>
 
       <main>
-        INDEX
+        <a href='./LoginPage'>Login</a>
       </main>
     </div>
   )
