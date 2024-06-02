@@ -8,8 +8,14 @@ main .Div_Principal h1{
 }
 main .Div_Principal{
     margin-bottom: 1rem;
-    padding: 6rem 3rem 3rem 3rem;
+    padding-top: 6rem;
 
+}
+
+.responsiveImageContainer {
+  width: 50%; 
+  max-width: 800px; 
+  height: auto;
 }
 
 /* HISTÓRIA */
@@ -50,13 +56,17 @@ main .Div_Principal{
   .historia img:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
-  @media (max-width: 968px) {
-    .historia img {
-        width: 200;
-        height: 200px;
-      }
-}
+  
+@media (max-width: 800px) {
+  .historia {
+    display: flex;
+    flex-direction: column; 
 
+  }.historia img{
+    width: 300px;
+    height: 300px;
+  }
+}
 
 /* ADVOGADOS */
 .advogado {
@@ -93,6 +103,7 @@ main .Div_Principal{
     margin-bottom: 10px;
     font-size: 16px;
     color: #666;
+    text-align: justify;
   }
   .informacoes ul {
     margin-top: 10px;
@@ -103,58 +114,58 @@ main .Div_Principal{
     font-size: 16px;
     color: #666;
   }
+  @media (max-width: 600px) {
+    .advogado {
+      display: flex;
+      flex-direction: column; 
+
+    }
+  }
+
 
 /* CONTATO */
- .container {
-  display: flex;
-  flex-wrap: wrap;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  width: 100%;
-  margin: 20px;
-}
-.contato .left,.contato .right {
+
+.contatoleft,
+.contatoright {
   flex: 1 1 300px;
   padding: 20px;
 }
-.contato input::placeholder,
-.contato textarea::placeholder {
+.contatoinput::placeholder,
+.contatotextarea::placeholder {
   color: rgb(134, 134, 134);
 }
-.contato .left {
+.contatoleft {
   border-right: 1px solid #ddd;
 }
-.contato input:focus,
-.contato textarea:focus {
+.contatoinput:focus,
+.contatotextarea:focus {
     border: 2px solid rgb(0, 0, 231);
     background-color: white;
     color: black;
     outline: none;
   }
-.contato .right {
+.contatoright {
   display: flex;
   flex-direction: column;
 }
 
-.contato form {
+.contatoform {
   display: flex;
   flex-direction: column;
 }
 
-.contato label {
+.contatolabel {
   margin: 10px 0 5px;
 }
 
-.contato input,.contato textarea {
+.contatoinput,.contatotextarea {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.contato button {
+.contatobutton {
   padding: 10px;
   border: none;
   background-color: #007bff;
@@ -163,12 +174,12 @@ main .Div_Principal{
   cursor: pointer;
 }
 
-.contato button:hover {
+.contatobutton:hover {
   background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
-    .contato .left {
+    .contatoleft {
     border-right: none;
     border-bottom: 1px solid #ddd;
   }
@@ -180,29 +191,28 @@ main .Div_Principal{
 
 
 
-
 /* Footer */
-footer{
+.footer{
     width: 100%;
     background-color: rgb(46, 59, 88);
     display: flex;
     justify-content: space-between;
 }
-footer h1{
+.footer h1{
     font-size: 18px;
 }
-footer div{
+.footer div{
     padding: 3rem;
     color: white;
 }
-footer .footer_historia{
+.footer .footer_historia{
     width: 40%;
     text-align: justify;
 }
-footer .footer_social_media a{
+.footer .footer_social_media a{
     text-decoration: none;
     color: white;
-}footer .footer_social_media a:hover{
+}.footer .footer_social_media a:hover{
     color: rgb(179, 170, 170);
 }
 .footer_links ul{
@@ -213,4 +223,10 @@ footer .footer_social_media a{
 }
 .footer_links a:hover{
     color: rgb(179, 170, 170);
+}
+@media (max-width: 600px) {
+  .footer {
+    display: flex;
+    flex-direction: column; 
+  }
 }

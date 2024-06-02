@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node env-file.ts && docker compose down -v && rm -vfr database/data && docker compose up -d && next dev",
+    "dev": "node env-file.ts && docker compose down -v && docker compose up -d && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -22,6 +22,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-icons": "^5.2.1",
+    "react-input-mask": "^2.0.4",
     "react-toastify": "^10.0.5",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2"
