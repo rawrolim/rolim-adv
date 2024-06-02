@@ -1,0 +1,25 @@
+
+
+services:
+  mysql:
+    image: mysql
+    restart: always
+    container_name: database_rolim_adv
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: mnradv76_mnr
+      MYSQL_USER: rolim_adv
+      MYSQL_PASSWORD: rolim_adv123@
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 256M 
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./database/initdb:/docker-entrypoint-initdb.d

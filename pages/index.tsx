@@ -2,12 +2,33 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
 import InputMask from 'react-input-mask';
+import pdfHipo from './pdf';
+import http from '../config/http'
+import useLoacalStorage from '../hooks/useLocalStorage';
+import { useEffect } from 'react';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  }
+  const [token, setToken] = useLoacalStorage('authorization','')
+
+  useEffect(()=>{
+    setToken("")
+  },[])
+
+  const logar = async () => {
+    const res = await http.post("/api/login", {
+      username: "admin",
+      password: "admin"
+    });
+    setToken(res.jwtToken)
+  }
+
+  const testAuth = async () => {
+    await http.get('/api/test');
   }
 
   return (
@@ -51,6 +72,10 @@ export default function Home() {
       </header>
 
       <main>
+      <button onClick={logar}>Logar</button>
+        <button onClick={testAuth}>Test auth</button>
+        <button onClick={() => pdfHipo(3607)}>Generate Hipo</button>
+
         {/* INICIO */}
         <div id='inicio' className='Div_Principal'>
 
@@ -59,14 +84,14 @@ export default function Home() {
         {/* HISTÓRIA */}
         <div id='historia' className='Div_Principal'>
           <h1>Historia</h1>
-          <h2>Nossa História</h2>
           <div className="historia">
+            <h2>Nossa História</h2>
             <p>Você busca por uma advocacia que entenda não só as leis, mas também a importância da proximidade e do comprometimento com seus clientes? Bem-vindo ao escritório de advocacia Rawlinson Rolim Advogados Associados, seu parceiro legal estratégico situado no coração do centro jurídico de Macaé!
             <br /><br />Localizada estrategicamente na Rua Dr. Bueno, nossa sede está a apenas 2 Km do Fórum Trabalhista e a 4 Km do Fórum da Comarca de Macaé. Essa proximidade não é apenas geográfica; é a nossa promessa de estar ao seu lado em cada passo do processo legal.
             <br /><br />Imagine uma equipe dedicada, apaixonada pela justiça e pronta para lutar pelos seus direitos. Aqui, no Rawlinson Rolim Advogados Associados, isso não é apenas uma visão - é a nossa realidade diária.
             <br /><br />Com uma vasta experiência em diversas áreas do direito, desde trabalhista até civil, estamos preparados para oferecer soluções jurídicas sob medida para as suas necessidades específicas. Não importa quão complexo seja o desafio, estamos aqui para simplificar o processo e alcançar resultados que superem suas expectativas.
-           <br /><br /> Não adie mais. Venha nos visitar e descubra como podemos fazer a diferença em seu caso legal. Rawlinson Rolim Advogados Associados: onde expertise encontra compromisso.
-            <br /> <br />Rua Dr. Bueno, n°148 - 303, Centro - Macaé</p>
+            <br /><br />Não adie mais. Venha nos visitar e descubra como podemos fazer a diferença em seu caso legal. Rawlinson Rolim Advogados Associados: onde expertise encontra compromisso.
+            <br />Rua Dr. Bueno, n°148 - 303, Centro - Macaé</p>
             <Image src="/images/example.png" width={300} height={200} alt="Foto da História" />
             </div>
         </div>
