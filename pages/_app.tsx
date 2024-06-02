@@ -1,5 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import '../styles/globals.css'
+import '../styles/navbar.css'
+import '../styles/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
