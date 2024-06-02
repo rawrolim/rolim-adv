@@ -3,10 +3,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import InputMask from 'react-input-mask';
 import styles from '../styles/index.module.css';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const router = useRouter()
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   }
@@ -38,7 +40,7 @@ export default function Home() {
           </div>
 
           <div className='login'>
-            <button><a href="#">Entrar</a></button>
+            <button><a onClick={()=>router.push("/LoginPage")}>Entrar</a></button>
           </div>
 
           <div className='menu' onClick={toggleMenu}>
