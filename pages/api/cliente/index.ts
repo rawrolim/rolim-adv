@@ -20,11 +20,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 nome_mae,
                 nome_pai,
                 CASE 
-                    WHEN estado_civil = '1' THEN '1'
-                    WHEN estado_civil = '2' THEN '2'
-                    WHEN estado_civil = '3' THEN '3'
-                    WHEN estado_civil = '4' THEN '4'
-                    WHEN estado_civil = '5' THEN '5'
+                    WHEN estado_civil = '1' THEN 'Solteiro(a)'
+                    WHEN estado_civil = '2' THEN 'Casado(a)'
+                    WHEN estado_civil = '3' THEN 'Divorciado(a)'
+                    WHEN estado_civil = '4' THEN 'Viúvo(a)'
+                    WHEN estado_civil = '5' THEN 'Outros(a)'
+                    WHEN estado_civil = '6' THEN 'Separado(a) Judicialmente'
+                    WHEN estado_civil = '7' THEN 'União Estável'
                     ELSE estado_civil
                 END estado_civil,
                 CASE 
