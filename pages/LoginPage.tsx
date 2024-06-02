@@ -1,6 +1,10 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import useLoacalStorage from '../hooks/useLocalStorage'
+import http from '../config/http'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -8,6 +12,28 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [usernamePlaceholder, setUsernamePlaceholder] = useState('Usuario')
   const [passwordPlaceholder, setPasswordPlaceholder] = useState('Senha')
+  const [token, setToken] = useLoacalStorage('authorization','')
+  const [userData, setUserData] = useLoacalStorage('user_data','')
+  const router = useRouter();
+
+  useEffect(()=>{
+    setToken("")
+  },[])
+
+  const login = async () => {
+    try{
+      const res = await http.post("/api/login", {
+        username,
+        password
+      });
+      setToken(res.jwtToken);
+      setUserData(res.jwtData);
+      toast.success("Usuário logado com sucesso");
+      //router.push("/home")
+    }catch(e){
+      console.log(e);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -87,7 +113,7 @@ export default function LoginPage() {
               />
               <label htmlFor="showPassword">Mostrar Senha</label>
             </div>
-            <button type="submit" className='buttonSubmit' >Login</button>
+            <button onClick={login} className='buttonSubmit' >Login</button>
             <a href='./' className='buttonEsqueciSenha' >Esqueci a senha</a>
           </div>
         </form>
