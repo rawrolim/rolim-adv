@@ -1,8 +1,5 @@
 import Head from "next/head";
-import pdfHipo from "./pdf";
-import http from "../config/http";
 import useLoacalStorage from "../hooks/useLocalStorage";
-import { useEffect } from "react";
 import Card from "../components/card";
 import Chart from "../components/chart";
 import Table from "../components/table";
