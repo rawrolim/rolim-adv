@@ -1,0 +1,122 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 0.5rem;
+    background-color: #f0f0f0;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 1rem;
+    background-color: rgb(46, 59, 88);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px #464646;
+    margin-top: 2rem;
+  }
+
+  .hover{
+    color: #9ea4a5;
+  }
+
+  .LoginTitle{
+    color:white;
+    margin-right: 70%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1rem;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: rgb(57, 65, 82);
+    border-radius: 5px;
+  }
+   
+  .input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .buttonSubmit {
+    padding: 0.5rem 12rem;
+    font-size: 1rem;
+    border-radius: 2px;
+    border: none;
+    background-color: #0187a7;
+    color: #fff;
+    cursor: pointer;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 40px;
+  }
+
+  .buttonEsqueciSenha {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 10px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .checkboxContainer{
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    margin: 0 auto;
+    color: #fff;
+    display: flex;
+    margin-left: 0px;
+  }
+
+  .footer {
+    background-color: grey;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }

@@ -2,35 +2,13 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
 import InputMask from 'react-input-mask';
-import pdfHipo from './pdf';
-import http from '../config/http'
-import useLoacalStorage from '../hooks/useLocalStorage';
-import { useEffect } from 'react';
 import styles from '../styles/index.module.css';
-import { url } from 'inspector';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  }
-  const [token, setToken] = useLoacalStorage('authorization','')
-
-  useEffect(()=>{
-    setToken("")
-  },[])
-
-  const logar = async () => {
-    const res = await http.post("/api/login", {
-      username: "admin",
-      password: "admin"
-    });
-    setToken(res.jwtToken)
-  }
-
-  const testAuth = async () => {
-    await http.get('/api/test');
   }
 
   return (
@@ -74,9 +52,6 @@ export default function Home() {
       </header>
 
       <main>
-      <button onClick={logar}>Logar</button>
-        <button onClick={testAuth}>Test auth</button>
-        <button onClick={() => pdfHipo(3607)}>Generate Hipo</button>
 
         {/* INICIO */}
         <div id='inicio' className={styles.Div_Principal}  style={{ backgroundImage: `url('/images/back.jpg')`, backgroundRepeat: 'no-repeat', width: '100%', height: '50vh', display: 'flex',justifyContent: 'center', alignItems: 'center' }}>
