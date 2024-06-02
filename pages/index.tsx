@@ -1,4 +1,5 @@
-import Head from 'next/head';
+import Head from 'next/head'
+import LoginPage from './LoginPage'
 import pdfHipo from './pdf';
 import http from '../config/http'
 import useLoacalStorage from '../hooks/useLocalStorage';
@@ -32,6 +33,7 @@ export default function Home() {
       </Head>
 
       <main>
+        <a href='./LoginPage'>Login</a>
         INDEX
         <br />
         <button onClick={logar}>Logar</button>
