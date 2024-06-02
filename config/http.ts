@@ -16,7 +16,7 @@ const http = {
                     return http.get(uri, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return JSON.parse(e.request.response);
+                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }
@@ -36,7 +36,7 @@ const http = {
                     return http.post(uri, data, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return JSON.parse(e.request.response);
+                    throw new Error(JSON.parse(e.request.response))
                 }
             }
         }
@@ -55,7 +55,7 @@ const http = {
                     return http.put(uri, data, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return JSON.parse(e.request.response);
+                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }
@@ -74,7 +74,7 @@ const http = {
                     return http.delete(uri, config, instancia + 1);
                 } else {
                     toast.error(JSON.parse(e.request.response));
-                    return JSON.parse(e.request.response);
+                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }

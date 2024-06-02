@@ -7,10 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { body } = req;
 
         if (!body.username)
-            throw new Error("O login não foi inserido");
+            throw new Error("O campo de usuário não foi inserido");
 
         if(!body.password)
-            throw new Error("A senha não foi inserida");
+            throw new Error("O campo de senha não foi inserido");
         
         let sql = `
             SELECT 
