@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 import useLoacalStorage from '../hooks/useLocalStorage'
 import http from '../config/http'
 import { toast } from 'react-toastify'
@@ -11,8 +10,6 @@ export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [usernamePlaceholder, setUsernamePlaceholder] = useState('Usuario')
-  const [passwordPlaceholder, setPasswordPlaceholder] = useState('Senha')
   const [token, setToken] = useLoacalStorage('authorization','')
   const [userData, setUserData] = useLoacalStorage('user_data','')
   const router = useRouter();
@@ -36,28 +33,12 @@ export default function LoginPage() {
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Username:', username)
-    console.log('Password:', password)
-  }
-  // Palavra Usuario dentro do campo
   const handleUsernameChange = (e) => {
     setUsername(e.target.value)
-    if (e.target.value.length > 0) {
-      setUsernamePlaceholder('')
-    } else {
-      setUsernamePlaceholder('Usuario')
-    }
   }
-  // Palavra Senha dentro do campo
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value)
-    if (e.target.value.length > 0) {
-      setPasswordPlaceholder('')
-    } else {
-      setPasswordPlaceholder('Senha')
-    }
   }
 
   const togglePasswordVisibility = () => {
@@ -72,57 +53,49 @@ export default function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className={styles.header}>
-        <a href='./'>
-          <Image src="/images/logo Rolim Advocacia 1 (2).png" alt="Logo" width={150} height={70}/>
-        </a>
-      </header>
-
       <main>
-        <form onSubmit={handleSubmit}> 
-          <div className='inputGroup'> 
-            <h1 className='LoginTitle'>Login</h1>
-            <div className='input'>
-              <input 
-                type="text"
-                id="username"
-                value={username}
-                onChange={handleUsernameChange}
-                placeholder={usernamePlaceholder}
-                maxLength={100}  // Limite de caracteres
-                className='input'
-                required
-              />
-            </div>
-            <div className='input'>             
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder={passwordPlaceholder}
-                className='input'
-                required
-              />
-            </div>
-            <div className='checkboxContainer'>
-              <input
-                type="checkbox"
-                id="showPassword"
-                checked={showPassword}
-                onChange={togglePasswordVisibility}
-              />
-              <label htmlFor="showPassword">Mostrar Senha</label>
-            </div>
-            <button onClick={login} className='buttonSubmit' >Login</button>
-            <a href='./' className='buttonEsqueciSenha' >Esqueci a senha</a>
+        <div className={styles.inputGroup}> 
+          <h1 className={styles.LoginTitle}>Login</h1>
+          <div className={styles.input}>
+            <input 
+              type="text"
+              id="username"
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Usuario"
+              maxLength={100}  // Limite de caracteres
+              className={styles.input}
+              required
+            />
           </div>
-        </form>
+          <div className={styles.input}>             
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Senha"
+              className={styles.input}
+              required
+            />
+          </div>
+          <div className={styles.checkboxContainer}>
+            <input
+              type="checkbox"
+              id="showPassword"
+              checked={showPassword}
+              onChange={togglePasswordVisibility}
+            />
+            <label htmlFor="showPassword">Mostrar Senha</label>
+          </div>
+          <div className="row" >
+            <div className="col-sm-12 col-md-6" >
+              <button onClick={login} className={`btn btn-primary ${styles.buttonSubmit}`}>Login</button>
+            </div>
+          </div>
+          <button type="button" className={styles.buttonEsqueciSenha} onClick={() => router.push('/esqueciSenha')}>Esqueci a senha</button>
+        </div>
       </main>
-
-      <footer className='footer'>
-        <p>© 2024 RawlinsonRolimADV. Todos os direitos reservados.</p>
-      </footer>
     </div>
   )
 }
