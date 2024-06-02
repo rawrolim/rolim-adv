@@ -5,6 +5,7 @@ import useLoacalStorage from '../hooks/useLocalStorage'
 import http from '../config/http'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import styles from '../styles/LoginPage.module.css';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -71,7 +72,7 @@ export default function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className='header'>
+      <header className={styles.header}>
         <a href='./'>
           <Image src="/images/logo Rolim Advocacia 1 (2).png" alt="Logo" width={150} height={70}/>
         </a>
