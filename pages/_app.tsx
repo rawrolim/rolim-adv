@@ -4,6 +4,7 @@ import '../styles/navbar.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
+import HeaderComponent from '../components/header';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <ToastContainer />
+      <HeaderComponent />
       <Component {...pageProps} />
     </>
   )

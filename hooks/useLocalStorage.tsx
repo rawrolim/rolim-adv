@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useLoacalStorage(key='', defaultValue=''){
+export default function useLocalStorage(key='', defaultValue=''){
     const [storedValue, setStoredValue] = useState(()=>{
         try{
             const value = localStorage.getItem(key);
