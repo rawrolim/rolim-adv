@@ -39,11 +39,17 @@ nav{
 .nav-item{
     margin: 0 15px;
 }
-.nav-link{
+.nav-link-active{
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-size: var(--bs-nav-link-font-size);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: var(--bs-nav-link-color);
     text-decoration: none;
-    font-size: 1.15rem;
-    color: white;
-    font-weight: 400;
+    background: 0 0;
+    text-decoration: underline;
+    border: 0;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 }
 .login button{
     border: none;

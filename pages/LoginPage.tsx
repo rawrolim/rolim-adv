@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import useLoacalStorage from '../hooks/useLocalStorage'
+import useLocalStorage from '../hooks/useLocalStorage'
 import http from '../config/http'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
@@ -10,8 +10,8 @@ export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [token, setToken] = useLoacalStorage('authorization', '')
-  const [userData, setUserData] = useLoacalStorage('user_data', '')
+  const [token, setToken] = useLocalStorage('authorization', '')
+  const [userData, setUserData] = useLocalStorage('user_data', '')
   const router = useRouter();
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function LoginPage() {
               onChange={handleUsernameChange}
               placeholder="Usuario"
               maxLength={100}  // Limite de caracteres
-              className={'form-control'}
+              className={'form-control text-dark'}
               required
             />
           </div>
