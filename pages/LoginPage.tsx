@@ -10,16 +10,16 @@ export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [token, setToken] = useLoacalStorage('authorization','')
-  const [userData, setUserData] = useLoacalStorage('user_data','')
+  const [token, setToken] = useLoacalStorage('authorization', '')
+  const [userData, setUserData] = useLoacalStorage('user_data', '')
   const router = useRouter();
 
-  useEffect(()=>{
+  useEffect(() => {
     setToken("")
-  },[])
+  }, [])
 
   const login = async () => {
-    try{
+    try {
       const res = await http.post("/api/login", {
         username,
         password
@@ -27,8 +27,8 @@ export default function LoginPage() {
       setToken(res.jwtToken);
       setUserData(res.jwtData);
       toast.success("Usuário logado com sucesso");
-      //router.push("/home")
-    }catch(e){
+      router.push("/dashboard")
+    } catch (e) {
       console.log(e);
     }
   }
@@ -53,47 +53,56 @@ export default function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <div className={styles.inputGroup}> 
-          <h1 className={styles.LoginTitle}>Login</h1>
+      <main className='container-fluid'>
+        <div className={`${styles.inputGroup} shadow col-11 col-sm-10 col-md-8 col-lg-4`}>
+          <div className='col-12 d-flex'>
+            <h3 className={/*styles.LoginTitle*/ ' align-self-center col-6 text-white p-2 pt-3 text-start'}>Login</h3>
+            <div className='text-end col-6 align-self-center'>
+              <button className='btn text-white' onClick={()=>router.push('/')}>Voltar</button>
+            </div>
+          </div>
           <div className={styles.input}>
-            <input 
+            <input
               type="text"
               id="username"
               value={username}
               onChange={handleUsernameChange}
               placeholder="Usuario"
               maxLength={100}  // Limite de caracteres
-              className={styles.input}
+              className={'form-control'}
               required
             />
           </div>
-          <div className={styles.input}>             
+          <div className={styles.input}>
             <input
               type={showPassword ? "text" : "password"}
               id="password"
               value={password}
               onChange={handlePasswordChange}
               placeholder="Senha"
-              className={styles.input}
+              className={'form-control'}
               required
             />
           </div>
-          <div className={styles.checkboxContainer}>
-            <input
-              type="checkbox"
-              id="showPassword"
-              checked={showPassword}
-              onChange={togglePasswordVisibility}
-            />
-            <label htmlFor="showPassword">Mostrar Senha</label>
-          </div>
-          <div className="row" >
-            <div className="col-sm-12 col-md-6" >
-              <button onClick={login} className={`btn btn-primary ${styles.buttonSubmit}`}>Login</button>
+          <div className='row col-12'>
+            <div className='col-xs-12 col-md-6 text-start align-self-center'>
+              <input
+                type="checkbox"
+                id="showPassword"
+                checked={showPassword}
+                onChange={togglePasswordVisibility}
+              />
+              <label htmlFor="showPassword" className='text-white ms-2'>Mostrar Senha</label>
+            </div>
+            <div className='col-xs-12 col-md-6 text-end'>
+              <button type="button" className={'btn btn-link'} onClick={() => router.push('/esqueciSenha')}>Esqueci a senha</button>
             </div>
           </div>
-          <button type="button" className={styles.buttonEsqueciSenha} onClick={() => router.push('/esqueciSenha')}>Esqueci a senha</button>
+          <div className="col-12 mb-3 mt-4" >
+            <div className="col-xs-12 col-md-8 col-lg-6 mx-auto" >
+              <button onClick={login} className={`col-12 rounded-0 btn btn-primary ${styles.buttonSubmit}`}>Entrar</button>
+            </div>
+          </div>
         </div>
       </main>
     </div>
