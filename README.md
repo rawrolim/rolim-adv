@@ -1,9 +1,45 @@
-## Getting Started
+# Site Rolim adv
+Site de advocacia para gestão de clientes e para gerar processos.
 
-1 - Primeiro o docker deve estar sendo executado.
-2 - Executar o comando: npm i
-3 - Criar uma cópia do arquivo .env.local.example e renomear a cópia para .env.local
-4 - Executar o comando: npm run dev
+## Tecnologias e bibliotecas principais utilizadas
+- NextJS
+- NodeJS
+- Bootstrap
+- Axios
+- jsonwebtoken
+- Docker
+- MySQL
+- Sequelize
 
-Abrir [http://localhost:3000](http://localhost:3000) no seu browser para ver os resultados.
+## Dependências
+Para rodar o projeto localmente os aplicativos abaixo devem estar instalados em sua máquina.
+
+- Node 20+
+- Docker
+- Docker compose
+
+## Rodando localmente
+Clone o projeto
+
+```bash
+  git clone https://github.com/rawrolim/rolim-adv.git
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd rolim-adv
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicie o servidor
+
+```bash
+  npm run dev
+```
 
