@@ -39,7 +39,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 data_nascimento,
                 data_registro,
                 profissao,
-                status,
+                CASE 
+                    WHEN status = 'A' THEN 'Ativo'
+                    WHEN status = 'I' THEN 'Inativo'
+                    ELSE status
+                END status,
                 cnh
             FROM clientes
             WHERE id = '${req.query.cliente_id}'`
@@ -51,7 +55,50 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const cliente = rs_cliente[0];
 
             res.status(200).json(cliente);
-        } else {
+        }else if(req.method == 'PUT'){
+            const body = req.body;
+
+            if(body.nome == '')
+                throw new Error("Necessário informar o nome")
+            if(body.email == '')
+                throw new Error("Necessário informar o e-mail")
+            if(body.cpf == '')
+                throw new Error("Necessário informar o CPF")
+            if(body.rg == '')
+                throw new Error("Necessário informar o RG")
+            if(body.orgao == '')
+                throw new Error("Necessário informar o ORGÃO")
+            if(body.id == ''){
+                throw new Error("Necessário informar o ID do usuário")
+            }else{
+                if(!Number(body.id))
+                    throw new Error("Necessário informar um ID válido para o usuário")
+            }
+
+            let sql = `UPDATE cliente SET
+                nome = '${body.nome}',
+                cpf = '${body.cpf}',
+                numero = '${body.numero}',
+                mail email = '${body.email}',
+                endereco = '${body.endereco}',
+                endereco_num = '${body.endereco_num}',
+                endereco_complemento = '${body.endereco_complemento}',
+                cep = '${body.cep}',
+                rg = '${body.rg}',
+                orgao = '${body.orgao}',
+                nome_mae = '${body.nome_mae}',
+                nome_pai = '${body.nome_pai}',
+                estado_civil = '${body.estado_civil}',
+                sexo = '${body.sexo}',
+                data_nascimento = '${body.data_nascimento}',
+                profissao = '${body.profissao}',
+                status = '${body.status}',
+                cnh = '${body.cnh}'
+            WHERE id = '${body.id}'
+            `;
+            await query(sql);
+            res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
+        }else {
             throw new Error("Method not allowed")
         }
     } catch (erro) {
