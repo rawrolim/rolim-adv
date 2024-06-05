@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const rs_clientes = await query(sql);
             res.status(200).json(rs_clientes);
         }else{
-            throw new Error("Methodf not allowed")
+            throw new Error("Method not allowed")
         }
     }catch(erro){
         res.status(400).json(erro.toString())
