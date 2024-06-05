@@ -79,8 +79,11 @@ export default function Home() {
             </div>
         </div>
 
+        <button onClick={()=>router.push("/FormCliente")}>Formulário</button>
+        <button onClick={()=>router.push("/listaCliente")}>ListaCliente</button>
+
+
         {/* ADVOGADOS */}
-        <li><button onClick={()=>router.push("/FormCliente")}>Formulário</button></li>
         <div id='adv' className={styles.Div_Principal}>
           <h1>Advogados</h1>
 
