@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <ToastContainer />
       <HeaderComponent />
-      <div className='mt-5 pt-5'>
+      <div className='mt-5 pt-5' style={{minHeight: '65vh'}}>
         <Component {...pageProps} />
       </div>
       <FooterComponent />
