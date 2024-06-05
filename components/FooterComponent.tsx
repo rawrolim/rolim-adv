@@ -10,16 +10,27 @@ export default function FooterComponent() {
   const ignoredRoutes = ['/LoginPage', '/'];
 
   useEffect(() => {
-    if (token != '') {
-      if (ignoredRoutes.find(r => r == router.pathname) == undefined) {
-        setIsRouteValid(true);
-      } else {
-        setIsRouteValid(false);
-      }
+    if (haveToken()) {
+        if (ignoredRoutes.find(r => r == router.pathname) == undefined) {
+            setIsRouteValid(true);
+        } else {
+            setIsRouteValid(false);
+        }
     } else {
-      setIsRouteValid(false);
+        setIsRouteValid(false);
     }
   }, [router.pathname])
+
+  function haveToken(){
+    const tokenJSON = localStorage.getItem("authorization");
+
+    if(tokenJSON){
+        const token = JSON.parse(tokenJSON)
+        if(token != "")
+            return true;
+    }
+    return false;
+  }
 
   return (
     <>
@@ -36,17 +47,20 @@ export default function FooterComponent() {
               <h1>Contatos</h1>
               <a href="#" className={styles.footerlink}><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@Instagram</a>
               <br /><br />
-              <a href="#" className={styles.footerlink}><img src="/images/Whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />(99)99999-9999</a>
+              <a href="#" className={styles.footerlink}><img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />(99)99999-9999</a>
             </div>
 
-            <div className={styles.footer_links}>
-              <h1>Links</h1>
-              <a href="#inicio" className='nav-link'>Inicio</a>
-              <a href="#historia" className='nav-link'>Nossa História</a>
-              <a href="#adv" className='nav-link'>Advogados</a>
-              <a href="#local" className='nav-link'>Como chegar</a>
-              <a href="#contato" className='nav-link'>Contato</a>
-            </div>
+
+            {router.pathname=="/" &&
+              <div className={styles.footer_links}>
+                <h1>Links</h1>
+                <a href="#inicio" className='nav-link'>Inicio</a>
+                <a href="#historia" className='nav-link'>Nossa História</a>
+                <a href="#adv" className='nav-link'>Advogados</a>
+                <a href="#local" className='nav-link'>Como chegar</a>
+                <a href="#contato" className='nav-link'>Contato</a>
+              </div>
+            }
           </footer>
         </div>
       }
