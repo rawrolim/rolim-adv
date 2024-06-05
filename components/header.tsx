@@ -10,8 +10,8 @@ export default function HeaderComponent() {
     const [token, setToken] = useLocalStorage('authorization', '');
     const [userData, setUserData] = useLocalStorage('user_data', '');
     const router = useRouter()
-    const ignoredRoutes = ['/LoginPage', '/'];
-    const pages = ['/dashboard', '/clientes', '/perfil']
+    const ignoredRoutes = ['/login', '/'];
+    const pages = ['/dashboard', '/lista_clientes', '/perfil']
 
     useEffect(() => {
         if (haveToken()) {
@@ -49,7 +49,7 @@ export default function HeaderComponent() {
     return (
         <>
             <Head>
-                <title>Rolim Adv | {router.pathname.replace("/", "")}</title>
+                <title>Rolim Adv | {router.pathname.replace("/", "").replace("_"," ")}</title>
                 <meta name="description" content="Site de advocacia Rolim adv." />
                 <link rel="icon" href="/images/logo Rolim Advocacia - Icon.png" />
             </Head>
@@ -66,7 +66,7 @@ export default function HeaderComponent() {
                                     return (
                                         <li key={'nav-' + i.toString()} className='nav-item'>
                                             <a onClick={() => router.push(pageCurrent)} className={router.pathname == pageCurrent ? 'nav-link-active' : 'nav-link'} style={{ cursor: 'pointer', textTransform: 'capitalize' }}>
-                                                {pageCurrent.replace("/", "")}
+                                                {pageCurrent.replace("/", "").replace("_"," ")}
                                             </a>
                                         </li>
                                     )

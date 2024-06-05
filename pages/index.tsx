@@ -29,13 +29,13 @@ export default function Home() {
               <li className='nav-item'><a href="#adv" className='nav-link'>Advogados</a></li>
               <li className='nav-item'><a href="#local" className='nav-link'>Como chegar</a></li>
               <li className='nav-item'><a href="#contato" className='nav-link'>Contato</a></li>
-              <li><button onClick={()=>router.push("/LoginPage")}>Entrar</button></li>
+              <li><button onClick={()=>router.push("/login")}>Entrar</button></li>
       
             </ul>
           </div>
 
           <div className='login'>
-            <button onClick={()=>router.push("/LoginPage")}>Entrar</button>
+            <button onClick={()=>router.push("/login")}>Entrar</button>
           </div>
 
           <div className='menu' onClick={toggleMenu}>

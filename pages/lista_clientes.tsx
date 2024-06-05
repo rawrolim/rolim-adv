@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles/listaCliente.module.css';
 import { useRouter } from 'next/router';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import http from '../config/http';
 
 interface User {
   id: number;
@@ -11,20 +12,22 @@ interface User {
   telefone: string;
 }
 
-const usersData: User[] = [
-  { id: 1, nome: 'joao', email: 'joao@example.com', telefone: '1111111' },
-  { id: 2, nome: 'pedro', email: 'pedro@example.com', telefone: '88888888' },
-  { id: 3, nome: 'gabriel', email: 'gabriel@example.com', telefone: '666666' },
-  { id: 4, nome: 'bernardo', email: 'bernardo@example.com', telefone: '3333333' },
-  { id: 5, nome: 'gabriel', email: 'gabriel@example.com', telefone: '666666' },
-  { id: 6, nome: 'gabriel', email: 'gabriel@example.com', telefone: '666666' },
-  { id: 7, nome: 'gabriel', email: 'gabriel@example.com', telefone: '666666' },
-];
 export default function ListaCliente() {
-  const [users, setUsers] = useState<User[]>(usersData);
+  const [userData, setUserData] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>(userData);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchField, setSearchField] = useState('all');
   const router = useRouter();
+
+  useEffect(()=>{
+    getClients();
+  },[]);
+
+  async function getClients(){
+    const resData = await http.get("/api/cliente");
+    setUserData(resData);
+    setUsers(resData);
+  }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.toLowerCase();
@@ -39,13 +42,16 @@ export default function ListaCliente() {
   };
 
   const applyFilters = (term: string, field: string) => {
-    let filteredUsers = usersData;
+    let filteredUsers = [...userData];
 
     if (term) {
       if (field === 'all') {
         filteredUsers = filteredUsers.filter(user =>
-          Object.values(user).some(value =>
-            value.toString().toLowerCase().includes(term)
+          Object.values(user).some(value =>{
+              if(value){
+                return value.toString().toLowerCase().includes(term)
+              }
+            }            
           )
         );
       } else {
@@ -85,7 +91,7 @@ export default function ListaCliente() {
               {`Pesquisar por ${searchField === 'all' ? 'todos' : searchField}`}
               </label>
             </div>
-            <button onClick={() => router.push("/FormCliente")} className={styles.addUserButton}>Cadastrar Cliente</button>
+            <button onClick={() => router.push("/formulario_cliente/novo")} className={styles.addUserButton}>Cadastrar Cliente</button>
           </div>
           
           <div className={styles.tableWrapper}>
@@ -107,7 +113,7 @@ export default function ListaCliente() {
                     <td className={styles.td}>{user.email}</td>
                     <td className={styles.td}>{user.telefone}</td>
                     <td>
-                    <button className={styles.editButton}>
+                      <button className={styles.editButton} onClick={()=>router.push(`/formulario_cliente/${user.id}`)}>
                         <EditIcon />
                       </button>
                       <button className={styles.deleteButton}>

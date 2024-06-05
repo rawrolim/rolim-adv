@@ -1,13 +1,25 @@
-import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
-import styles from '../styles/formCliente.module.css';
+import styles from '../../styles/formCliente.module.css';
 import { useRouter } from 'next/router';
+import http from '../../config/http';
 
 export default function Home() {
   const router = useRouter();
 
+  useEffect(()=>{
+    if(router.query.id != 'novo')
+      if(Number(router.query.id))
+        getClient()
+  },[]);
+
+  async function getClient(){
+    const resData = await http.get(`/api/cliente/${router.query.id}`);
+    setFormData(resData);
+  }
+
   const [formData, setFormData] = useState({
+    id: 0,
     nome: '',
     cpf: '',
     número: '',
@@ -71,7 +83,7 @@ export default function Home() {
       <main className={styles.main}>
 
         <div className={styles.conteudoform}>
-        <button className={styles.buttonVoltar} onClick={() => router.push('./')}>Voltar</button>
+        <button className={styles.buttonVoltar} onClick={() => router.push('/lista_clientes')}>Voltar</button>
         <h2 className={styles.h2}>Formulário de Cliente</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           {Object.entries(formData).map(([key, value]) => (
@@ -86,6 +98,7 @@ export default function Home() {
                 onBlur={() => handleBlur(key)}
                 type={key === 'data_nascimento' ? 'date' : 'text'}
                 required={['nome', 'cpf', 'email', 'rg', 'orgao'].includes(key)}
+                readOnly={['id'].includes(key)}
               />
               <label htmlFor={key}>{key.replace(/_/g, ' ').toUpperCase()} {['nome', 'cpf', 'email', 'rg', 'orgao'].includes(key) && '*'}</label>
             </div>
