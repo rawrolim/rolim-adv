@@ -10,7 +10,7 @@ export default function HeaderComponent() {
     const [token, setToken] = useLocalStorage('authorization', '');
     const [userData, setUserData] = useLocalStorage('user_data', '');
     const router = useRouter()
-    const ignoredRoutes = ['/login', '/'];
+    const ignoredRoutes = ['/login', '/','/senha/novo'];
     const pages = ['/dashboard', '/lista_clientes', '/perfil']
 
     useEffect(() => {
@@ -46,10 +46,17 @@ export default function HeaderComponent() {
         return false;
     }
 
+    function transformRoute(path=''){
+        path = path.replace("/", " ")
+        path = path.replace("_"," ")
+        path = path.replaceAll("/"," ")
+        return path
+    }
+
     return (
         <>
             <Head>
-                <title>Rolim Adv | {router.pathname.replace("/", "").replace("_"," ")}</title>
+                <title>Rolim Adv | {transformRoute(router.pathname)}</title>
                 <meta name="description" content="Site de advocacia Rolim adv." />
                 <link rel="icon" href="/images/logo Rolim Advocacia - Icon.png" />
             </Head>

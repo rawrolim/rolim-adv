@@ -7,7 +7,7 @@ export default function FooterComponent() {
   const [isRouteValid, setIsRouteValid] = useState(false);
   const [token, setToken] = useLocalStorage('authorization', '');
   const router = useRouter()
-  const ignoredRoutes = ['/LoginPage', '/'];
+  const ignoredRoutes = ['/LoginPage', '/','/senha/novo'];
 
   useEffect(() => {
     if (haveToken()) {

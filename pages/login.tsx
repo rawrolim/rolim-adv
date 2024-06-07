@@ -27,7 +27,11 @@ export default function LoginPage() {
       setToken(res.jwtToken);
       setUserData(res.jwtData);
       toast.success("Usuário logado com sucesso");
-      router.push("/dashboard")
+      if(res.jwtData.user_first_access){
+        router.push("/senha/novo")
+      }else{
+        router.push("/dashboard")
+      }
     } catch (e) {
       console.log(e);
     }
