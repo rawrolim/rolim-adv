@@ -34,6 +34,7 @@ export default function Home() {
 
       <main>
         <a href='./LoginPage'>Login</a>
+        <a href='./ProfilePage'>Profile</a>
         INDEX
         <br />
         <button onClick={logar}>Logar</button>
