@@ -8,18 +8,6 @@
     background-color: #f0f0f0;
   }
   
-  .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    padding: 1rem;
-    background-color: rgb(46, 59, 88);
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
   .main {
     display: flex;
     flex-direction: column;
@@ -32,10 +20,6 @@
     margin-top: 2rem;
   }
 
-  .hover{
-    color: #9ea4a5;
-  }
-
   .LoginTitle{
     color:white;
     margin-right: 70%;
@@ -43,14 +27,6 @@
     margin-top: 15px;
   }
 
-  .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 300px;
-  }
-  
   .inputGroup {
     margin-bottom: 1rem;
     display: flex;
