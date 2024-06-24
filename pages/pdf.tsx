@@ -14,3 +14,14 @@ export default async function pdfHipo(cliente_id: number) {
 
     pdfMake.createPdf(pdf).download("hipo3607.pdf");
 }
+
+export async function pdfProcuracao(cliente_id: number) {
+
+    const cliente = await http.get("/api/cliente/" + cliente_id.toString());
+
+    const pdf = await http.post("/api/pdf/procuracao", {
+        "cliente": cliente
+    });
+
+    pdfMake.createPdf(pdf).download("procuração"+ cliente.nome +".pdf");
+}

@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 const http = {
     get: async (uri='', config = { headers: { authorization: '' } }, instancia = 0) => {
         const authorization = getAuthorizarion();
-        console.log(authorization)
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {

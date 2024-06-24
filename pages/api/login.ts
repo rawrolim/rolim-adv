@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 user_name: usuario['nome'],
                 user_email: usuario['email'],
                 user_access_name: usuario['nome_acesso'],
-                user_first_access: usuario['primeiro_acesso'],
+                user_first_access: Boolean(usuario['primeiro_acesso']),
                 user_access_master: Boolean(usuario['acesso_master']),
                 exp: Math.floor(Date.now() / 1000) + (60*60),
                 iat: Math.floor(Date.now() / 1000),

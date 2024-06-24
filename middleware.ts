@@ -7,7 +7,8 @@ export async function middleware(request: NextRequest) {
     let Authorized = false;
     const rotasPermitidasComAPIKeyPadrao = [
         '/api/login',
-        '/api/checkHeader'
+        '/api/checkHeader',
+        '/api/email'
     ];
 
     if(process.env.ENV == 'development' || request.nextUrl.pathname == '/api/refreshToken')

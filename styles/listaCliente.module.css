@@ -1,0 +1,175 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  min-height: 75vh;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4); 
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.searchSelect {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+  margin-right: 10px;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.searchSelect:focus {
+  border-color: #2196F3;
+  background-color: #e3f2fd;
+}
+
+.searchSelect:hover {
+  border-color: #1976D2;
+}
+
+.inputContainer {
+  position: relative;
+  width: 70%;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 10px 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  background: none;
+  color: #333;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-bottom-color: #2196F3;
+}
+
+.searchInput::placeholder {
+  color: transparent; 
+}
+.searchLabel {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: #333;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus + .searchLabel,
+.searchInput:not(:placeholder-shown) + .searchLabel {
+  top: 0;
+  transform: translateY(-100%);
+  font-size: 12px;
+  color: #2196F3;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.th, .td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.th {
+  background-color: #f4f4f4;
+}
+
+.tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tr:hover {
+  background-color: #f1f1f1;
+}
+
+.editButton, .deleteButton {
+  padding: 5px 10px;
+  margin: 2px;
+  width: 20%;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.editButton {
+  background-color: #2196F3;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #1976D2;
+  transform: scale(1.05);
+}
+
+.deleteButton {
+  background-color: #F44336;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #D32F2F;
+  transform: scale(1.05);
+}
+
+.addUserButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+@media (max-width: 1350px) {
+  .container {
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0px;
+  }
+  .editButton, .deleteButton {
+    width: 100%;
+  }
+  
+  .actions {
+    flex-direction: column; 
+  }
+
+  .searchInput {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .searchLabel{
+    margin-top: 15px;
+  }
+
+  .addUserButton {
+    margin-top: 20px;
+    width: 50%;
+  }
+}

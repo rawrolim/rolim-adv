@@ -2,10 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { query } from "../../../config/databaseConnection";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    try {
-        if (req.method == 'GET') {
-            if (!req.query.cliente_id)
-                throw new Error("Necessário informar o id do cliente.")
+    try{
+        if(req.method == 'GET'){
             let sql = `
             SELECT 
                 id,
@@ -45,17 +43,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     ELSE status
                 END status,
                 cnh
-            FROM clientes
-            WHERE id = '${req.query.cliente_id}'`
-            const rs_cliente = await query(sql);
-
-            if (rs_cliente.length == 0)
-                throw new Error("Cliente não encontrado.")
-
-            const cliente = rs_cliente[0];
-
-            res.status(200).json(cliente);
-        }else if(req.method == 'PUT'){
+            FROM clientes`
+            const rs_clientes = await query(sql);
+            res.status(200).json(rs_clientes);
+        }else if(req.method == 'POST'){
             const body = req.body;
 
             if(body.nome == '')
@@ -68,40 +59,54 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 throw new Error("Necessário informar o RG")
             if(body.orgao == '')
                 throw new Error("Necessário informar o ORGÃO")
-            if(body.id == ''){
-                throw new Error("Necessário informar o ID do usuário")
-            }else{
-                if(!Number(body.id))
-                    throw new Error("Necessário informar um ID válido para o usuário")
-            }
 
-            let sql = `UPDATE cliente SET
-                nome = '${body.nome}',
-                cpf = '${body.cpf}',
-                numero = '${body.numero}',
-                mail email = '${body.email}',
-                endereco = '${body.endereco}',
-                endereco_num = '${body.endereco_num}',
-                endereco_complemento = '${body.endereco_complemento}',
-                cep = '${body.cep}',
-                rg = '${body.rg}',
-                orgao = '${body.orgao}',
-                nome_mae = '${body.nome_mae}',
-                nome_pai = '${body.nome_pai}',
-                estado_civil = '${body.estado_civil}',
-                sexo = '${body.sexo}',
-                data_nascimento = '${body.data_nascimento}',
-                profissao = '${body.profissao}',
-                status = '${body.status}',
-                cnh = '${body.cnh}'
-            WHERE id = '${body.id}'
-            `;
+            let sql = `INSERT INTO cliente(
+                nome,
+                cpf,
+                numero,
+                mail email,
+                endereco,
+                endereco_num,
+                endereco_complemento,
+                cep,
+                rg,
+                orgao,
+                nome_mae,
+                nome_pai,
+                estado_civil,
+                sexo,
+                data_nascimento,
+                data_registro,
+                profissao,
+                status,
+                cnh
+            ) VALUES(
+                '${body.nome}',
+                '${body.cpf}',
+                '${body.numero}',
+                '${body.email}',
+                '${body.endereco}',
+                '${body.endereco_num}',
+                '${body.endereco_complemento}',
+                '${body.cep}',
+                '${body.rg}',
+                '${body.orgao}',
+                '${body.nome_mae}',
+                '${body.nome_pai}',
+                '${body.estado_civil}',
+                '${body.sexo}',
+                '${body.data_nascimento}',
+                NOW(),
+                '${body.profissao}',
+                'A',
+                '${body.cnh}
+            )`;
             await query(sql);
-            res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
-        }else {
+            res.status(200).json("USUÁRIO CRIADO COM SUCESSO");
+        }else{
             throw new Error("Method not allowed")
         }
-    } catch (erro) {
+    }catch(erro){
         res.status(400).json(erro.toString())
     }
 }
