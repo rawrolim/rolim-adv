@@ -43,7 +43,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     ELSE status
                 END status,
                 cnh
-            FROM clientes`
+            FROM clientes
+            ORDER BY TRIM(UPPER(nome)) ASC`
             const rs_clientes = await query(sql);
             res.status(200).json(rs_clientes);
         }else if(req.method == 'POST'){

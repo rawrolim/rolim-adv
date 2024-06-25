@@ -60,8 +60,9 @@ export default function Dashboard() {
                 </div>
                 <div className="col-5 mx-3">
                   <Table
-                    data={"test"}
+                    dataInit={[]}
                     title={"Últimas atualizações"}
+                    showFilter={false}
                     columns={[
                       "ID",
                       "Data",
