@@ -75,7 +75,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
                                     valuesParams.push(dataCurrent[field])
                                   )
                                   return (
-                                    <li>
+                                    <li key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-' + actionIndex.toString() + '-li'} >
                                       <button key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-' + actionIndex.toString()} onClick={() => actionCurrent.handler(valuesParams)} className={'btn'}>
                                         {actionCurrent.icon} {actionCurrent.name}
                                       </button>
