@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaEllipsisV } from 'react-icons/fa'
 
 export function Table({ title, columns, dataInit, showFilter = true }) {
   const [data, setData] = useState(dataInit);
@@ -47,9 +48,9 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
         <table className="table table-striped">
           <thead>
             <tr>
-              {columns && columns.map((field,fieldIndex) => {
+              {columns && columns.map((field, fieldIndex) => {
                 return (
-                  <td key={field.name+'-'+fieldIndex.toString()}>{field.name}</td>
+                  <td key={field.name + '-' + fieldIndex.toString()}>{field.name}</td>
                 )
               })}
             </tr>
@@ -63,21 +64,28 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
                       return (
                         <td key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString()}>
                           {columnsCurrent.actions ?
-                            <div className='btn-group' key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString()+'-btn-group'}>
-                              {columnsCurrent.actions && columnsCurrent.actions.map((actionCurrent, actionIndex) => {
-                                const valuesParams = [];
-                                actionCurrent.fieldParams.map(field =>
-                                  valuesParams.push(dataCurrent[field])
-                                )
-                                return (
-                                  <button key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString()+'-'+actionIndex.toString()} onClick={() => actionCurrent.handler(valuesParams)} className={'btn btn-' + actionCurrent.btnColor}>
-                                    {actionCurrent.icon}
-                                  </button>
-                                )
-                              })}
+                            <div className='dropdown' key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'}>
+                              <button className="btn border" type="button" id={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'} data-bs-toggle="dropdown" aria-expanded="false">
+                                <FaEllipsisV />
+                              </button>
+                              <ul className="dropdown-menu" aria-labelledby={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'}>
+                                {columnsCurrent.actions && columnsCurrent.actions.map((actionCurrent, actionIndex) => {
+                                  const valuesParams = [];
+                                  actionCurrent.fieldParams.map(field =>
+                                    valuesParams.push(dataCurrent[field])
+                                  )
+                                  return (
+                                    <li>
+                                      <button key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-' + actionIndex.toString()} onClick={() => actionCurrent.handler(valuesParams)} className={'btn'}>
+                                        {actionCurrent.icon} {actionCurrent.name}
+                                      </button>
+                                    </li>
+                                  )
+                                })}
+                              </ul>
                             </div>
                             :
-                            <div key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString()+'-data'} className='align-self-center'>
+                            <div key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-data'} className='align-self-center'>
                               {dataCurrent[columnsCurrent.field]}
                             </div>
                           }

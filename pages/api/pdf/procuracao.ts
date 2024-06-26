@@ -1,12 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Cliente from "../../../models/cliente.model";
+import { query } from "../../../config/databaseConnection";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { method, body, query } = req;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const { method, body } = req;
     const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const dataAtual = new Date();
 
-    const cliente = body.cliente as Cliente;
+    let sql = `
+        SELECT * FROM clientes
+        WHERE id = '${body.id}'
+    `
+    const rs = await query(sql)
+
+    const cliente = rs[0] as Cliente;
 
     if (method === "POST") {
 
