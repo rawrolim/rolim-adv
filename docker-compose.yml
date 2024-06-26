@@ -11,8 +11,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_DATABASE: mnradv76_mnr
-      MYSQL_USER: rolim_adv
-      MYSQL_PASSWORD: rolim_adv123@
     deploy:
       resources:
         limits:
