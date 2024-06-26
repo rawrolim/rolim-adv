@@ -86,7 +86,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
                             </div>
                             :
                             <div key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-data'} className='align-self-center'>
-                              {dataCurrent[columnsCurrent.field]}
+                              {columnsCurrent.field == 'index'? (dataIndex+1).toString() : dataCurrent[columnsCurrent.field]}
                             </div>
                           }
                         </td>

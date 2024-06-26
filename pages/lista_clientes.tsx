@@ -65,8 +65,8 @@ export default function ListaCliente() {
         <Table title={'Lista de clientes'} dataInit={users}
           columns={ [
             {
-              name: 'ID',
-              field: 'id'
+              name: '#',
+              field: 'index'
             },
             {
               name: 'Nome',
