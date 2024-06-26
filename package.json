@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node env-file.ts && docker compose down -v && docker compose up -d && next dev",
+    "dev": "docker compose up -d && next dev",
+    "config": "node env-file.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
