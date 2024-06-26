@@ -75,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     throw new Error("Necessário informar um ID válido para o usuário")
             }
 
-            let sql = `UPDATE cliente SET
+            let sql = `UPDATE clientes SET
                 nome = '${body.nome}',
                 cpf = '${body.cpf}',
                 numero = '${body.numero}',
@@ -98,6 +98,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `;
             await query(sql);
             res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
+        }else if(req.method == 'DELETE'){
+            const queryString = req.query;
+            let sql = `
+                UPDATE clientes SET 
+                    status = 'I'
+                WHERE id = '${queryString.id}'
+            `;
+            await query(sql);
+            res.status(200).json("USUÁRIO DELETADO COM SUCESSO");
         }else {
             throw new Error("Method not allowed")
         }

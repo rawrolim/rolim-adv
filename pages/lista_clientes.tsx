@@ -5,6 +5,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import http from '../config/http';
 import Table from '../components/table';
+import { FaFilePdf } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+const pdfMakeX = require('pdfmake/build/pdfmake.js');
+const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
+pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
+import * as pdfMake from 'pdfmake/build/pdfmake';
 
 interface User {
   id: number;
@@ -16,8 +22,6 @@ interface User {
 export default function ListaCliente() {
   const [userData, setUserData] = useState<User[]>([]);
   const [users, setUsers] = useState<User[]>(userData);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchField, setSearchField] = useState('all');
   const router = useRouter();
 
   useEffect(() => {
@@ -30,44 +34,24 @@ export default function ListaCliente() {
     setUsers(resData);
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.toLowerCase();
-    setSearchTerm(value);
-    applyFilters(value, searchField);
-  };
-
-  const handleFieldChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const field = event.target.value;
-    setSearchField(field);
-    applyFilters(searchTerm, field);
-  };
-
   async function deleteClient(id){
-
+    await http.delete("/api/cliente/"+id);
+    toast.success("Cliente deletado com sucesso.")
   }
 
-  const applyFilters = (term: string, field: string) => {
-    let filteredUsers = [...userData];
+  async function getProcuracao(id, nome){
+    const pdf = await http.post("/api/pdf/procuracao",{
+      id
+    });
+    pdfMake.createPdf(pdf).download("Procuração "+nome+".pdf");
+  }
 
-    if (term) {
-      if (field === 'all') {
-        filteredUsers = filteredUsers.filter(user =>
-          Object.values(user).some(value => {
-            if (value) {
-              return value.toString().toLowerCase().includes(term)
-            }
-          }
-          )
-        );
-      } else {
-        filteredUsers = filteredUsers.filter(user =>
-          user[field as keyof User].toString().toLowerCase().includes(term)
-        );
-      }
-    }
-
-    setUsers(filteredUsers);
-  };
+  async function getHipo(id, nome){
+    const pdf = await http.post("/api/pdf/hipo",{
+      id
+    });
+    pdfMake.createPdf(pdf).download("Hipo "+ nome +".pdf");
+  }
 
   return (
     <div>
@@ -81,8 +65,8 @@ export default function ListaCliente() {
         <Table title={'Lista de clientes'} dataInit={users}
           columns={ [
             {
-              name: 'ID',
-              field: 'id'
+              name: '#',
+              field: 'index'
             },
             {
               name: 'Nome',
@@ -102,14 +86,26 @@ export default function ListaCliente() {
                 {
                   handler: (arrReplaced = []) => router.push(`/formulario_cliente/${arrReplaced[0]}`),
                   fieldParams: ['id'],
-                  icon: <EditIcon />,
-                  btnColor: 'primary'
+                  name: 'Editar',
+                  icon: <EditIcon />
                 },
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),
                   fieldParams: ['id'],
-                  icon: <DeleteIcon />,
-                  btnColor: 'danger'
+                  name: 'Deletar',
+                  icon: <DeleteIcon />
+                },
+                {
+                  handler: (arrReplaced = []) => getProcuracao(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','nome'],
+                  name: 'Procuração',
+                  icon: <FaFilePdf />
+                },
+                {
+                  handler: (arrReplaced = []) => getHipo(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','nome'],
+                  name: 'Hipo',
+                  icon: <FaFilePdf />
                 },
               ]
             }

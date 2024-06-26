@@ -49,6 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json(rs_clientes);
         }else if(req.method == 'POST'){
             const body = req.body;
+            let sql = '';
 
             if(body.nome == '')
                 throw new Error("Necessário informar o nome")
@@ -61,7 +62,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if(body.orgao == '')
                 throw new Error("Necessário informar o ORGÃO")
 
-            let sql = `INSERT INTO cliente(
+            sql = `SELECT * FROM clientes 
+                WHERE cpf = '${body.cpf}'`;
+            const rs_cpf = await query(sql);
+            if(rs_cpf.length > 0)
+                throw new Error("CPF já cadastrado no sistema.");
+
+            sql = `SELECT * FROM clientes
+                WHERE mail = '${body.email}'`;
+            const rs_email = await query(sql);
+            if(rs_email.length > 0)
+                throw new Error("E-mail já cadastrado no sistema.");
+
+            sql = `INSERT INTO clientes(
                 nome,
                 cpf,
                 numero,
