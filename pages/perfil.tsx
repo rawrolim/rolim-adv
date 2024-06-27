@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/ProfilePage.module.css';
+import styles from '../styles/perfil.module.css';
 
 interface ProfileProps {
   name: string;
