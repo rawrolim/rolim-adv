@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose up -d && next dev",
+    "dev": "docker compose -f docker-compose.dev.yml up -d && next dev",
     "config": "node env-file.ts",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 80",
     "lint": "next lint"
   },
   "dependencies": {
