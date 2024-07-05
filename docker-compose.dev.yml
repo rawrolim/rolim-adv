@@ -1,22 +1,8 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    container_name: app_rolim_adv
-    command: npm start -p 80
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-    working_dir: /app
   db:
     image: mysql
     restart: always
-    container_name: database_rolim_adv
+    container_name: database_rolim_adv_dev
     ports:
       - 3307:3306
     environment:
