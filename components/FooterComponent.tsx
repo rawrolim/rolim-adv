@@ -43,9 +43,9 @@ export default function FooterComponent() {
 
             <div className='footer_social_media'>
               <h1>Contatos</h1>
-              <a href="#" className={styles.footerlink}><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@rawlinsonrolimadvogado</a>
+              <a href="#" className='btn btn-link'><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@rawlinsonrolimadvogado</a>
               <br /><br />
-              <a href="#" className={styles.footerlink}><img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />(22) 99965-3649
+              <a href="#" className='btn btn-link'><img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />(22) 99965-3649
               <p>(22) 2142-6826 / (22) 99761-3980</p></a>
             </div>
 
