@@ -15,8 +15,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let sql = `
             SELECT 
                 u.nome, 
-                u.email, 
+                u.email,
+                u.senha_email, 
                 u.id,  
+                u.foto_perfil,
                 tu.nome nome_acesso,
                 NOT ISNULL(tu.master) acesso_master,
                 IF(u.primeiro_acesso='S',1,0) primeiro_acesso
@@ -40,6 +42,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 user_access_master: Boolean(usuario['acesso_master']),
                 exp: Math.floor(Date.now() / 1000) + (60*60),
                 iat: Math.floor(Date.now() / 1000),
+                user_senha_email: usuario['senha_email'],
+                user_foto_perfil: usuario['foto_perfil'],
                 refreshToken: generateToken()
             }
             
