@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
+import { FaUser } from "react-icons/fa";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 
 interface User {
@@ -106,6 +107,12 @@ export default function ListaCliente() {
                   fieldParams: ['id','nome'],
                   name: 'Hipo',
                   icon: <FaFilePdf />
+                },
+                {
+                  handler: (arrReplaced = []) => router.push(`/informacoes_cliente/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Informações do Cliente',
+                  icon: <FaUser />
                 },
               ]
             }

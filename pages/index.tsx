@@ -51,7 +51,7 @@ export default function Home() {
       <main>
 
         {/* INICIO */}
-        <div id='inicio' className={styles.Div_Principal}  style={{ backgroundImage: `url('/images/back.jpg')`, backgroundRepeat: 'no-repeat', width: '100%', height: '50vh', display: 'flex',justifyContent: 'center', alignItems: 'center' }}>
+        <div id='inicio'  style={{ backgroundImage: `url('/images/back.jpg')`, backgroundRepeat: 'no-repeat', width: '100%', height: '50vh', display: 'flex',justifyContent: 'center', alignItems: 'center' }}>
 
         <div className={styles.responsiveImageContainer}>
         <Image 
@@ -67,7 +67,7 @@ export default function Home() {
         {/* HISTÓRIA */}
         <div id='historia' className={styles.Div_Principal}>
           <h1>Historia</h1>
-          <h2>Nossa História</h2>
+          <h2 style={{ fontSize: '32px',fontWeight:700,color: '#333',marginBottom: '20px',marginTop:'6rem'}}>Nossa História</h2>
           <div className={styles.historia}>
             <p>Você busca por uma advocacia que entenda não só as leis, mas também a importância da proximidade e do comprometimento com seus clientes? Bem-vindo ao escritório de advocacia Rawlinson Rolim Advogados Associados, seu parceiro legal estratégico situado no coração do centro jurídico de Macaé!
             <br /><br />Localizada estrategicamente na Rua Dr. Bueno, nossa sede está a apenas 2 Km do Fórum Trabalhista e a 4 Km do Fórum da Comarca de Macaé. Essa proximidade não é apenas geográfica; é a nossa promessa de estar ao seu lado em cada passo do processo legal.
@@ -77,18 +77,15 @@ export default function Home() {
             <br />Rua Dr. Bueno, n°148 - 303, Centro - Macaé</p>
             <Image src="/images/bglaw.jpg" width={300} height={200} alt="Foto da História" />
             </div>
+            <button onClick={()=>router.push("/informacoesCliente")}>informacoes Cliente</button>
         </div>
-
-        <button onClick={()=>router.push("/FormCliente")}>Formulário</button>
-        <button onClick={()=>router.push("/listaCliente")}>ListaCliente</button>
-
 
         {/* ADVOGADOS */}
         <div id='adv' className={styles.Div_Principal}>
           <h1>Advogados</h1>
 
-          <div className={styles.advogado}>
-            <Image src="/images/example.png" width={100} height={100} alt="Foto do Advogado" />
+          <div className={styles.advogado} style={{marginTop:'4rem'}}>
+            <Image src="/images/example.png" width={100} height={100} alt="Foto do Advogado"/>
             <div className="informacoes">
               <h2>Rawlinson Wagner Moraes Rolim</h2>
               <p>OAB/RJ 199.654</p>
@@ -137,7 +134,7 @@ export default function Home() {
         {/* COMO CHEGAR */}
         <div id='local' className={styles.Div_Principal}>
           <h1>Como Chegar</h1>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14757.358726588916!2d-41.7750479!3d-22.3785485!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96316e4b5a1d4d%3A0x6ee4a2c568dad265!2sRawlinson%20Rolim%20Advogados%20Associados!5e0!3m2!1spt-BR!2sbr!4v1717347534530!5m2!1spt-BR!2sbr" style={{border:0,width:'100%' , height:'500px'}} loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14757.358726588916!2d-41.7750479!3d-22.3785485!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96316e4b5a1d4d%3A0x6ee4a2c568dad265!2sRawlinson%20Rolim%20Advogados%20Associados!5e0!3m2!1spt-BR!2sbr!4v1717347534530!5m2!1spt-BR!2sbr" style={{border:0,width:'100%' , height:'500px',marginTop:'1.5rem'}} loading="lazy"></iframe>
         </div>
 
         {/* CONTATO */}
@@ -150,6 +147,7 @@ export default function Home() {
                         boxShadow:' 0 0 10px rgba(0, 0, 0, 0.1)',
                         width: '100%',
                         margin: '20px',
+                        marginTop:'1.3rem'
                         }}>
             <div className={styles.contatoleft}>
               <h2>Endereço</h2>
@@ -179,7 +177,37 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <div>
+        </div>
       </main>
+      <div>
+ {/* FOOTER DA PAGINA */}
+ <footer className='footer'>
+            <div className='footer_historia'>
+              <img src="/images/logo Rolim Advocacia 2.png" width={140} height={70} alt="Logo" />
+              <p>Se você busca por um parceiro jurídico confiável e dedicado, não hesite em nos contatar. Rawlinson Rolim Advogados Associados está pronto para oferecer a assistência jurídica que você merece.</p>
+            </div>
+
+            <div className='footer_social_media'>
+              <h1>Contatos</h1>
+              <a href="#" className='footerlink'><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@Instagram</a>
+              <br /><br />
+              <a href="#" className='footerlink'><img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />(99)99999-9999</a>
+            </div>
+
+
+            {router.pathname=="/" &&
+              <div className='footer_links'>
+                <h1>Links</h1>
+                <a href="#inicio" className='nav-link'>Inicio</a>
+                <a href="#historia" className='nav-link'>Nossa História</a>
+                <a href="#adv" className='nav-link'>Advogados</a>
+                <a href="#local" className='nav-link'>Como chegar</a>
+                <a href="#contato" className='nav-link'>Contato</a>
+              </div>
+            }
+          </footer>
+        </div>
     </div>
   );
 }

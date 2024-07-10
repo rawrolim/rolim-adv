@@ -1,0 +1,107 @@
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.cliente {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Efeito de sombra */
+    border-radius: 8px; /* Cantos arredondados */
+}
+
+.info {
+    margin-top: 20px; /* Espaçamento acima dos campos */
+}
+
+.cliente h1 {
+    font-size: 32px;
+    margin-bottom: 20px; /* Maior espaçamento abaixo do título */
+    text-align: center;
+}
+
+.cliente p {
+    position: relative; /* Permite posicionamento relativo para a linha */
+    font-size: 18px;
+    margin-bottom: 12px; /* Espaçamento menor entre os campos */
+    padding-top: 20px; /* Espaçamento acima do texto */
+    line-height: 1.6; /* Altura da linha para melhor espaçamento */
+}
+
+.cliente p:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #a9b8d3; /* Cor da linha */
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.rightButtons {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões à direita */
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transição suave na cor de fundo */
+}
+
+.voltar {
+    background-color: #6c757d; /* Cor de fundo cinza */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+.hipo {
+    background-color: #007bff; /* Cor de fundo azul */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+.procuracao {
+    background-color: #28a745; /* Cor de fundo verde */
+    color: #ffffff; /* Cor do texto branco */
+}
+
+.button:hover {
+    opacity: 0.8; /* Reduz a opacidade ao passar o mouse */
+}
+@media (max-width: 545px){
+    .buttons {
+        display: block;
+    }
+    
+    .rightButtons {
+        display: block;
+    }
+
+    .voltar{
+        width: 100%;
+    }
+    .hipo{
+        margin-top: 8px;
+        width: 100%;
+    }
+    .procuracao{
+        margin-top: 8px;
+        width: 100%;
+    }
+    .cliente h1{
+        font-size: 26px;
+        margin-bottom: 20px; /* Maior espaçamento abaixo do título */
+    }
+}
