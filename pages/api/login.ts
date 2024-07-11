@@ -47,7 +47,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 refreshToken: generateToken()
             }
             
-            const jwtToken = jwt.sign(jwtData, process.env.JWT_SECRET);
+            let jwtToken = jwt.sign(jwtData, process.env.JWT_SECRET);
+            if(jwtToken.length > 1000)
+                jwtToken = jwtToken.slice(0,1000);
 
             sql = `
             UPDATE usuarios SET token = '${jwtToken}' 

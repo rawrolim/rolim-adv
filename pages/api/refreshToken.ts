@@ -12,8 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         tokenDecoded.iat = Math.floor(Date.now() / 1000);
         tokenDecoded.refreshToken = generateToken();
 
-        const jwtToken = jwt.sign(tokenDecoded, process.env.JWT_SECRET);
-
+        let jwtToken = jwt.sign(tokenDecoded, process.env.JWT_SECRET);
+        if(jwtToken.length > 1000)
+            jwtToken = jwtToken.slice(0,1000);
+        
         let sql = `
         UPDATE usuarios SET token = '${jwtToken}' 
             WHERE id = '${tokenDecoded.user_id}'
