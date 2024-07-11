@@ -6,6 +6,7 @@ const pdfMakeX = require('pdfmake/build/pdfmake.js');
 const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
 import * as pdfMake from 'pdfmake/build/pdfmake';
+import { FaFilePdf, FaRegFilePdf } from 'react-icons/fa';
 
 interface User {
     id: number;
@@ -37,41 +38,45 @@ export default function InformacoesCliente() {
     }, [router.query]);
 
     async function getClients() {
-        if(router.query.id){
-            const res = await http.get("/api/cliente/"+ router.query.id);
+        if (router.query.id) {
+            const res = await http.get("/api/cliente/" + router.query.id);
             setSelectedClient(res);
         }
     }
 
-    async function getProcuracao(id, nome){
-        const pdf = await http.post("/api/pdf/procuracao",{
-          id
+    async function getProcuracao(id, nome) {
+        const pdf = await http.post("/api/pdf/procuracao", {
+            id
         });
-        pdfMake.createPdf(pdf).download("Procuração "+nome+".pdf");
-      }
-    
-      async function getHipo(id, nome){
-        const pdf = await http.post("/api/pdf/hipo",{
-          id
+        pdfMake.createPdf(pdf).download("Procuração " + nome + ".pdf");
+    }
+
+    async function getHipo(id, nome) {
+        const pdf = await http.post("/api/pdf/hipo", {
+            id
         });
-        pdfMake.createPdf(pdf).download("Hipo "+ nome +".pdf");
-      }
+        pdfMake.createPdf(pdf).download("Hipo " + nome + ".pdf");
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.cliente}>
                 <h1>Informações do Cliente</h1>
                 <div className={styles.buttons}>
-    <button className={`${styles.button} ${styles.voltar}`} onClick={() => router.push("./")}>Voltar</button>
-    {selectedClient && 
-        <div className={styles.rightButtons}>
-            <button className={`${styles.button} ${styles.hipo}`} onClick={() => getHipo(selectedClient.id, selectedClient.nome)}>Hipo</button>
-            <button className={`${styles.button} ${styles.procuracao}`} onClick={() => getProcuracao(selectedClient.id, selectedClient.nome)}>Procuração</button>
-        </div>
-    }
-</div>
+                    <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.push("./")}>Voltar</button>
+                    {selectedClient &&
+                        <div className={styles.rightButtons}>
+                            <button className={'btn btn-outline-danger'} onClick={() => getHipo(selectedClient.id, selectedClient.nome)}>
+                                <FaRegFilePdf/> Hipossuficiência
+                            </button>
+                            <button className={`btn btn-outline-danger`} onClick={() => getProcuracao(selectedClient.id, selectedClient.nome)}>
+                                <FaRegFilePdf/> Procuração
+                            </button>
+                        </div>
+                    }
+                </div>
 
-                {selectedClient && 
+                {selectedClient &&
                     <div className={styles.info}>
                         <p><strong>ID:</strong> {selectedClient.id}</p>
                         <p><strong>Nome:</strong> {selectedClient.nome}</p>

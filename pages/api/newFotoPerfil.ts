@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!req.body.Foto) {
       return res.status(400).json("Foto não fornecida");
     }
-
+    console.log(req.body.Foto)
     // Atualiza a foto de perfil no banco de dados
     await query(`
       UPDATE usuarios SET
