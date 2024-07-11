@@ -13,36 +13,46 @@ import http from '../config/http';
 import { toast } from 'react-toastify';
 
 export default function Perfil() {
-  const [userData, setUserData] = useLocalStorage('user_data', {}); 
+  const [userData, setUserData] = useLocalStorage('user_data', '');
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [Foto, setFoto] = useState("")
-
+  const [Foto, setFoto] = useState<FileList>()
+  const [fotoBase64, setFotoBase64] = useState<any>();
 
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
+  useEffect(() => {
+    if (userData.user_foto_perfil == "") {
+      setFotoBase64('images/IconePerfilDefault.png')
+    } else {
+      setFotoBase64(userData.user_foto_perfil)
+    }
+  }, [])
+
   async function Save() {
-    try {
-      const formData = new FormData();
-      formData.append('Foto', Foto);
-  
-      const authToken = localStorage.getItem('token'); // ou de onde você obtém o token
-      const res = await http.post('/api/newFotoPerfil', formData, {
-        headers: {
-          authorization: authToken,
-        },
-      });
-  
-      toast.success("Foto atualizada com sucesso");
-      router.push("/perfil");
-    } catch (err) {
-      toast.error(err.toString());
+    const reader = new FileReader();
+    if (Foto.length) {
+      reader.readAsDataURL(Foto.item(0));
+      reader.onload = async () => {
+        const authToken = localStorage.getItem('token'); // ou de onde você obtém o token
+        const res = await http.post('/api/newFotoPerfil', { Foto: reader.result }, {
+          headers: {
+            authorization: authToken,
+          },
+        });
+        userData.user_foto_perfil = reader.result;
+        setUserData(userData);
+        setFotoBase64(reader.result);
+        toast.success("Foto atualizada com sucesso");
+      }
+    } else {
+      toast.error("Foto não carregada.")
     }
     handleClose();
   }
-  
+
   return (
     <div className="container-lg mt-4">
       <main className="container-fluid">
@@ -50,40 +60,42 @@ export default function Perfil() {
           <h1 className="text-center">Perfil</h1>
           <div className="text-center position-relative">
             <label htmlFor="fileInput">
-            <img 
-  src='images/IconePerfilDefault.png'
-  alt="Imagem de Perfil" 
-  className="rounded-circle" 
-  width="150" 
-  height="150"
-  style={{ cursor: 'pointer' }}
-/>
+              <img
+                src={fotoBase64}
+                alt="Imagem de Perfil"
+                className="rounded-circle"
+                width="150"
+                height="150"
+                style={{ cursor: 'pointer' }}
+              />
             </label>
-            <EditIcon 
+            <EditIcon
               onClick={handleOpen}
-              style={{ 
-                cursor: 'pointer', 
-                position: 'absolute', 
-                top: '10px', 
-                right: '10px' 
-              }} 
+              style={{
+                cursor: 'pointer',
+                position: 'absolute',
+                top: '10px',
+                right: '10px'
+              }}
             />
           </div>
-          {userData && 
+          {userData &&
             <div className="card-body">
-              <h3 className="card-text">Nome:</h3>
+              <h5>Nome</h5>
               <p style={{ textTransform: 'capitalize' }}>{userData.user_name}</p>
-              <h3 className="card-text">Email:</h3>
+
+              <h5>E-mail:</h5>
               <p style={{ textTransform: 'capitalize' }}>{userData.user_email}</p>
-              <h3 className="card-text">Senha do email:</h3>
+              
+              <h5>Senha do email:</h5>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <input 
-                  type={showPassword ? 'text' : 'password'} 
+                <input
+                  type={showPassword ? 'text' : 'password'}
                   value={userData.user_senha_email}
                   style={{ marginRight: '10px', width: '30%', background: 'transparent', color: 'black', border: 'none' }}
                   readOnly
                 />
-                <button 
+                <button
                   className="btn btn-sm btn-outline-secondary"
                   onClick={() => setShowPassword(!showPassword)}
                   style={{ border: 'none', cursor: 'pointer' }}
@@ -96,7 +108,7 @@ export default function Perfil() {
             </div>
           }
           <div className="mt-4 text-center">
-            <button 
+            <button
               className="btn btn-primary"
               onClick={() => router.push("/senha/novo")}
             >
@@ -132,22 +144,22 @@ export default function Perfil() {
             </IconButton>
           </div>
           <div className="text-center">
-            <img 
+            <img
               src='images/IconePerfilDefault.png'
-              alt="Nova Imagem de Perfil" 
-              className="rounded-circle" 
-              width="150" 
+              alt="Nova Imagem de Perfil"
+              className="rounded-circle"
+              width="150"
               height="150"
             />
-            <input 
-              type="file" 
-              onChange = {e=>setFoto(e.target.value)}
+            <input
+              type="file"
+              onChange={e => setFoto(e.target.files)}
               className="form-control"
               id="formFile"
             />
-            <Button 
-              variant="contained" 
-              color="primary" 
+            <Button
+              variant="contained"
+              color="primary"
               onClick={Save}
               style={{ marginTop: '10px' }}
             >

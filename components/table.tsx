@@ -98,29 +98,29 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
             })}
           </tbody>
         </table>
-        {dataInit &&
-          <div className="container p-0">
-            <div className='row p-0'>
-              <div className='col align-self-center p-0'>
-                Qtd: {dataInit.length}
-                <br />
-                Página {page + 1} de {((dataInit.length / pageSize) + 1).toFixed(0)}
-              </div>
-              <div className='col align-self-center p-0'>
-                <div className='row justify-content-end'>
-                  <div className="w-auto p-0">
-                    <ul className="pagination m-0">
-                      <li className={`page-item ${page == 0 && 'disabled'}`}><a className="page-link" onClick={() => setPage(page - 1)}>Anterior</a></li>
-                      <li className="page-item"><a className="page-link" onClick={() => setPage(page)}>{page + 1}</a></li>
-                      <li className={`page-item ${(dataInit.length / pageSize).toFixed(0) >= String(page) && 'disabled'}`}><a className="page-link" onClick={() => setPage(page + 1)}>Próximo</a></li>
-                    </ul>
-                  </div>
+      </div>
+      {dataInit &&
+        <div className="container ">
+          <div className='row '>
+            <div className='col align-self-center '>
+              Qtd: {dataInit.length}
+              <br />
+              Página {page + 1} de {((dataInit.length / pageSize) + 1).toFixed(0)}
+            </div>
+            <div className='col align-self-center '>
+              <div className='row justify-content-end'>
+                <div className="w-auto ">
+                  <ul className="pagination m-0">
+                    <li className={`page-item ${page == 0 && 'disabled'}`}><a className="page-link" onClick={() => setPage(page - 1)}>Anterior</a></li>
+                    <li className="page-item"><a className="page-link" onClick={() => setPage(page)}>{page + 1}</a></li>
+                    <li className={`page-item ${(dataInit.length / pageSize).toFixed(0) <= String(page) && 'disabled'}`}><a className="page-link" onClick={() => setPage(page + 1)}>Próximo</a></li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-        }
-      </div>
+        </div>
+      }
     </div>
   );
 }
