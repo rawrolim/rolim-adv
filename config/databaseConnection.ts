@@ -35,6 +35,7 @@ export async function query(sql=''){
         return queryReturn[0];
     } catch (e) {
         console.log(`QUERY ERROR`,sql);
+        console.log(`ERROR`,e.toString());
         throw new Error(`Erro na query do banco de dados.`);
     }
 }
