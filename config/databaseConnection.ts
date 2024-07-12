@@ -22,11 +22,9 @@ export async function query(sql=''){
         const dbSynced = await db.sync();
         const queryReturn = await dbSynced.query(sql);
         await dbSynced.close()
-        await db.close()
-        console.log("QUERY EXECUTED", sql);
+        await db.close();
         return queryReturn[0];
     } catch (e) {
-        console.log(`QUERY ERROR`,sql);
         console.log(`ERROR`,e.toString());
         throw new Error(`Erro na query do banco de dados.`);
     }
