@@ -77,7 +77,6 @@ export default function Home() {
             <br />Rua Dr. Bueno, n°148 - 303, Centro - Macaé</p>
             <Image src="/images/bglaw.jpg" width={300} height={200} alt="Foto da História" />
             </div>
-            <button onClick={()=>router.push("/informacoesCliente")}>informacoes Cliente</button>
         </div>
 
         {/* ADVOGADOS */}

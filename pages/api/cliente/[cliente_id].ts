@@ -97,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             WHERE id = '${body.id}'
             `;
             await query(sql);
-            res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
+            res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
         }else if(req.method == 'DELETE'){
             const queryString = req.query;
             let sql = `
@@ -106,7 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 WHERE id = '${queryString.id}'
             `;
             await query(sql);
-            res.status(200).json("USUÁRIO DELETADO COM SUCESSO");
+            res.status(200).json("CLIENTE DELETADO COM SUCESSO");
         }else {
             throw new Error("Method not allowed")
         }

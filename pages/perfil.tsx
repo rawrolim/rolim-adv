@@ -145,7 +145,7 @@ export default function Perfil() {
           </div>
           <div className="text-center">
             <img
-              src='images/IconePerfilDefault.png'
+              src={fotoBase64}
               alt="Nova Imagem de Perfil"
               className="rounded-circle"
               width="150"
