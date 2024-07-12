@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose down -v && rmdir /s \"database/data\" && docker compose -f docker-compose.dev.yml up -d && next dev",
+    "dev": "docker compose up -d && next dev",
     "config": "node env-file.ts",
     "build": "next build",
     "start": "next start -p 80",
