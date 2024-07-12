@@ -18,14 +18,6 @@ export function connectDb() {
 
 export async function query(sql=''){
     try {
-        console.log('DB CONFIG', JSON.stringify({
-            dialect: 'mysql',
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: Number(process.env.DB_PORT)
-        }))
         const db = connectDb();
         const dbSynced = await db.sync();
         const queryReturn = await dbSynced.query(sql);
@@ -35,7 +27,7 @@ export async function query(sql=''){
         return queryReturn[0];
     } catch (e) {
         console.log(`QUERY ERROR`,sql);
-        console.log(`ERROR`,e.toString());
+        console.log(`ERROR`,e);
         throw new Error(`Erro na query do banco de dados.`);
     }
 }
