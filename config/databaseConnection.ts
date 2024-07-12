@@ -12,7 +12,7 @@ export function connectDb() {
         });
         return db;
     } catch (e) {
-        throw new Error("Erro na conexão do banco de dados.", e)
+        throw new Error("Erro na conexão do banco de dados.", e.toString())
     }
 }
 
@@ -27,7 +27,7 @@ export async function query(sql=''){
         return queryReturn[0];
     } catch (e) {
         console.log(`QUERY ERROR`,sql);
-        console.log(`ERROR`,e);
+        console.log(`ERROR`,e.toString());
         throw new Error(`Erro na query do banco de dados.`);
     }
 }
