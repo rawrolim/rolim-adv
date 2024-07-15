@@ -11,9 +11,6 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    networks:
-      - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-networks:
-  db:
-    driver: bridge

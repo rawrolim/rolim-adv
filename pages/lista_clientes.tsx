@@ -20,7 +20,7 @@ interface User {
   telefone: string;
 }
 
-export default function ListaCliente() {
+export default function ListaClientes() {
   const [userData, setUserData] = useState<User[]>([]);
   const [users, setUsers] = useState<User[]>(userData);
   const router = useRouter();

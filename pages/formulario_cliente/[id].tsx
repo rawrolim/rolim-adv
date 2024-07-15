@@ -4,7 +4,7 @@ import styles from '../../styles/formCliente.module.css';
 import { useRouter } from 'next/router';
 import http from '../../config/http';
 
-export default function Home() {
+export default function FormularioCliente() {
   const router = useRouter();
 
   useEffect(()=>{

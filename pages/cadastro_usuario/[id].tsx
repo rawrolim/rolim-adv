@@ -5,7 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import http from '../../config/http';
 
-export default function Usuario() {
+export default function CadastroUsuario() {
   const router = useRouter();
 
   useEffect(()=>{

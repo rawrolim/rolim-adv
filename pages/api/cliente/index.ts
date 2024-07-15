@@ -116,7 +116,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 '${body.cnh}
             )`;
             await query(sql);
-            res.status(200).json("USUÁRIO CRIADO COM SUCESSO");
+            res.status(200).json("CLIENTE CRIADO COM SUCESSO");
         }else{
             throw new Error("Method not allowed")
         }
