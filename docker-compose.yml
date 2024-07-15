@@ -1,16 +1,20 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  db:
+    image: mysql
     restart: always
-    container_name: app_rolim_adv
-    command: npm start
+    container_name: database_rolim_adv_dev
     ports:
-      - "80:80"
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: mnradv76_mnr
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 256M 
     volumes:
-      - .:/app
-    working_dir: /app
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
+      - ./database/initdb:/docker-entrypoint-initdb.d
