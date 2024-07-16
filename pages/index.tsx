@@ -22,7 +22,7 @@ export default function Home() {
   async function sendContact() {
     try {
       const res = await http.post("/api/email", {
-        toAddresses: [email],
+        toAddresses: ['contato@rawlinsonrolimadv.com'],
         subject: "Contato via site",
         bodyHtml: `
           Uma pessoa entrou em contato pelo site.<br>
