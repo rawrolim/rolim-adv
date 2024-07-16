@@ -25,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if(err.toString() == 'TokenExpiredError: jwt expired'){
             res.status(401).json({ accepted: false })
         }else{
+            console.log(err.toString())
             res.status(200).json({ accepted: false })
         }
     }
