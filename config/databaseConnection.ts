@@ -1,31 +1,25 @@
-import { Sequelize } from "sequelize"
+import mysql from 'mysql2';
 
-export function connectDb() {
-    try {
-        const db = new Sequelize({
-            dialect: 'mysql',
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: Number(process.env.DB_PORT)
-        });
-        return db;
-    } catch (e) {
-        throw new Error("Erro na conexão do banco de dados.", e.toString())
-    }
+export async function connectDb() {
+    const connection = mysql.createPool({
+        host: process.env.DB_HOST,
+        database: process.env.DB_DATABASE,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        port: Number(process.env.DB_PORT)
+    })
+    const pool = connection.promise();
+    return pool;
 }
 
-export async function query(sql=''){
+export async function query(sql = '') {
     try {
-        const db = connectDb();
-        const dbSynced = await db.sync();
-        const queryReturn = await dbSynced.query(sql);
-        await dbSynced.close()
-        await db.close();
+        const db = await connectDb();
+        const queryReturn = await db.query(sql);
+        await db.end()
         return queryReturn[0];
     } catch (e) {
-        console.log(`ERROR`,e.toString());
+        console.log(`ERROR`, e.toString());
         throw new Error(`Erro na query do banco de dados.`);
     }
 }
