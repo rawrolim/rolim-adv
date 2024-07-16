@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `;
         const rs_user = await query(sql);
 
-        if(rs_user.length > 0){
+        if(rs_user){
             const usuario = rs_user[0];
             const jwtData = {
                 user_id: usuario['id'],

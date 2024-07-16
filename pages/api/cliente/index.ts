@@ -65,13 +65,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             sql = `SELECT * FROM clientes 
                 WHERE cpf = '${body.cpf}'`;
             const rs_cpf = await query(sql);
-            if(rs_cpf.length > 0)
+            if(rs_cpf)
                 throw new Error("CPF já cadastrado no sistema.");
 
             sql = `SELECT * FROM clientes
                 WHERE mail = '${body.email}'`;
             const rs_email = await query(sql);
-            if(rs_email.length > 0)
+            if(rs_email)
                 throw new Error("E-mail já cadastrado no sistema.");
 
             sql = `INSERT INTO clientes(
