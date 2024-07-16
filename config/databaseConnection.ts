@@ -12,12 +12,12 @@ export async function connectDb() {
     return pool;
 }
 
-export async function query(sql = '') {
+export async function query(sql = ''){
     try {
         const db = await connectDb();
-        const queryReturn = await db.query(sql);
-        await db.end()
-        return queryReturn[0];
+        const [ rows ] = await db.query(sql);
+        await db.end();
+        return rows;
     } catch (e) {
         console.log(`ERROR`, e.toString());
         throw new Error(`Erro na query do banco de dados.`);

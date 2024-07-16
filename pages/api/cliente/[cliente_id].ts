@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             WHERE id = '${req.query.cliente_id}'`
             const rs_cliente = await query(sql);
 
-            if (rs_cliente.length == 0)
+            if (!rs_cliente)
                 throw new Error("Cliente não encontrado.")
 
             const cliente = rs_cliente[0];
