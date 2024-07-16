@@ -19,7 +19,7 @@
     "chart.js": "^4.4.3",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
-    "mysql2": "^3.9.8",
+    "mysql2": "^3.10.3",
     "next": "14.2.3",
     "nodemailer": "^6.9.13",
     "pdfmake": "^0.2.10",
