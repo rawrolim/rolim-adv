@@ -10,6 +10,14 @@ export function connectDb() {
             password: process.env.DB_PASSWORD,
             port: Number(process.env.DB_PORT)
         });
+        console.log('DB CONFIG', JSON.stringify({
+            dialect: 'mysql',
+            host: process.env.DB_HOST,
+            database: process.env.DB_DATABASE,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            port: Number(process.env.DB_PORT)
+        }))
         return db;
     } catch (e) {
         throw new Error("Erro na conexão do banco de dados.", e)
@@ -19,10 +27,14 @@ export function connectDb() {
 export async function query(sql=''){
     try {
         const db = connectDb();
-        const queryReturn = await db.query(sql);
+        const dbSynced = await db.sync();
+        const queryReturn = await dbSynced.query(sql);
+        await dbSynced.close()
         await db.close()
+        console.log("QUERY EXECUTED", sql);
         return queryReturn[0];
     } catch (e) {
-        throw new Error(`Erro na query do banco de dados. ${sql}`);
+        console.log(`QUERY ERROR`,sql);
+        throw new Error(`Erro na query do banco de dados.`);
     }
 }
