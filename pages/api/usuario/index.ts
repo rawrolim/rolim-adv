@@ -54,13 +54,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             )`;
             await query(sql);
 
-            // Enviar email com a senha gerada
-            await sendEmail({
-                to: body.email,
-                subject: "Sua conta foi criada",
-                text: `Olá ${body.nome},\n\nSua conta foi criada com sucesso. Sua senha é: ${senhaGerada}\n\nPor favor, altere sua senha após o primeiro acesso.\n\nObrigado!`
-            });
-
             res.status(200).json("USUÁRIO CRIADO COM SUCESSO");
         } else if (req.method === 'GET') {
             let sql = `
