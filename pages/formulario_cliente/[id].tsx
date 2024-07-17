@@ -103,7 +103,11 @@ export default function FormularioCliente() {
               <label htmlFor={key}>{key.replace(/_/g, ' ').toUpperCase()} {['nome', 'cpf', 'email', 'rg', 'orgao'].includes(key) && '*'}</label>
             </div>
           ))}
-          <button className={styles.button} type="submit">Cadastrar</button>
+
+<div className="col-6 mx-auto w-25">
+  <button  type="submit" className="btn btn-primary">Cadastrar</button>
+</div>
+
         </form>
         </div>
       </main>

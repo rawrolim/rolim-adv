@@ -21,12 +21,12 @@ export default function CadastroUsuario() {
 
   const [formData, setFormData] = useState({
     id: 0,
-    tipo_usuario: '',
-    senha: '',
+    nome:'',
     usuario: '',
-    status: '',
+    senha: '',
     email: '',
     senha_email: '',
+    tipo_usuario: '',
     foto_perfil: ''
   });
 
@@ -35,12 +35,12 @@ export default function CadastroUsuario() {
   const [showEmailPassword, setShowEmailPassword] = useState(false); 
 
   const placeholders: { [key: string]: string } = {
-    tipo_usuario: 'Digite o tipo de usuário',
-    senha: 'Digite a senha',
+    nome:'Digite o nome',
     usuario: 'Digite o nome de usuário',
-    status: 'Digite o status',
+    senha: 'Digite a senha',
     email: 'Digite o email',
     senha_email: 'Digite a senha do email',
+    tipo_usuario: 'Digite o tipo de usuário',
     foto_perfil: 'Insira a URL da foto de perfil'
   };
 
@@ -65,10 +65,17 @@ export default function CadastroUsuario() {
     setFocused({ ...focused, [id]: false });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const response = await http.post('/api/usuario/novo', formData);
+    console.log('Cadastro realizado com sucesso!', response.data); 
+
+    router.push('../lista_usuarios');
+  } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error);
+  }
+};
 
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ minHeight: '75vh' }}>
@@ -134,11 +141,11 @@ export default function CadastroUsuario() {
                     <option value="" disabled selected>
                       Selecione uma opção
                     </option>
-                    <option value="opcao1">Advogado</option>
-                    <option value="opcao2">Estagiário</option>
-                    <option value="opcao3">Sócio</option>
-                    <option value="opcao4">Desenvolvedor</option>
-                    <option value="opcao5">Recepcionista</option>
+                    <option value="1">Advogado</option>
+                    <option value="2">Estagiário</option>
+                    <option value="3">Sócio</option>
+                    <option value="4">Desenvolvedor</option>
+                    <option value="5">Recepcionista</option>
                   </select>
                   <label
                     htmlFor={key}
@@ -180,12 +187,15 @@ export default function CadastroUsuario() {
                     fontSize: key === 'id' || focused[key] || (value && value.toString().length > 0) ? '12px' : 'inherit'
                   }}
                 >
-                  {key.replace(/_/g, ' ').toUpperCase()} {['senha', 'usuario', 'email'].includes(key) && '*'}
+                  {key.replace(/_/g, ' ').toUpperCase()} {['senha', 'usuario', 'email','senha_email','nome'].includes(key) && '*'}
                 </label>
               )}
             </div>
           ))}
-          <button type="submit" className="btn btn-primary w-100 mt-3">Cadastrar</button>
+<div className="col-6 mx-auto text-center w-100">
+  <button  type="submit" className="btn btn-primary w-50">Cadastrar</button>
+</div>
+
         </form>
       </div>
     </div>

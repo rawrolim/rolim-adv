@@ -12,9 +12,12 @@ interface User {
   id: number;
   nome: string;
   email: string;
+  nome_acesso: string;
+  status:string;
 }
 
 export default function ListaUsuarios() {
+
   const [userData, setUserData] = useState<User[]>([]);
   const [users, setUsers] = useState<User[]>(userData);
   const router = useRouter();
@@ -57,6 +60,14 @@ export default function ListaUsuarios() {
             {
               name: 'E-mail',
               field: 'email'
+            },
+            {
+              name: 'Tipo Usuário',
+              field: 'nome_acesso'
+            },
+            {
+              name: 'Status',
+              field: 'status'
             },
             {
               name: 'Ações',
