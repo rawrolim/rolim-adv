@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useLocalStorage from '../hooks/useLocalStorage';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import EditIcon from '@mui/icons-material/Edit';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import http from '../config/http';
 import { toast } from 'react-toastify';
+import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function Perfil() {
   const [userData, setUserData] = useLocalStorage('user_data', '');
@@ -19,9 +12,6 @@ export default function Perfil() {
   const [openModal, setOpenModal] = useState(false);
   const [Foto, setFoto] = useState<FileList>()
   const [fotoBase64, setFotoBase64] = useState<any>();
-
-  const handleOpen = () => setOpenModal(true);
-  const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
     if (userData.user_foto_perfil == "") {
@@ -50,7 +40,6 @@ export default function Perfil() {
     } else {
       toast.error("Foto não carregada.")
     }
-    handleClose();
   }
 
   return (
@@ -69,15 +58,9 @@ export default function Perfil() {
                 style={{ cursor: 'pointer' }}
               />
             </label>
-            <EditIcon
-              onClick={handleOpen}
-              style={{
-                cursor: 'pointer',
-                position: 'absolute',
-                top: '10px',
-                right: '10px'
-              }}
-            />
+            <button className='btn' data-bs-toggle="modal" data-bs-target="#modal-foto">
+              <FaEdit />
+            </button>
           </div>
           {userData &&
             <div className="card-body">
@@ -86,7 +69,7 @@ export default function Perfil() {
 
               <h5>E-mail:</h5>
               <p style={{ textTransform: 'capitalize' }}>{userData.user_email}</p>
-              
+
               <h5>Senha do email:</h5>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <input
@@ -95,15 +78,12 @@ export default function Perfil() {
                   style={{ marginRight: '10px', width: '30%', background: 'transparent', color: 'black', border: 'none' }}
                   readOnly
                 />
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{ border: 'none', cursor: 'pointer' }}
+                <button className="btn" onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
               </div>
-              <h3 className="card-text">Profissão:</h3>
+              <h5 className="card-text">Cargo:</h5>
               <p style={{ textTransform: 'capitalize' }}>{userData.user_access_name}</p>
             </div>
           }
@@ -118,56 +98,41 @@ export default function Perfil() {
         </div>
       </main>
 
-      <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 500,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 id="modal-title">Editar Foto de Perfil</h2>
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
+      <div className="modal fade" id="modal-foto" style={{ marginTop: '100px' }} tabIndex={-1} aria-labelledby="modal-foto" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="modal-foto">Editar Foto de Perfil</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <div className="row">
+                <div className='col-12 text-center'>
+                  <img
+                    src={fotoBase64}
+                    alt="Nova Imagem de Perfil"
+                    className="rounded-circle"
+                    width="150"
+                    height="150"
+                  />
+                </div>
+                <input
+                  type="file"
+                  onChange={e => setFoto(e.target.files)}
+                  className="form-control mt-3"
+                  id="formFile"
+                  accept='image/png, image/jpeg'
+                />
+              </div>
+            </div>
+            <div className='modal-footer justify-content-center pt-0 pb-1'>
+              <button className='btn btn-primary' onClick={Save} style={{ marginTop: '10px' }}>
+                Salvar
+              </button>
+            </div>
           </div>
-          <div className="text-center">
-            <img
-              src='images/IconePerfilDefault.png'
-              alt="Nova Imagem de Perfil"
-              className="rounded-circle"
-              width="150"
-              height="150"
-            />
-            <input
-              type="file"
-              onChange={e => setFoto(e.target.files)}
-              className="form-control"
-              id="formFile"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={Save}
-              style={{ marginTop: '10px' }}
-            >
-              Salvar
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+        </div>
+      </div>
     </div>
   );
 }
