@@ -6,6 +6,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
   const pageSize = 10;
+  const pages = dataInit.length / pageSize;
 
   const applyFilters = () => {
     if (dataInit) {
@@ -64,7 +65,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
                       return (
                         <td key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString()}>
                           {columnsCurrent.actions ?
-                            <div className='dropdown' key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'}>
+                            <div className='dropstart' key={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'}>
                               <button className="btn border" type="button" id={'td-' + dataIndex.toString() + '-' + columnsIndex.toString() + '-dropdown'} data-bs-toggle="dropdown" aria-expanded="false">
                                 <FaEllipsisV />
                               </button>
@@ -105,7 +106,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
             <div className='col align-self-center '>
               Qtd: {dataInit.length}
               <br />
-              Página {page + 1} de {((dataInit.length / pageSize) + 1).toFixed(0)}
+              Página {page + 1} de {(pages<1?1:pages).toFixed(0)}
             </div>
             <div className='col align-self-center '>
               <div className='row justify-content-end'>
@@ -113,7 +114,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
                   <ul className="pagination m-0">
                     <li className={`page-item ${page == 0 && 'disabled'}`}><a className="page-link" onClick={() => setPage(page - 1)}>Anterior</a></li>
                     <li className="page-item"><a className="page-link" onClick={() => setPage(page)}>{page + 1}</a></li>
-                    <li className={`page-item ${(dataInit.length / pageSize).toFixed(0) <= String(page) && 'disabled'}`}><a className="page-link" onClick={() => setPage(page + 1)}>Próximo</a></li>
+                    <li className={`page-item ${Number((pages<1?1:pages).toFixed(0)) == Number(page+1) && 'disabled'}`}><a className="page-link" onClick={() => setPage(page + 1)}>Próximo</a></li>
                   </ul>
                 </div>
               </div>

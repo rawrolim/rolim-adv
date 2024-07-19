@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/listaCliente.module.css';
 import { useRouter } from 'next/router';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { GrUpdate } from "react-icons/gr";
 import http from '../config/http';
 import Table from '../components/table';
 import { FaFilePdf } from 'react-icons/fa';
@@ -13,16 +13,8 @@ pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
 import { FaUser } from "react-icons/fa";
 import * as pdfMake from 'pdfmake/build/pdfmake';
 
-interface User {
-  id: number;
-  nome: string;
-  email: string;
-  telefone: string;
-}
-
 export default function ListaCliente() {
-  const [userData, setUserData] = useState<User[]>([]);
-  const [users, setUsers] = useState<User[]>(userData);
+  const [users, setUsers] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,13 +23,13 @@ export default function ListaCliente() {
 
   async function getClients() {
     const resData = await http.get("/api/cliente");
-    setUserData(resData);
     setUsers(resData);
   }
 
   async function deleteClient(id){
     await http.delete("/api/cliente/"+id);
-    toast.success("Cliente deletado com sucesso.")
+    getClients();
+    toast.success("Status do cliente alterado com sucesso.")
   }
 
   async function getProcuracao(id, nome){
@@ -82,6 +74,10 @@ export default function ListaCliente() {
               field: 'telefone'
             },
             {
+              name: 'Status',
+              field: 'status'
+            },
+            {
               name: 'Ações',
               actions: [
                 {
@@ -93,8 +89,8 @@ export default function ListaCliente() {
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),
                   fieldParams: ['id'],
-                  name: 'Deletar',
-                  icon: <DeleteIcon />
+                  name: 'Alterar status',
+                  icon: <GrUpdate />
                 },
                 {
                   handler: (arrReplaced = []) => getProcuracao(arrReplaced[0],arrReplaced[1]),
@@ -111,7 +107,7 @@ export default function ListaCliente() {
                 {
                   handler: (arrReplaced = []) => router.push(`/informacoes_cliente/${arrReplaced[0]}`),
                   fieldParams: ['id'],
-                  name: 'Informações do Cliente',
+                  name: 'Informações',
                   icon: <FaUser />
                 },
               ]

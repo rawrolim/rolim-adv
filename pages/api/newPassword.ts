@@ -8,10 +8,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const tokenData = jwt.decode(authToken)
         await query(`
         UPDATE usuarios SET
-            senha = MD5('${req.body.password}'), 
+            senha = MD5(?), 
             primeiro_acesso = 'N' 
-        WHERE id = '${tokenData.user_id}'
-        `)
+        WHERE id = ?
+        `, [req.body.password,tokenData.user_id])
         res.status(200).json("SENHA ATUALIZADA COM SUCESSO")
     }catch(err){
         res.status(400).json(err.toString())
