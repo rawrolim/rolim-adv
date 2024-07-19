@@ -61,7 +61,7 @@ export default function HeaderComponent() {
                 <link rel="icon" href="/images/logo Rolim Advocacia - Icon.png" />
             </Head>
             {isRouteValid &&
-                <header>
+                <header style={{zIndex:'999999'}}>
                     <nav>
                         <div className={styles.logo}>
                             <img src="/images/logo Rolim Advocacia 2.png" width={140} height={70} alt="Logo" />

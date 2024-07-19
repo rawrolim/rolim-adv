@@ -1,4 +1,4 @@
-import mysql from 'mysql2';
+import mysql, { RowDataPacket } from 'mysql2/promise';
 
 export async function connectDb() {
     const connection = mysql.createPool({
@@ -8,14 +8,17 @@ export async function connectDb() {
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT)
     })
-    const pool = connection.promise();
-    return pool;
+    return connection;
 }
 
-export async function query(sql = ''){
+export async function query(sql = '', values = []) {
     try {
         const db = await connectDb();
-        const [ rows ] = await db.query(sql);
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == "")
+                values[i] = null
+        };
+        const [rows] = await db.query<RowDataPacket[]>(sql, values);
         await db.end();
         return rows;
     } catch (e) {

@@ -56,14 +56,14 @@ export default function Perfil() {
   return (
     <div className="container-lg mt-4">
       <main className="container-fluid">
-        <div className="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div className="card p-3 mb-5 bg-white rounded">
           <h1 className="text-center">Perfil</h1>
           <div className="text-center position-relative">
             <label htmlFor="fileInput">
               <img
                 src={fotoBase64}
                 alt="Imagem de Perfil"
-                className="rounded-circle"
+                className="rounded-circle border"
                 width="150"
                 height="150"
                 style={{ cursor: 'pointer' }}

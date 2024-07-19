@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `;
         const rs_user = await query(sql);
 
-        if(rs_user){
+        if(rs_user.length > 0){
             const usuario = rs_user[0];
             const jwtData = {
                 user_id: usuario['id'],
@@ -75,5 +75,5 @@ function generateToken(){
 };
 
 function rand(){
-    return Math.random().toString(36).substr(2);
+    return Math.random().toString(36).slice(2);
 };

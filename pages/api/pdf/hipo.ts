@@ -9,9 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let sql = `
         SELECT * FROM clientes
-        WHERE id = '${body.id}'
+        WHERE id = '?
     `
-    const rs = await query(sql)
+    const rs = await query(sql, [body.id])
 
     const cliente = rs[0] as Cliente;
 

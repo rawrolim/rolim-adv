@@ -46,68 +46,79 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 END status,
                 cnh
             FROM clientes
-            WHERE id = '${req.query.cliente_id}'`
-            const rs_cliente = await query(sql);
+            WHERE id = ?`
+            const rs_cliente = await query(sql, [req.query.cliente_id]);
 
-            if (!rs_cliente)
+            if (rs_cliente.length == 0)
                 throw new Error("Cliente não encontrado.")
 
             const cliente = rs_cliente[0];
 
             res.status(200).json(cliente);
-        }else if(req.method == 'PUT'){
+        } else if (req.method == 'PUT') {
             const body = req.body;
 
-            if(body.nome == '')
+            if (body.nome == '')
                 throw new Error("Necessário informar o nome")
-            if(body.email == '')
+            if (body.email == '')
                 throw new Error("Necessário informar o e-mail")
-            if(body.cpf == '')
+            if (body.cpf == '')
                 throw new Error("Necessário informar o CPF")
-            if(body.rg == '')
+            if (body.rg == '')
                 throw new Error("Necessário informar o RG")
-            if(body.orgao == '')
+            if (body.orgao == '')
                 throw new Error("Necessário informar o ORGÃO")
-            if(body.id == ''){
+            if (body.id == '') {
                 throw new Error("Necessário informar o ID do usuário")
-            }else{
-                if(!Number(body.id))
+            } else {
+                if (!Number(body.id))
                     throw new Error("Necessário informar um ID válido para o usuário")
             }
 
             let sql = `UPDATE clientes SET
-                nome = '${body.nome}',
-                cpf = '${body.cpf}',
-                numero = '${body.numero}',
-                mail email = '${body.email}',
-                endereco = '${body.endereco}',
-                endereco_num = '${body.endereco_num}',
-                endereco_complemento = '${body.endereco_complemento}',
-                cep = '${body.cep}',
-                rg = '${body.rg}',
-                orgao = '${body.orgao}',
-                nome_mae = '${body.nome_mae}',
-                nome_pai = '${body.nome_pai}',
-                estado_civil = '${body.estado_civil}',
-                sexo = '${body.sexo}',
-                data_nascimento = '${body.data_nascimento}',
-                profissao = '${body.profissao}',
-                status = '${body.status}',
-                cnh = '${body.cnh}'
-            WHERE id = '${body.id}'
+                nome = ?,
+                cpf = ?,
+                numero = ?,
+                mail email = ?,
+                endereco = ?,
+                endereco_num = ?,
+                endereco_complemento = ?,
+                cep = ?,
+                rg = ?,
+                orgao = ?,
+                nome_mae = ?,
+                nome_pai = ?,
+                estado_civil = ?,
+                sexo = ?,
+                data_nascimento = ?,
+                profissao = ?,
+                status = ?,
+                cnh = ?
+            WHERE id = ?
             `;
-            await query(sql);
-            res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
-        }else if(req.method == 'DELETE'){
+            await query(sql,[body.nome,body.cpf,body.numero,body.email,body.endereco,body.endereco_num,body.endereco_complemento,body.cep,body.rg,body.orgao,body.nome_mae,body.nome_pai,body.estado_civil,body.sexo,body.data_nascimento,body.profissao,body.status,body.cnh,body.id]);
+            res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
+        } else if (req.method == 'DELETE') {
+            let sql = '';
             const queryString = req.query;
-            let sql = `
+            let status = '';
+
+            sql = 'SELECT status FROM clientes WHERE id = ?'
+            const rs_status = await query(sql, [queryString.cliente_id]);
+            if (rs_status[0]['status'] == 'I') {
+                status = 'A'
+            } else {
+                status = 'I'
+            }
+
+            sql = `
                 UPDATE clientes SET 
-                    status = 'I'
-                WHERE id = '${queryString.id}'
+                    status = ?
+                WHERE id = ?
             `;
-            await query(sql);
-            res.status(200).json("USUÁRIO DELETADO COM SUCESSO");
-        }else {
+            await query(sql, [status, queryString.cliente_id]);
+            res.status(200).json("CLIENTE DELETADO COM SUCESSO");
+        } else {
             throw new Error("Method not allowed")
         }
     } catch (erro) {
