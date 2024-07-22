@@ -116,7 +116,7 @@ export default function Home() {
       <div className='px-5'>
         <div className={styles.advogado} style={{ marginTop: '4rem' }}>
           <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado1Modal">
-            <Image src="/images/example.png" width={100} height={100} alt="Foto do Advogado" />
+            <Image src="/images/example.png" width={200} height={200} alt="Foto do Advogado" />
           </button>
           <div className="informacoes">
             <h2>Rawlinson Wagner Moraes Rolim</h2>
@@ -133,27 +133,28 @@ export default function Home() {
 
         <div className={styles.advogado}>
           <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado2Modal">
-            <Image src="/images/raissaadv.jpg" width={100} height={100} alt="Foto do Advogado" />
+            <Image src="/images/raissaadv.jpg" width={200} height={200} alt="Foto do Advogado" />
           </button>
           <div className="informacoes">
             <h2>Raissa dos Santos Bastos Rolim</h2>
             <p>OAB/RJ 259.009 OAB/SP 435.555</p>
-            <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional...</p>
+            <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional, Raissa é uma advogada especializada em diversas áreas do Direito, destacando-se principalmente em Direito Tributário, Direito Imobiliário, Direito Internacional e Direito Administrativo.
+            Além de sua graduação em Direito pela Universidade Mackenzie-SP, obteve o título de Mestre em Direito Empresarial pela Universidade da Geórgia, nos Estados Unidos, enriquecendo ainda mais sua bagagem acadêmica e prática.</p>
             <h3>Experiência Profissional</h3>
             <ul>
-              <li>Possui um histórico impressionante de assessoria a clientes...</li>
-              <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa...</li>
+              <li>Possui um histórico impressionante de assessoria a clientes. Sua expertise inclui defesas administrativas e a condução de investigações internas, áreas em que ela demonstra habilidade ímpar na defesa dos interesses de seus clientes.</li>
+              <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa na assessoria de rotinas trabalhistas e na defesa de demandas empresariais. Ela atua tanto no contencioso trabalhista judicial quanto administrativo, lidando com casos estratégicos e de alta complexidade com dedicação e eficiência.</li>
             </ul>
           </div>
         </div>
 
         <div className={styles.advogado}>
           <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado3Modal">
-            <Image src="/images/background - Copia.jpg" width={100} height={100} alt="Foto do Advogado" />
+            <Image src="/images/virginio.jpeg" width={200} height={200} alt="Foto do Advogado" />
           </button>
           <div className="informacoes">
-            <h2>Bocao</h2>
-            <p>OAB/RJ 259.009 OAB/SP 435.555</p>
+            <h2>Leonardo rosa virginio</h2>
+            <p>OAB/RJ 259.009</p>
             <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional...</p>
             <h3>Experiência Profissional</h3>
             <ul>
@@ -204,12 +205,12 @@ export default function Home() {
   <div className="modal-dialog modal-dialog-centered ">
     <div className="modal-content">
       <div className="modal-header">
-        <h5 className="modal-title" id="advogado3ModalLabel">Bocao</h5>
+        <h5 className="modal-title" id="advogado3ModalLabel">Leonardo rosa virginio</h5>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
         <div className="text-center">
-          <Image src="/images/background - Copia.jpg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
+          <Image src="/images/virginio.jpeg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
         </div>
       </div>
     </div>
