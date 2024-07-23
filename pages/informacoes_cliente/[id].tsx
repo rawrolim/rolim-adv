@@ -27,6 +27,7 @@ interface User {
     data_nascimento: string;
     profissão: string;
     cnh: string;
+    status: string;
 }
 
 export default function InformacoesCliente() {
@@ -60,10 +61,10 @@ export default function InformacoesCliente() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.cliente}>
-                <h1>Informações do Cliente</h1>
+            <div className={'border p-4 rounded'}>
+                <h3 className='text-center'>Informações do Cliente</h3>
                 <div className={styles.buttons}>
-                    <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.push("./")}>Voltar</button>
+                    <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.push("/lista_clientes")}>Voltar</button>
                     {selectedClient &&
                         <div className={styles.rightButtons}>
                             <button className={'btn btn-outline-danger'} onClick={() => getHipo(selectedClient.id, selectedClient.nome)}>
@@ -77,24 +78,25 @@ export default function InformacoesCliente() {
                 </div>
 
                 {selectedClient &&
-                    <div className={styles.info}>
-                        <p><strong>ID:</strong> {selectedClient.id}</p>
-                        <p><strong>Nome:</strong> {selectedClient.nome}</p>
-                        <p><strong>CPF:</strong> {selectedClient.cpf}</p>
-                        <p><strong>Número:</strong> {selectedClient.número}</p>
-                        <p><strong>Email:</strong> {selectedClient.email}</p>
-                        <p><strong>Endereço:</strong> {selectedClient.endereço}</p>
-                        <p><strong>Complemento:</strong> {selectedClient.endereço_complemento}</p>
-                        <p><strong>CEP:</strong> {selectedClient.cep}</p>
-                        <p><strong>RG:</strong> {selectedClient.rg}</p>
-                        <p><strong>Órgão Emissor:</strong> {selectedClient.orgão}</p>
-                        <p><strong>Nome da Mãe:</strong> {selectedClient.nome_mãe}</p>
-                        <p><strong>Nome do Pai:</strong> {selectedClient.nome_pai}</p>
-                        <p><strong>Estado Civil:</strong> {selectedClient.estado_civil}</p>
-                        <p><strong>Sexo:</strong> {selectedClient.sexo}</p>
-                        <p><strong>Data de Nascimento:</strong> {selectedClient.data_nascimento}</p>
-                        <p><strong>Profissão:</strong> {selectedClient.profissão}</p>
-                        <p><strong>CNH:</strong> {selectedClient.cnh}</p>
+                    <div className='row mt-2'>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>ID:</strong> {selectedClient.id}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome:</strong> {selectedClient.nome}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>CPF:</strong> {selectedClient.cpf}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Número:</strong> {selectedClient.número}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Email:</strong> {selectedClient.email}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Endereço:</strong> {selectedClient.endereço}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Complemento:</strong> {selectedClient.endereço_complemento}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>CEP:</strong> {selectedClient.cep}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>RG:</strong> {selectedClient.rg}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Órgão Emissor:</strong> {selectedClient.orgão}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome da Mãe:</strong> {selectedClient.nome_mãe}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome do Pai:</strong> {selectedClient.nome_pai}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Estado Civil:</strong> {selectedClient.estado_civil}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Sexo:</strong> {selectedClient.sexo}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Data de Nascimento:</strong> {selectedClient.data_nascimento}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Profissão:</strong> {selectedClient.profissão}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>CNH:</strong> {selectedClient.cnh}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Status:</strong> {selectedClient.status}</div>
                     </div>
                 }
             </div>

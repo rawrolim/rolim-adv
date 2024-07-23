@@ -1,40 +1,28 @@
-import { Sequelize } from "sequelize"
+import mysql, { RowDataPacket } from 'mysql2/promise';
 
-export function connectDb() {
-    try {
-        const db = new Sequelize({
-            dialect: 'mysql',
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: Number(process.env.DB_PORT)
-        });
-        console.log('DB CONFIG', JSON.stringify({
-            dialect: 'mysql',
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: Number(process.env.DB_PORT)
-        }))
-        return db;
-    } catch (e) {
-        throw new Error("Erro na conexão do banco de dados.", e)
-    }
+export async function connectDb() {
+    const connection = mysql.createPool({
+        host: process.env.DB_HOST,
+        database: process.env.DB_DATABASE,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        port: Number(process.env.DB_PORT)
+    })
+    return connection;
 }
 
-export async function query(sql=''){
+export async function query(sql = '', values = []) {
     try {
-        const db = connectDb();
-        const dbSynced = await db.sync();
-        const queryReturn = await dbSynced.query(sql);
-        await dbSynced.close()
-        await db.close()
-        console.log("QUERY EXECUTED", sql);
-        return queryReturn[0];
+        const db = await connectDb();
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] == "")
+                values[i] = null
+        };
+        const [rows] = await db.query<RowDataPacket[]>(sql, values);
+        await db.end();
+        return rows;
     } catch (e) {
-        console.log(`QUERY ERROR`,sql);
+        console.log(`ERROR`, e.toString());
         throw new Error(`Erro na query do banco de dados.`);
     }
 }

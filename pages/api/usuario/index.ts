@@ -1,62 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { query } from "../../../config/databaseConnection";
-import sendEmail from "../email";
+import http from '../../../config/http';
 
-// Função para gerar uma senha aleatória
-function generateRandomPassword(length) {
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let password = "";
-    for (let i = 0; i < length; i++) {
-        password += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    return password;
+function generateRandomPassword() {
+    return Math.random().toString(36).slice(2);
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    try {
-        if (req.method === 'POST') {
-            const body = req.body;
-
-            if (body.nome === '')
-                throw new Error("Necessário informar o nome.");
-            if (body.email === '')
-                throw new Error("Necessário informar o e-mail.");
-            if (body.usuario === '')
-                throw new Error("Necessário informar o usuário.");
-
-            let sql = `SELECT * FROM usuarios WHERE email = '${body.email}'`;
-            const rs_email = await query(sql);
-            if (rs_email.length > 0)
-                throw new Error("E-mail já cadastrado no sistema.");
-
-            const senhaGerada = generateRandomPassword(10); 
-
-            sql = `INSERT INTO usuarios (
-                nome,
-                tipo_usuario,
-                senha,
-                usuario,
-                status,
-                primeiro_acesso,
-                email,
-                foto_perfil,
-                senha_email
-            ) VALUES (
-                '${body.nome}',
-                '${body.tipo_usuario}',
-                '${senhaGerada}', // Usar a senha gerada
-                '${body.usuario}',
-                'A',
-                'S',
-                '${body.email}',
-                '${body.foto_perfil}',
-                '${body.senha_email}'
-            )`;
-            await query(sql);
-
-            res.status(200).json("USUÁRIO CRIADO COM SUCESSO");
-        } else if (req.method === 'GET') {
-            let sql = `
+    try{
+        if(req.method == 'GET'){
+           let sql = `
                 SELECT 
                     u.id,
                     u.nome,
@@ -75,10 +28,55 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 ORDER BY u.nome ASC`;
             const rs_usuarios = await query(sql);
             res.status(200).json(rs_usuarios);
-        } else {
-            throw new Error("Method not allowed");
+        }else if(req.method == 'POST'){
+            const body = req.body;
+
+            if (body.nome === '')
+                throw new Error("Necessário informar o nome.");
+            if (body.email === '')
+                throw new Error("Necessário informar o e-mail.");
+            if (body.usuario === '')
+                throw new Error("Necessário informar o usuário.");
+            if (body.tipo_usuario === 0)
+                throw new Error("Necessário informar o Tipo de Usuário");
+
+            let sql = `SELECT * FROM usuarios WHERE email = '${body.email}'`;
+            const rs_email = await query(sql);
+            if (rs_email.length > 0)
+                throw new Error("E-mail já cadastrado no sistema.");
+            const senhaGerada = generateRandomPassword(); 
+
+            const SendEmail = await http.post("/api/email", {
+                toAddresses: body.email,
+                subject: "Confirmação de Senha",
+                bodyHtml: `Olá ${body.nome} agora você faz parte da empresa Rawlinson Rolim Advogacia, seu Usúario é ${body.usuario} e sua senha é ${senhaGerada} troque assim que possível.
+                `
+              });
+
+sql = `INSERT INTO usuarios (
+    nome,
+    tipo_usuario,
+    senha,
+    usuario,
+    status,
+    primeiro_acesso,
+    email,
+    senha_email
+) VALUES (?, ?, ?, ?, 'A', 'S', ?, ?)`;
+await query(sql, [
+    body.nome,
+    body.tipo_usuario,
+    senhaGerada,
+    body.usuario,
+    body.email,
+    body.senha_email
+]);
+            res.status(200).json("Usuário CRIADO COM SUCESSO");
+            
+        }else{
+            throw new Error("Method not allowed")
         }
-    } catch (erro) {
-        res.status(400).json(erro.toString());
+    }catch(erro){
+        res.status(400).json(erro.toString())
     }
 }

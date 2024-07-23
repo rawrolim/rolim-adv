@@ -63,14 +63,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 throw new Error("Necessário informar o ORGÃO")
 
             sql = `SELECT * FROM clientes 
-                WHERE cpf = '${body.cpf}'`;
-            const rs_cpf = await query(sql);
+                WHERE cpf = ?`;
+            const rs_cpf = await query(sql,[body.cpf]);
             if(rs_cpf.length > 0)
                 throw new Error("CPF já cadastrado no sistema.");
 
             sql = `SELECT * FROM clientes
-                WHERE mail = '${body.email}'`;
-            const rs_email = await query(sql);
+                WHERE mail = ?`;
+            const rs_email = await query(sql,[body.email]);
             if(rs_email.length > 0)
                 throw new Error("E-mail já cadastrado no sistema.");
 
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 nome,
                 cpf,
                 numero,
-                mail email,
+                mail,
                 endereco,
                 endereco_num,
                 endereco_complemento,
@@ -95,27 +95,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 status,
                 cnh
             ) VALUES(
-                '${body.nome}',
-                '${body.cpf}',
-                '${body.numero}',
-                '${body.email}',
-                '${body.endereco}',
-                '${body.endereco_num}',
-                '${body.endereco_complemento}',
-                '${body.cep}',
-                '${body.rg}',
-                '${body.orgao}',
-                '${body.nome_mae}',
-                '${body.nome_pai}',
-                '${body.estado_civil}',
-                '${body.sexo}',
-                '${body.data_nascimento}',
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
                 NOW(),
-                '${body.profissao}',
+                ?,
                 'A',
-                '${body.cnh}
+                ?
             )`;
-            await query(sql);
+            await query(sql,[body.nome,body.cpf,body.numero,body.email,body.endereco,body.endereco_num,body.endereco_complemento,body.cep,body.rg,body.orgao,body.nome_mae,body.nome_pai,body.estado_civil,body.sexo,body.data_nascimento,body.profissao,body.cnh]);
             res.status(200).json("CLIENTE CRIADO COM SUCESSO");
         }else{
             throw new Error("Method not allowed")

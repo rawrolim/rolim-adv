@@ -13,14 +13,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         tokenDecoded.refreshToken = generateToken();
 
         let jwtToken = jwt.sign(tokenDecoded, process.env.JWT_SECRET);
-        if(jwtToken.length > 1000)
-            jwtToken = jwtToken.slice(0,1000);
         
         let sql = `
-        UPDATE usuarios SET token = '${jwtToken}' 
-            WHERE id = '${tokenDecoded.user_id}'
+        UPDATE usuarios SET token = ? 
+            WHERE id = ?
         `;
-        await query(sql)
+        await query(sql, [jwtToken,tokenDecoded.user_id])
 
         res.status(200).json({jwtData: tokenDecoded, jwtToken })
     }catch(err){
@@ -37,5 +35,5 @@ function generateToken(){
 };
 
 function rand(){
-    return Math.random().toString(36).substr(2);
+    return Math.random().toString(36).slice(2);
 };

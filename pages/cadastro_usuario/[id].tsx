@@ -21,14 +21,13 @@ export default function CadastroUsuario() {
 
   const [formData, setFormData] = useState({
     id: 0,
-    nome:'',
+    nome: '',
     usuario: '',
-    senha: '',
     email: '',
     senha_email: '',
-    tipo_usuario: '',
-    foto_perfil: ''
-  });
+    tipo_usuario: 0,
+    foto_perfil: 'selecione a foto'
+});
 
   const [focused, setFocused] = useState<{ [key: string]: boolean }>({});
   const [showPassword, setShowPassword] = useState(false);
@@ -37,25 +36,14 @@ export default function CadastroUsuario() {
   const placeholders: { [key: string]: string } = {
     nome:'Digite o nome',
     usuario: 'Digite o nome de usuário',
-    senha: 'Digite a senha',
     email: 'Digite o email',
     senha_email: 'Digite a senha do email',
-    tipo_usuario: 'Digite o tipo de usuário',
-    foto_perfil: 'Insira a URL da foto de perfil'
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const { id, value } = e.target;
-
-    let newValue;
-    if (e.target instanceof HTMLInputElement && e.target.files) {
-      newValue = e.target.files[0]; 
-    } else {
-      newValue = value; 
-    }
-  
-    setFormData({ ...formData, [id]: newValue });
-  };
+    setFormData({ ...formData, [id]: id === 'tipo_usuario' ? parseInt(value) : value });
+};
 
   const handleFocus = (id: string) => {
     setFocused({ ...focused, [id]: true });
@@ -65,17 +53,15 @@ export default function CadastroUsuario() {
     setFocused({ ...focused, [id]: false });
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const response = await http.post('/api/usuario/novo', formData);
-    console.log('Cadastro realizado com sucesso!', response.data); 
-
-    router.push('../lista_usuarios');
-  } catch (error) {
-    console.error('Erro ao cadastrar usuário:', error);
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    try{
+      e.preventDefault()
+      const res = await http.post('/api/usuario/', formData);
+      router.push("/lista_usuarios")
+    }catch(err){
+      console.error(err)
+    }
+  };
 
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ minHeight: '75vh' }}>
@@ -132,21 +118,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </div>
               ) : key === 'tipo_usuario' ? (
                 <div className="position-relative">
-                  <select
-                    onChange={handleChange}
-                    id={key}
-                    className="form-control border-0"
-                    defaultValue=""
-                  >
-                    <option value="" disabled selected>
-                      Selecione uma opção
-                    </option>
-                    <option value="1">Advogado</option>
-                    <option value="2">Estagiário</option>
-                    <option value="3">Sócio</option>
-                    <option value="4">Desenvolvedor</option>
-                    <option value="5">Recepcionista</option>
-                  </select>
+        <select
+    id="tipo_usuario"
+    className="form-control border-0"
+    value={formData.tipo_usuario}
+    onChange={handleChange}
+    required
+>
+    <option value={0}>Selecione o tipo</option>
+    <option value={1}>Advogado</option>
+    <option value={2}>Estagiário</option>
+    <option value={3}>Sócio</option>
+    <option value={4}>Desenvolvedor</option>
+    <option value={5}>Recepcionista</option>
+</select>
                   <label
                     htmlFor={key}
                     className="position-absolute top-0 left-1 text-primary"

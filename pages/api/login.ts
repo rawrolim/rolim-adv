@@ -43,19 +43,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 exp: Math.floor(Date.now() / 1000) + (60*60),
                 iat: Math.floor(Date.now() / 1000),
                 user_senha_email: usuario['senha_email'],
-                user_foto_perfil: usuario['foto_perfil'],
+                user_foto_perfil: '',
                 refreshToken: generateToken()
             }
             
             let jwtToken = jwt.sign(jwtData, process.env.JWT_SECRET);
-            if(jwtToken.length > 1000)
-                jwtToken = jwtToken.slice(0,1000);
 
             sql = `
             UPDATE usuarios SET token = '${jwtToken}' 
                 WHERE id = '${usuario['id']}'
             `;
             await query(sql)
+
+            jwtData.user_foto_perfil = usuario['foto_perfil'];
 
             res.status(200).json({jwtData, jwtToken })
         }else{
@@ -75,5 +75,5 @@ function generateToken(){
 };
 
 function rand(){
-    return Math.random().toString(36).substr(2);
+    return Math.random().toString(36).slice(2);
 };

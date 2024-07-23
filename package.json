@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "docker compose down -v && rmdir /s \"database/data\" && docker compose -f docker-compose.dev.yml up -d && next dev",
+    "dev": "docker compose down -v && docker compose up -d && next dev",
     "config": "node env-file.ts",
     "build": "next build",
     "start": "next start -p 80",
@@ -19,7 +19,7 @@
     "chart.js": "^4.4.3",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
-    "mysql2": "^3.9.8",
+    "mysql2": "^3.10.3",
     "next": "14.2.3",
     "nodemailer": "^6.9.13",
     "pdfmake": "^0.2.10",
@@ -35,7 +35,7 @@
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
-    "@types/node": "20.12.12",
+    "@types/node": "^20.12.12",
     "@types/pdfmake": "^0.2.9",
     "@types/react": "18.3.3",
     "eslint": "8.57.0",

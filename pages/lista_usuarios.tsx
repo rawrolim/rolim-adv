@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/listaCliente.module.css';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import http from '../config/http';
 import Table from '../components/table';
+import { GrUpdate } from "react-icons/gr";
 import { toast } from 'react-toastify';
 import { FaUser } from "react-icons/fa";
+import EditIcon from '@mui/icons-material/Edit';
 
 interface User {
   id: number;
   nome: string;
   email: string;
-  nome_acesso: string;
+  tipo_usuario: string;
   status:string;
 }
 
 export default function ListaUsuarios() {
 
-  const [userData, setUserData] = useState<User[]>([]);
+  const [userData] = useState<User[]>([]);
   const [users, setUsers] = useState<User[]>(userData);
   const router = useRouter();
 
@@ -28,73 +28,73 @@ export default function ListaUsuarios() {
 
   async function getUsuarios() {
     const resData = await http.get("/api/usuario");
-    setUserData(resData);
     setUsers(resData);
   }
 
   async function deleteUsuario(id){
     await http.delete("/api/usuario/"+id);
-    toast.success("Usuario deletado com sucesso.")
+    getUsuarios();
+    toast.success("Status do Usuário alterado com sucesso.")
   }
 
 
   return (
     <div>
-      <main className={styles.main}>
-        <div className='col-12 text-end mb-3'>
-          <button onClick={() => router.push("/cadastro_usuario/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
-            Cadastrar Usuário
-          </button>
-        </div>
+    <main className={styles.main}>
+      <div className='col-12 text-end mb-3'>
+        <button onClick={() => router.push("/cadastro_usuario/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
+          Cadastrar Usuário
+        </button>
+      </div>
 
-        <Table title={'Lista de Usuários'} dataInit={users}
-          columns={ [
-            {
-              name: '#',
-              field: 'index'
-            },
-            {
-              name: 'Nome',
-              field: 'nome'
-            },
-            {
-              name: 'E-mail',
-              field: 'email'
-            },
-            {
-              name: 'Tipo Usuário',
-              field: 'nome_acesso'
-            },
-            {
-              name: 'Status',
-              field: 'status'
-            },
-            {
-              name: 'Ações',
-              actions: [
-                {
-                  handler: (arrReplaced = []) => router.push(`/formulario_usuario/${arrReplaced[0]}`),
-                  fieldParams: ['id'],
-                  name: 'Editar',
-                  icon: <EditIcon />
-                },
-                {
-                  handler: (arrReplaced = []) => deleteUsuario(arrReplaced[0]),
-                  fieldParams: ['id'],
-                  name: 'Deletar',
-                  icon: <DeleteIcon />
-                },
-                {
-                  handler: (arrReplaced = []) => router.push(`/informacoes_usuario/${arrReplaced[0]}`),
-                  fieldParams: ['id'],
-                  name: 'Informações do Usuário',
-                  icon: <FaUser />
-                },
-              ]
-            }
-          ] }
-        />
-      </main>
-    </div>
+      <Table title={'Lista de Usuários'} dataInit={users}
+        columns={ [
+          {
+            name: '#',
+            field: 'index'
+          },
+          {
+            name: 'Nome',
+            field: 'nome'
+          },
+          {
+            name: 'E-mail',
+            field: 'email'
+          },
+          {
+            name: 'Tipo Usuário',
+            field: 'tipo_usuario'
+          },
+          {
+            name: 'Status',
+            field: 'status'
+          },
+          {
+            name: 'Ações',
+            actions: [
+              {
+                handler: (arrReplaced = []) => router.push(`/editar_usuario/${arrReplaced[0]}`),
+                fieldParams: ['id'],
+                name: 'Editar',
+                icon: <EditIcon />
+              },
+              {
+                handler: (arrReplaced = []) => deleteUsuario(arrReplaced[0]),
+                fieldParams: ['id'],
+                name: 'Alterar status',
+                icon: <GrUpdate />
+              },
+              {
+                handler: (arrReplaced = []) => router.push(`/informacoes_usuario/${arrReplaced[0]}`),
+                fieldParams: ['id'],
+                name: 'Informações',
+                icon: <FaUser />
+              },
+            ]
+          }
+        ] }
+      />
+    </main>
+  </div>
   );
 }
