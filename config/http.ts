@@ -2,18 +2,21 @@ import axios from "axios"
 import { toast } from "react-toastify";
 
 const http = {
-    get: async (uri='', config = { headers: { authorization: '' } }, instancia = 0) => {
+    get: async (uri = '', config = { headers: { authorization: '' } }, instancia = 0) => {
+        const loading = toast.loading("Carregando...");
         const authorization = getAuthorizarion();
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
                 const res = await axios.get(uri, config);
+                toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
                 if (e.response.status == 401) {
                     await refreshAuthorization();
                     return http.get(uri, config, instancia + 1);
                 } else {
+                    toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
                     throw new Error(JSON.parse(e.request.response));
                 }
@@ -21,19 +24,21 @@ const http = {
         }
     },
 
-    post: async (uri='', data, config = { headers: { authorization: '' } }, instancia = 0) => {
+    post: async (uri = '', data, config = { headers: { authorization: '' } }, instancia = 0) => {
+        const loading = toast.loading("Carregando...");
         const authorization = await getAuthorizarion();
-
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
                 const res = await axios.post(uri, data, config);
+                toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
                 if (e.response.status == 401) {
                     await refreshAuthorization();
                     return http.post(uri, data, config, instancia + 1);
                 } else {
+                    toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
                     throw new Error(JSON.parse(e.request.response))
                 }
@@ -41,18 +46,21 @@ const http = {
         }
     },
 
-    put: async (uri='', data, config = { headers: { authorization: '' } }, instancia = 0) => {
+    put: async (uri = '', data, config = { headers: { authorization: '' } }, instancia = 0) => {
+        const loading = toast.loading("Carregando...");
         const authorization = getAuthorizarion();
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
                 const res = await axios.put(uri, data, config);
+                toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
                 if (e.response.status == 401) {
                     await refreshAuthorization();
                     return http.put(uri, data, config, instancia + 1);
                 } else {
+                    toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
                     throw new Error(JSON.parse(e.request.response));
                 }
@@ -60,18 +68,21 @@ const http = {
         }
     },
 
-    delete: async (uri='', config = { headers: { authorization: '' } }, instancia = 0) => {
+    delete: async (uri = '', config = { headers: { authorization: '' } }, instancia = 0) => {
+        const loading = toast.loading("Carregando...");
         const authorization = getAuthorizarion();
         if (authorization && instancia < 2) {
             config.headers.authorization = authorization;
             try {
                 const res = await axios.delete(uri, config);
+                toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
                 if (e.response.status == 401) {
                     await refreshAuthorization();
                     return http.delete(uri, config, instancia + 1);
                 } else {
+                    toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
                     throw new Error(JSON.parse(e.request.response));
                 }
@@ -96,13 +107,13 @@ async function refreshAuthorization() {
     }
 }
 
-function getAuthorizarion(){
+function getAuthorizarion() {
     let authorizationLocalStorage = localStorage.getItem('authorization');
-    if(authorizationLocalStorage){
+    if (authorizationLocalStorage) {
         authorizationLocalStorage = JSON.parse(authorizationLocalStorage)
-        if(authorizationLocalStorage){
+        if (authorizationLocalStorage) {
             return JSON.parse(localStorage.getItem('authorization'));
         }
-    }   
+    }
     return process.env.API_KEY;
 }
