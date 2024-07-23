@@ -12,7 +12,7 @@ interface User {
   id: number;
   nome: string;
   email: string;
-  tipo_usuario: string;
+  nome_acesso: string;
   status:string;
 }
 
@@ -63,7 +63,7 @@ export default function ListaUsuarios() {
           },
           {
             name: 'Tipo Usuário',
-            field: 'tipo_usuario'
+            field: 'nome_acesso'
           },
           {
             name: 'Status',
