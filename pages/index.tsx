@@ -104,7 +104,6 @@ export default function Home() {
                 <br /><br />Com uma vasta experiência em diversas áreas do direito, desde trabalhista até civil, estamos preparados para oferecer soluções jurídicas sob medida para as suas necessidades específicas. Não importa quão complexo seja o desafio, estamos aqui para simplificar o processo e alcançar resultados que superem suas expectativas.
                 <br /><br />Não adie mais. Venha nos visitar e descubra como podemos fazer a diferença em seu caso legal. Rawlinson Rolim Advogados Associados: onde expertise encontra compromisso.
                 <br /><br/>Localização: Rua Dr. Bueno, N°148 - 303, Centro - Macaé</p>
-              <Image src="/images/bglaw.jpg" width={300} height={200} alt="Foto da História" />
             </div>
           </div>
         </div>
