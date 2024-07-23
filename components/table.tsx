@@ -5,7 +5,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
   const [data, setData] = useState(dataInit);
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(0);
-  const pageSize = 10;
+  const pageSize = 8;
   const pages = dataInit.length / pageSize;
 
   const applyFilters = () => {

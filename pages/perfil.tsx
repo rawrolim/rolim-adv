@@ -131,8 +131,8 @@ export default function Perfil() {
               </button>
             </div>
           </div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }

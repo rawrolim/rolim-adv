@@ -56,7 +56,7 @@ INSERT INTO `usuarios` VALUES
 (20,'Raissa Rolim',1,'8718e0d8cd6727b89119c14ea781329e','raissa.rolim','S','I','raissa.rolim@rawlinsonrolimadv.com','','',''),
 (21,'Lucas Hosken Balzana Ramos',1,'dd95b1ca8dca61e3ab7ca3f18bbdef78','Lucas.Hosken','S','I','lucas.hosken@rawlinsonrolimadv.com','','',''),
 (22,'Leticia Barreto Antunes dos Santos Lima',1,'e10adc3949ba59abbe56e057f20f883e','Leticia.Barreto','S','I','leticia.barreto@rawlinsonrolimadv.com','','',''),
-(23,'admin', 4, '21232f297a57a5a743894a0e4a801fc3', 'admin','N','A','admin@admin','Admin','/public/images/back.jpg','');
+(23,'admin', 4, '21232f297a57a5a743894a0e4a801fc3', 'admin','N','A','admin@admin','Admin','','');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
