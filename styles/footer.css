@@ -42,9 +42,13 @@
     color: rgb(179, 170, 170);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .footer {
     display: flex;
     flex-direction: column; 
   }
+  .footer .footer_historia {
+    width: 100%;
+    text-align: justify;
+}
 }
