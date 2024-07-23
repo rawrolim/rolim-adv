@@ -7,9 +7,9 @@ function generateRandomPassword() {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    try{
-        if(req.method == 'GET'){
-           let sql = `
+    try {
+        if (req.method == 'GET') {
+            let sql = `
                 SELECT 
                     u.id,
                     u.nome,
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 ORDER BY u.nome ASC`;
             const rs_usuarios = await query(sql);
             res.status(200).json(rs_usuarios);
-        }else if(req.method == 'POST'){
+        } else if (req.method == 'POST') {
             const body = req.body;
 
             if (body.nome === '')
@@ -44,39 +44,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const rs_email = await query(sql);
             if (rs_email.length > 0)
                 throw new Error("E-mail já cadastrado no sistema.");
-            const senhaGerada = generateRandomPassword(); 
+            const senhaGerada = generateRandomPassword();
 
-            const SendEmail = await http.post("/api/email", {
-                toAddresses: body.email,
-                subject: "Confirmação de Senha",
-                bodyHtml: `Olá ${body.nome} agora você faz parte da empresa Rawlinson Rolim Advogacia, seu Usúario é ${body.usuario} e sua senha é ${senhaGerada} troque assim que possível.
-                `
-              });
+            sql = `INSERT INTO usuarios (
+                    nome,
+                    tipo_usuario,
+                    senha,
+                    usuario,
+                    status,
+                    primeiro_acesso,
+                    email,
+                    senha_email
+                ) VALUES (?, ?, ?, ?, 'A', 'S', ?, ?)`;
+            await query(sql, [
+                body.nome,
+                body.tipo_usuario,
+                senhaGerada,
+                body.usuario,
+                body.email,
+                body.senha_email
+            ]);
+            res.status(200).json({senhaGerada});
 
-sql = `INSERT INTO usuarios (
-    nome,
-    tipo_usuario,
-    senha,
-    usuario,
-    status,
-    primeiro_acesso,
-    email,
-    senha_email
-) VALUES (?, ?, ?, ?, 'A', 'S', ?, ?)`;
-await query(sql, [
-    body.nome,
-    body.tipo_usuario,
-    senhaGerada,
-    body.usuario,
-    body.email,
-    body.senha_email
-]);
-            res.status(200).json("Usuário CRIADO COM SUCESSO");
-            
-        }else{
+        } else {
             throw new Error("Method not allowed")
         }
-    }catch(erro){
+    } catch (erro) {
         res.status(400).json(erro.toString())
     }
 }

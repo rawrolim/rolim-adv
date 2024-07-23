@@ -42,8 +42,8 @@ export default function ListaUsuarios() {
     <div>
     <main className={styles.main}>
       <div className='col-12 text-end mb-3'>
-        <button onClick={() => router.push("/cadastro_usuario/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
-          Cadastrar Usuário
+        <button onClick={() => router.push("/cadastro_usuario/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+          Cadastrar usuário
         </button>
       </div>
 

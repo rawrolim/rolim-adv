@@ -8,13 +8,13 @@ import http from '../../config/http';
 export default function CadastroUsuario() {
   const router = useRouter();
 
-  useEffect(()=>{
-    if(router.query.id != 'novo')
-      if(Number(router.query.id))
+  useEffect(() => {
+    if (router.query.id != 'novo')
+      if (Number(router.query.id))
         getClient()
-  },[]);
+  }, []);
 
-  async function getClient(){
+  async function getClient() {
     const resData = await http.get(`/api/usuario/${router.query.id}`);
     setFormData(resData);
   }
@@ -27,14 +27,14 @@ export default function CadastroUsuario() {
     senha_email: '',
     tipo_usuario: 0,
     foto_perfil: 'selecione a foto'
-});
+  });
 
   const [focused, setFocused] = useState<{ [key: string]: boolean }>({});
   const [showPassword, setShowPassword] = useState(false);
-  const [showEmailPassword, setShowEmailPassword] = useState(false); 
+  const [showEmailPassword, setShowEmailPassword] = useState(false);
 
   const placeholders: { [key: string]: string } = {
-    nome:'Digite o nome',
+    nome: 'Digite o nome',
     usuario: 'Digite o nome de usuário',
     email: 'Digite o email',
     senha_email: 'Digite a senha do email',
@@ -43,7 +43,7 @@ export default function CadastroUsuario() {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: id === 'tipo_usuario' ? parseInt(value) : value });
-};
+  };
 
   const handleFocus = (id: string) => {
     setFocused({ ...focused, [id]: true });
@@ -54,11 +54,26 @@ export default function CadastroUsuario() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    try{
+    try {
       e.preventDefault()
       const res = await http.post('/api/usuario/', formData);
+      await http.post("/api/email", {
+        toAddresses: formData.email,
+        subject: "Confirmação de Senha",
+        bodyHtml: `
+        <label style='color: #999;'>Não responda a esse e-mail</label>
+        <br>
+        Olá ${formData.nome} agora você faz parte da empresa Rawlinson Rolim Advogacia.
+        <br><br>
+        Usuário: <strong>${formData.usuario}</strong>
+        <br>
+        Senha: <strong>${res.senhaGerada}</strong>
+        <br>
+        Para entrar no site <a href='https://rawlinsonrolimadv.com' target="_blank">clique aqui</a>.
+        `
+      });
       router.push("/lista_usuarios")
-    }catch(err){
+    } catch (err) {
       console.error(err)
     }
   };
@@ -118,20 +133,20 @@ export default function CadastroUsuario() {
                 </div>
               ) : key === 'tipo_usuario' ? (
                 <div className="position-relative">
-        <select
-    id="tipo_usuario"
-    className="form-control border-0"
-    value={formData.tipo_usuario}
-    onChange={handleChange}
-    required
->
-    <option value={0}>Selecione o tipo</option>
-    <option value={1}>Advogado</option>
-    <option value={2}>Estagiário</option>
-    <option value={3}>Sócio</option>
-    <option value={4}>Desenvolvedor</option>
-    <option value={5}>Recepcionista</option>
-</select>
+                  <select
+                    id="tipo_usuario"
+                    className="form-control border-0"
+                    value={formData.tipo_usuario}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value={0}>Selecione o tipo</option>
+                    <option value={1}>Advogado</option>
+                    <option value={2}>Estagiário</option>
+                    <option value={3}>Sócio</option>
+                    <option value={4}>Desenvolvedor</option>
+                    <option value={5}>Recepcionista</option>
+                  </select>
                   <label
                     htmlFor={key}
                     className="position-absolute top-0 left-1 text-primary"
@@ -172,14 +187,14 @@ export default function CadastroUsuario() {
                     fontSize: key === 'id' || focused[key] || (value && value.toString().length > 0) ? '12px' : 'inherit'
                   }}
                 >
-                  {key.replace(/_/g, ' ').toUpperCase()} {['senha', 'usuario', 'email','senha_email','nome'].includes(key) && '*'}
+                  {key.replace(/_/g, ' ').toUpperCase()} {['senha', 'usuario', 'email', 'senha_email', 'nome'].includes(key) && '*'}
                 </label>
               )}
             </div>
           ))}
-<div className="col-6 mx-auto text-center w-100">
-  <button  type="submit" className="btn btn-primary w-50">Cadastrar</button>
-</div>
+          <div className="col-6 mx-auto text-center w-100">
+            <button type="submit" className="btn btn-primary w-50">Cadastrar</button>
+          </div>
 
         </form>
       </div>
