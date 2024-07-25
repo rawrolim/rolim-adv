@@ -6,6 +6,7 @@ import styles from '../styles/index.module.css';
 import { useRouter } from 'next/router';
 import http from '../config/http';
 import { toast } from 'react-toastify';
+import { Bounce, Fade, Slide } from 'react-awesome-reveal';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,13 +84,15 @@ export default function Home() {
         <div id='inicio' style={{ backgroundImage: `url('/images/back.jpg')`, backgroundRepeat: 'no-repeat', width: '100%', height: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
           <div className={styles.responsiveImageContainer}>
-            <Image
-              src="/images/logo Rolim Advocacia 2.png"
-              alt="Logo"
-              layout="responsive"
-              width={500}
-              height={400}
-            />
+            <Fade>
+              <Image
+                src="/images/logo Rolim Advocacia 2.png"
+                alt="Logo"
+                layout="responsive"
+                width={500}
+                height={400}
+              />
+            </Fade>
           </div>
         </div>
 
@@ -98,123 +101,132 @@ export default function Home() {
           <h1>História</h1>
           <div className='px-5'>
             <div className={styles.historia}>
-              <p>Você busca por uma advocacia que entenda não só as leis, mas também a importância da proximidade e do comprometimento com seus clientes? Bem-vindo ao escritório de advocacia Rawlinson Rolim Advogados Associados, seu parceiro legal estratégico situado no coração do centro jurídico de Macaé!
-                <br /><br />Localizada estrategicamente na Rua Dr. Bueno, nossa sede está a apenas 2 Km do Fórum Trabalhista e a 4 Km do Fórum da Comarca de Macaé. Essa proximidade não é apenas geográfica; é a nossa promessa de estar ao seu lado em cada passo do processo legal.
-                <br /><br />Imagine uma equipe dedicada, apaixonada pela justiça e pronta para lutar pelos seus direitos. Aqui, no Rawlinson Rolim Advogados Associados, isso não é apenas uma visão - é a nossa realidade diária.
-                <br /><br />Com uma vasta experiência em diversas áreas do direito, desde trabalhista até civil, estamos preparados para oferecer soluções jurídicas sob medida para as suas necessidades específicas. Não importa quão complexo seja o desafio, estamos aqui para simplificar o processo e alcançar resultados que superem suas expectativas.
-                <br /><br />Não adie mais. Venha nos visitar e descubra como podemos fazer a diferença em seu caso legal. Rawlinson Rolim Advogados Associados: onde expertise encontra compromisso.
-                <br /><br/>Localização: Rua Dr. Bueno, N°148 - 303, Centro - Macaé</p>
+              <Fade >
+                <p>
+                  Você busca por uma advocacia que entenda não só as leis, mas também a importância da proximidade e do comprometimento com seus clientes? Bem-vindo ao escritório de advocacia Rawlinson Rolim Advogados Associados, seu parceiro legal estratégico situado no coração do centro jurídico de Macaé!
+                  <br /><br />Localizada estrategicamente na Rua Dr. Bueno, nossa sede está a apenas 2 Km do Fórum Trabalhista e a 4 Km do Fórum da Comarca de Macaé. Essa proximidade não é apenas geográfica; é a nossa promessa de estar ao seu lado em cada passo do processo legal.
+                  <br /><br />Imagine uma equipe dedicada, apaixonada pela justiça e pronta para lutar pelos seus direitos. Aqui, no Rawlinson Rolim Advogados Associados, isso não é apenas uma visão - é a nossa realidade diária.
+                  <br /><br />Com uma vasta experiência em diversas áreas do direito, desde trabalhista até civil, estamos preparados para oferecer soluções jurídicas sob medida para as suas necessidades específicas. Não importa quão complexo seja o desafio, estamos aqui para simplificar o processo e alcançar resultados que superem suas expectativas.
+                  <br /><br />Não adie mais. Venha nos visitar e descubra como podemos fazer a diferença em seu caso legal. Rawlinson Rolim Advogados Associados: onde expertise encontra compromisso.
+                  <br /><br />Localização: Rua Dr. Bueno, N°148 - 303, Centro - Macaé
+                </p>
+              </Fade>
             </div>
           </div>
         </div>
 
         {/* ADVOGADOS */}
         <div id='adv' className={styles.Div_Principal}>
-      <h1>Advogados</h1>
+          <h1>Advogados</h1>
 
-      <div className='px-5'>
-        <div className={styles.advogado} style={{ marginTop: '4rem' }}>
-          <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado1Modal">
-            <Image src="/images/example.png" width={200} height={200} alt="Foto do Advogado" />
-          </button>
-          <div className="informacoes">
-            <h2>Rawlinson Wagner Moraes Rolim</h2>
-            <p>OAB/RJ 199.654</p>
-            <p>Advogado orientado ao cliente, com histórico de liderança de equipes de alto desempenho voltadas a atingir ou superar metas. Dedicado e esforçado, com determinação em entregar excelência. Agregador de times tático, com experiência em treinamento e desenvolvimento de equipes.</p>
-            <h3>Experiência Profissional</h3>
-            <ul>
-              <li>Elaboração de renúncias a exercício de direito, recursos e petições precisos e minuciosos em nome dos clientes.</li>
-              <li>Desenvolvimento de estratégias litigiosas detalhadas para cada caso.</li>
-              <li>Explanação sobre o processo jurídico a cada cliente, respondendo a perguntas para reduzir preocupações.</li>
-            </ul>
+          <div className='px-5'>
+            <Slide>
+              <div className={styles.advogado} style={{ marginTop: '4rem' }}>
+                <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado1Modal">
+                  <Image src="/images/example.png" width={200} height={200} alt="Foto do Advogado" />
+                </button>
+                <div className="informacoes">
+                  <h2>Rawlinson Wagner Moraes Rolim</h2>
+                  <p>OAB/RJ 199.654</p>
+                  <p>Advogado orientado ao cliente, com histórico de liderança de equipes de alto desempenho voltadas a atingir ou superar metas. Dedicado e esforçado, com determinação em entregar excelência. Agregador de times tático, com experiência em treinamento e desenvolvimento de equipes.</p>
+                  <h3>Experiência Profissional</h3>
+                  <ul>
+                    <li>Elaboração de renúncias a exercício de direito, recursos e petições precisos e minuciosos em nome dos clientes.</li>
+                    <li>Desenvolvimento de estratégias litigiosas detalhadas para cada caso.</li>
+                    <li>Explanação sobre o processo jurídico a cada cliente, respondendo a perguntas para reduzir preocupações.</li>
+                  </ul>
+                </div>
+              </div>
+            </Slide>
+
+            <Slide>
+              <div className={styles.advogado}>
+                <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado2Modal">
+                  <Image src="/images/raissaadv.jpg" width={200} height={200} alt="Foto do Advogado" />
+                </button>
+                <div className="informacoes">
+                  <h2>Raissa dos Santos Bastos Rolim</h2>
+                  <p>OAB/RJ 259.009 OAB/SP 435.555</p>
+                  <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional, Raissa é uma advogada especializada em diversas áreas do Direito, destacando-se principalmente em Direito Tributário, Direito Imobiliário, Direito Internacional e Direito Administrativo.
+                    Além de sua graduação em Direito pela Universidade Mackenzie-SP, obteve o título de Mestre em Direito Empresarial pela Universidade da Geórgia, nos Estados Unidos, enriquecendo ainda mais sua bagagem acadêmica e prática.</p>
+                  <h3>Experiência Profissional</h3>
+                  <ul>
+                    <li>Possui um histórico impressionante de assessoria a clientes. Sua expertise inclui defesas administrativas e a condução de investigações internas, áreas em que ela demonstra habilidade ímpar na defesa dos interesses de seus clientes.</li>
+                    <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa na assessoria de rotinas trabalhistas e na defesa de demandas empresariais. Ela atua tanto no contencioso trabalhista judicial quanto administrativo, lidando com casos estratégicos e de alta complexidade com dedicação e eficiência.</li>
+                  </ul>
+                </div>
+              </div>
+            </Slide>
+
+            <Slide>
+              <div className={styles.advogado}>
+                <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado3Modal">
+                  <Image src="/images/virginio.jpeg" width={200} height={200} alt="Foto do Advogado" />
+                </button>
+                <div className="informacoes">
+                  <h2>Leonardo rosa virginio</h2>
+                  <p>OAB/RJ 259.009</p>
+                  <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional...</p>
+                  <h3>Experiência Profissional</h3>
+                  <ul>
+                    <li>Possui um histórico impressionante de assessoria a clientes...</li>
+                    <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa...</li>
+                  </ul>
+                </div>
+              </div>
+            </Slide>
+
           </div>
         </div>
 
-        <div className={styles.advogado}>
-          <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado2Modal">
-            <Image src="/images/raissaadv.jpg" width={200} height={200} alt="Foto do Advogado" />
-          </button>
-          <div className="informacoes">
-            <h2>Raissa dos Santos Bastos Rolim</h2>
-            <p>OAB/RJ 259.009 OAB/SP 435.555</p>
-            <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional, Raissa é uma advogada especializada em diversas áreas do Direito, destacando-se principalmente em Direito Tributário, Direito Imobiliário, Direito Internacional e Direito Administrativo.
-            Além de sua graduação em Direito pela Universidade Mackenzie-SP, obteve o título de Mestre em Direito Empresarial pela Universidade da Geórgia, nos Estados Unidos, enriquecendo ainda mais sua bagagem acadêmica e prática.</p>
-            <h3>Experiência Profissional</h3>
-            <ul>
-              <li>Possui um histórico impressionante de assessoria a clientes. Sua expertise inclui defesas administrativas e a condução de investigações internas, áreas em que ela demonstra habilidade ímpar na defesa dos interesses de seus clientes.</li>
-              <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa na assessoria de rotinas trabalhistas e na defesa de demandas empresariais. Ela atua tanto no contencioso trabalhista judicial quanto administrativo, lidando com casos estratégicos e de alta complexidade com dedicação e eficiência.</li>
-            </ul>
+        {/* Modais para cada advogado */}
+        <div className="modal fade" id="advogado1Modal" aria-labelledby="advogado1ModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered"> {/* modal-lg para um modal grande */}
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="advogado1ModalLabel">Rawlinson Wagner Moraes Rolim</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="text-center">
+                  <Image src="/images/example.png" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className={styles.advogado}>
-          <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#advogado3Modal">
-            <Image src="/images/virginio.jpeg" width={200} height={200} alt="Foto do Advogado" />
-          </button>
-          <div className="informacoes">
-            <h2>Leonardo rosa virginio</h2>
-            <p>OAB/RJ 259.009</p>
-            <p>Profissional dedicada e experiente, com uma sólida formação acadêmica e ampla trajetória profissional...</p>
-            <h3>Experiência Profissional</h3>
-            <ul>
-              <li>Possui um histórico impressionante de assessoria a clientes...</li>
-              <li>No âmbito do Direito do Trabalho, é reconhecida por sua participação ativa...</li>
-            </ul>
+        <div className="modal fade" id="advogado2Modal" aria-labelledby="advogado2ModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered ">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="advogado2ModalLabel">Raissa dos Santos Bastos Rolim</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="text-center">
+                  <Image src="/images/raissaadv.jpg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-
-      </div>
-    </div>
-
-{/* Modais para cada advogado */}
-<div className="modal fade" id="advogado1Modal"  aria-labelledby="advogado1ModalLabel" aria-hidden="true">
-  <div className="modal-dialog modal-dialog-centered"> {/* modal-lg para um modal grande */}
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="advogado1ModalLabel">Rawlinson Wagner Moraes Rolim</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <div className="text-center">
-          <Image src="/images/example.png" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
+        <div className="modal fade" id="advogado3Modal" aria-labelledby="advogado3ModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered ">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="advogado3ModalLabel">Leonardo rosa virginio</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="text-center">
+                  <Image src="/images/virginio.jpeg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div className="modal fade" id="advogado2Modal"  aria-labelledby="advogado2ModalLabel" aria-hidden="true">
-  <div className="modal-dialog modal-dialog-centered ">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="advogado2ModalLabel">Raissa dos Santos Bastos Rolim</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <div className="text-center">
-          <Image src="/images/raissaadv.jpg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div className="modal fade" id="advogado3Modal"  aria-labelledby="advogado3ModalLabel" aria-hidden="true">
-  <div className="modal-dialog modal-dialog-centered ">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="advogado3ModalLabel">Leonardo rosa virginio</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <div className="text-center">
-          <Image src="/images/virginio.jpeg" width={400} height={400} alt="Foto do Advogado" className="img-fluid rounded" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
         {/* COMO CHEGAR */}
         <div id='local' className={styles.Div_Principal}>
@@ -267,35 +279,35 @@ export default function Home() {
         </div>
       </main>
       <div>
-         {/* FOOTER DA PAGINA */}
-         <footer className='footer'>
-        <div className='footer_historia'>
-          <img src="/images/logo Rolim Advocacia 2.png" width={140} height={70} alt="Logo" />
-          <p>Se você busca por um parceiro jurídico confiável e dedicado, não hesite em nos contatar. Rawlinson Rolim Advogados Associados está pronto para oferecer a assistência jurídica que você merece.</p>
-        </div>
-
-        <div className='footer_social_media'>
-          <h1>Contatos</h1>
-          <a href="https://www.instagram.com/rawlinsonrolimadvogado/" className="footerlink" target="_blank" rel="noopener noreferrer"><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@rawlinsonrolimadvogado</a>
-          <br /><br />
-          <a href="https://wa.me/+5522999653649" className="footerlink" target="_blank" rel="noopener noreferrer">
-            <img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />
-            (22) 99965-3649
-          </a><br />
-          <a href="https://wa.me/+552221426826" className="footerlink" target="_blank" rel="noopener noreferrer">(22) 2142-6826 </a>/<a href="https://wa.me/+5522997613980" className="footerlink" target="_blank" rel="noopener noreferrer">(22) 99761-3980</a>
-        </div>
-
-        {router.pathname == "/" &&
-          <div className='footer_links'>
-            <h1>Links</h1>
-            <a href="#inicio" className='nav-link'>Inicio</a>
-            <a href="#historia" className='nav-link'>História</a>
-            <a href="#adv" className='nav-link'>Advogados</a>
-            <a href="#local" className='nav-link'>Localização</a>
-            <a href="#contato" className='nav-link'>Contato</a>
+        {/* FOOTER DA PAGINA */}
+        <footer className='footer'>
+          <div className='footer_historia'>
+            <img src="/images/logo Rolim Advocacia 2.png" width={140} height={70} alt="Logo" />
+            <p>Se você busca por um parceiro jurídico confiável e dedicado, não hesite em nos contatar. Rawlinson Rolim Advogados Associados está pronto para oferecer a assistência jurídica que você merece.</p>
           </div>
-        }
-      </footer>
+
+          <div className='footer_social_media'>
+            <h1>Contatos</h1>
+            <a href="https://www.instagram.com/rawlinsonrolimadvogado/" className="footerlink" target="_blank" rel="noopener noreferrer"><img src="/images/instagram_icon.png" width={45} height={45} alt="Instagram_icon" />@rawlinsonrolimadvogado</a>
+            <br /><br />
+            <a href="https://wa.me/+5522999653649" className="footerlink" target="_blank" rel="noopener noreferrer">
+              <img src="/images/whatsapp_icon.png" width={40} height={40} alt="Whatsapp_icon" />
+              (22) 99965-3649
+            </a><br />
+            <a href="https://wa.me/+552221426826" className="footerlink" target="_blank" rel="noopener noreferrer">(22) 2142-6826 </a>/<a href="https://wa.me/+5522997613980" className="footerlink" target="_blank" rel="noopener noreferrer">(22) 99761-3980</a>
+          </div>
+
+          {router.pathname == "/" &&
+            <div className='footer_links'>
+              <h1>Links</h1>
+              <a href="#inicio" className='nav-link'>Inicio</a>
+              <a href="#historia" className='nav-link'>História</a>
+              <a href="#adv" className='nav-link'>Advogados</a>
+              <a href="#local" className='nav-link'>Localização</a>
+              <a href="#contato" className='nav-link'>Contato</a>
+            </div>
+          }
+        </footer>
       </div>
     </div>
   );
