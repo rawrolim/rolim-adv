@@ -4,19 +4,16 @@ import { query } from "../../../config/databaseConnection";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method == 'GET') {
-            if (!req.query.cliente_id)
+            if (!req.query.usuario_id)
                 throw new Error("Necessário informar o id do usuário.")
             let sql = `
                  SELECT 
                     id,
-                    UPPER(nome) AS nome,
-                    tipo_usuario,
-                    senha,
+                    nome,
                     email,
+                    senha_email,
                     usuario,
-                    primeiro_acesso,
-                    status,
-                    senha_email
+                    tipo_usuario
                 FROM usuarios
             WHERE id = ?`
             const rs_usuario = await query(sql, [req.query.usuario_id]);
@@ -29,37 +26,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json(usuario);
         } else if (req.method == 'PUT') {
             const body = req.body;
-
+        
             if (body.nome == '')
                 throw new Error("Necessário informar o nome")
             if (body.email == '')
                 throw new Error("Necessário informar o e-mail")
-            if (body.cpf == '')
-                throw new Error("Necessário informar o CPF")
-            if (body.rg == '')
-                throw new Error("Necessário informar o RG")
-            if (body.orgao == '')
-                throw new Error("Necessário informar o ORGÃO")
             if (body.id == '') {
                 throw new Error("Necessário informar o ID do usuário")
             } else {
                 if (!Number(body.id))
                     throw new Error("Necessário informar um ID válido para o usuário")
             }
-
+        
             let sql = `UPDATE usuarios SET
-                nome = ?,
-                email = ?,
-                senha = ?,
-                senha_email = ?,
-                primeiro_acesso = 'N',
-                tipo_usuario = ?,
-                usuario = ?,
-                status = ?,
-                foto_perfil = ?
-            WHERE id = ?
+                    nome = ?,
+                    email = ?,
+                    senha_email = ?,
+                    primeiro_acesso = 'N',
+                    tipo_usuario = ?,
+                    usuario = ?
+                WHERE id = ?
             `;
-            await query(sql,[body.nome,body.email,body.senha,body.senha_email,body.tipo_usuario,body.status,body.foto_perfil,body.id]);
+
+            await query(sql, [
+                body.nome,
+                body.email,
+                body.senha_email,
+                body.tipo_usuario,
+                body.usuario,
+                body.id
+            ]);
             res.status(200).json("USUÁRIO ATUALIZADO COM SUCESSO");
         } else if (req.method == 'DELETE') {
             let sql = '';

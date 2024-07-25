@@ -14,18 +14,19 @@ interface User {
     email: string;
     telefone: string;
     cpf: string;
-    número: string;
-    endereço: string;
-    endereço_complemento: string;
+    numero: string;
+    endereco: string;
+    endereco_complemento: string;
+    endereco_num: string;
     cep: string;
     rg: string;
-    orgão: string;
-    nome_mãe: string;
+    orgao: string;
+    nome_mae: string;
     nome_pai: string;
     estado_civil: string;
     sexo: string;
     data_nascimento: string;
-    profissão: string;
+    profissao: string;
     cnh: string;
     status: string;
 }
@@ -82,19 +83,20 @@ export default function InformacoesCliente() {
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>ID:</strong> {selectedClient.id}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome:</strong> {selectedClient.nome}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>CPF:</strong> {selectedClient.cpf}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Número:</strong> {selectedClient.número}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Email:</strong> {selectedClient.email}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Endereço:</strong> {selectedClient.endereço}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Complemento:</strong> {selectedClient.endereço_complemento}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Telefone:</strong> {selectedClient.numero}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>CEP:</strong> {selectedClient.cep}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Endereço:</strong> {selectedClient.endereco}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Número:</strong> {selectedClient.endereco_num}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Complemento:</strong> {selectedClient.endereco_complemento}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Email:</strong> {selectedClient.email}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>RG:</strong> {selectedClient.rg}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Órgão Emissor:</strong> {selectedClient.orgão}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome da Mãe:</strong> {selectedClient.nome_mãe}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Órgão Emissor:</strong> {selectedClient.orgao}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome da Mãe:</strong> {selectedClient.nome_mae}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome do Pai:</strong> {selectedClient.nome_pai}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Estado Civil:</strong> {selectedClient.estado_civil}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Sexo:</strong> {selectedClient.sexo}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Data de Nascimento:</strong> {selectedClient.data_nascimento}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Profissão:</strong> {selectedClient.profissão}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Profissão:</strong> {selectedClient.profissao}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>CNH:</strong> {selectedClient.cnh}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Status:</strong> {selectedClient.status}</div>
                     </div>

@@ -8,35 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             SELECT 
                 id,
                 UPPER(nome) nome,
-                cpf,
-                numero,
                 mail email,
-                endereco,
-                endereco_num,
-                endereco_complemento,
-                cep,
-                rg,
-                orgao,
-                nome_mae,
-                nome_pai,
-                CASE 
-                    WHEN estado_civil = '1' THEN 'Solteiro(a)'
-                    WHEN estado_civil = '2' THEN 'Casado(a)'
-                    WHEN estado_civil = '3' THEN 'Divorciado(a)'
-                    WHEN estado_civil = '4' THEN 'Viúvo(a)'
-                    WHEN estado_civil = '5' THEN 'Outros(a)'
-                    WHEN estado_civil = '6' THEN 'Separado(a) Judicialmente'
-                    WHEN estado_civil = '7' THEN 'União Estável'
-                    ELSE estado_civil
-                END estado_civil,
-                CASE 
-                    WHEN sexo='1' THEN 'Masculino'
-                    WHEN sexo='2' THEN 'Feminino'
-                    ELSE sexo
-                END sexo,
-                data_nascimento,
-                data_registro,
-                profissao,
+                numero,
                 CASE 
                     WHEN status = 'A' THEN 'Ativo'
                     WHEN status = 'I' THEN 'Inativo'
