@@ -73,7 +73,7 @@ export default function ListaUsuarios() {
             name: 'Ações',
             actions: [
               {
-                handler: (arrReplaced = []) => router.push(`/editar_usuario/${arrReplaced[0]}`),
+                handler: (arrReplaced = []) => router.push(`/cadastro_usuario/${arrReplaced[0]}`),
                 fieldParams: ['id'],
                 name: 'Editar',
                 icon: <EditIcon />
@@ -83,12 +83,6 @@ export default function ListaUsuarios() {
                 fieldParams: ['id'],
                 name: 'Alterar status',
                 icon: <GrUpdate />
-              },
-              {
-                handler: (arrReplaced = []) => router.push(`/informacoes_usuario/${arrReplaced[0]}`),
-                fieldParams: ['id'],
-                name: 'Informações',
-                icon: <FaUser />
               },
             ]
           }

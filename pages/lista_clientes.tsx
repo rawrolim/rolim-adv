@@ -71,7 +71,7 @@ export default function ListaCliente() {
             },
             {
               name: 'Telefone',
-              field: 'telefone'
+              field: 'numero'
             },
             {
               name: 'Status',

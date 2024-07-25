@@ -11,10 +11,10 @@ export default function CadastroUsuario() {
   useEffect(() => {
     if (router.query.id != 'novo')
       if (Number(router.query.id))
-        getClient()
+        getUsuario()
   }, []);
 
-  async function getClient() {
+  async function getUsuario() {
     const resData = await http.get(`/api/usuario/${router.query.id}`);
     setFormData(resData);
   }
@@ -54,30 +54,39 @@ export default function CadastroUsuario() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault()
-      const res = await http.post('/api/usuario/', formData);
-      await http.post("/api/email", {
-        toAddresses: formData.email,
-        subject: "Confirmação de Senha",
-        bodyHtml: `
-        <label style='color: #999;'>Não responda a esse e-mail</label>
-        <br>
-        Olá ${formData.nome} agora você faz parte da empresa Rawlinson Rolim Advogacia.
-        <br><br>
-        Usuário: <strong>${formData.usuario}</strong>
-        <br>
-        Senha: <strong>${res.senhaGerada}</strong>
-        <br>
-        Para entrar no site <a href='https://rawlinsonrolimadv.com' target="_blank">clique aqui</a>.
-        `
-      });
-      router.push("/lista_usuarios")
-    } catch (err) {
-      console.error(err)
-    }
-  };
+    e.preventDefault()
 
+    if (formData.id === 0) {
+      try {
+          const res = await http.post('/api/usuario/', formData);
+        await http.post("/api/email", {
+          toAddresses: formData.email,
+          subject: "Confirmação de Senha",
+          bodyHtml: `
+          <label style='color: #999;'>Não responda a esse e-mail</label>
+          <br>
+          Olá ${formData.nome} agora você faz parte da empresa Rawlinson Rolim Advogacia.
+          <br><br>
+          Usuário: <strong>${formData.usuario}</strong>
+          <br>
+          Senha: <strong>${res.senhaGerada}</strong>
+          <br>
+          Para entrar no site <a href='https://rawlinsonrolimadv.com' target="_blank">clique aqui</a>.
+          `
+        });
+        router.push("/lista_usuarios");
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      try {
+          await http.put(`/api/usuario/${formData.id}`, formData); 
+          router.push("/lista_usuarios");
+      } catch (err) {
+          console.error(err);
+      }
+  }
+};
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ minHeight: '75vh' }}>
       <div className="shadow p-4 rounded">
@@ -140,12 +149,12 @@ export default function CadastroUsuario() {
                     onChange={handleChange}
                     required
                   >
-                    <option value={0}>Selecione o tipo</option>
-                    <option value={1}>Advogado</option>
-                    <option value={2}>Estagiário</option>
-                    <option value={3}>Sócio</option>
-                    <option value={4}>Desenvolvedor</option>
-                    <option value={5}>Recepcionista</option>
+                    <option value="">Selecione o tipo</option>
+                    <option value="1">Advogado</option>
+                    <option value="2">Estagiário</option>
+                    <option value="3">Sócio</option>
+                    <option value="4">Desenvolvedor</option>
+                    <option value="5">Recepcionista</option>
                   </select>
                   <label
                     htmlFor={key}
@@ -170,7 +179,7 @@ export default function CadastroUsuario() {
                   placeholder={focused[key] ? placeholders[key] : ''}
                   onFocus={() => handleFocus(key)}
                   onBlur={() => handleBlur(key)}
-                  required={['tipo_usuario', 'usuario', 'email'].includes(key)}
+                  required={['usuario', 'email','nome','senha_email'].includes(key)}
                   className="form-control border-0 border-bottom"
                 />
               )}
@@ -193,7 +202,7 @@ export default function CadastroUsuario() {
             </div>
           ))}
           <div className="col-6 mx-auto text-center w-100">
-            <button type="submit" className="btn btn-primary w-50">Cadastrar</button>
+            <button type="submit" className="btn btn-primary w-50">{formData.id === 0 ? 'Cadastrar' : 'Atualizar Usuário'}</button>
           </div>
 
         </form>

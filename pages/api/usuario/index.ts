@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { query } from "../../../config/databaseConnection";
-import http from '../../../config/http';
 
 function generateRandomPassword() {
     return Math.random().toString(36).slice(2);
@@ -14,15 +13,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     u.id,
                     u.nome,
                     tu.nome nome_acesso,
-                    u.senha,
                     u.email,
-                    u.usuario,
-                    u.primeiro_acesso,
                     CASE
                         WHEN u.status = 'A' THEN 'ATIVO'
                         WHEN u.status = 'I' THEN 'INATIVO'
                     END status,
-                    u.senha_email
                 FROM usuarios u 
                 INNER JOIN tipo_usuario tu ON tu.id = u.tipo_usuario
                 ORDER BY u.nome ASC`;

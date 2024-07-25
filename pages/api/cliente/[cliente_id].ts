@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             let sql = `
             SELECT 
                 id,
-                UPPER(nome) nome,
+                nome,
                 cpf,
                 numero,
                 mail email,
@@ -21,29 +21,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 orgao,
                 nome_mae,
                 nome_pai,
-                CASE 
-                    WHEN estado_civil = '1' THEN 'Solteiro(a)'
-                    WHEN estado_civil = '2' THEN 'Casado(a)'
-                    WHEN estado_civil = '3' THEN 'Divorciado(a)'
-                    WHEN estado_civil = '4' THEN 'Viúvo(a)'
-                    WHEN estado_civil = '5' THEN 'Outros(a)'
-                    WHEN estado_civil = '6' THEN 'Separado(a) Judicialmente'
-                    WHEN estado_civil = '7' THEN 'União Estável'
-                    ELSE estado_civil
-                END estado_civil,
-                CASE 
-                    WHEN sexo='1' THEN 'Masculino'
-                    WHEN sexo='2' THEN 'Feminino'
-                    ELSE sexo
-                END sexo,
-                data_nascimento,
+                estado_civil,
+                sexo,
+                DATE_FORMAT(data_nascimento, '%Y-%m-%d') as data_nascimento,
                 data_registro,
                 profissao,
-                CASE 
-                    WHEN status = 'A' THEN 'Ativo'
-                    WHEN status = 'I' THEN 'Inativo'
-                    ELSE status
-                END status,
                 cnh
             FROM clientes
             WHERE id = ?`
@@ -79,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 nome = ?,
                 cpf = ?,
                 numero = ?,
-                mail email = ?,
+                mail = ?,
                 endereco = ?,
                 endereco_num = ?,
                 endereco_complemento = ?,
@@ -90,13 +72,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 nome_pai = ?,
                 estado_civil = ?,
                 sexo = ?,
-                data_nascimento = ?,
+                numero = ?,
                 profissao = ?,
-                status = ?,
-                cnh = ?
+                cnh = ?,
+                data_nascimento = ?
             WHERE id = ?
             `;
-            await query(sql,[body.nome,body.cpf,body.numero,body.email,body.endereco,body.endereco_num,body.endereco_complemento,body.cep,body.rg,body.orgao,body.nome_mae,body.nome_pai,body.estado_civil,body.sexo,body.data_nascimento,body.profissao,body.status,body.cnh,body.id]);
+            await query(sql,[body.nome,body.cpf,body.numero,body.email,body.endereco,body.endereco_num,body.endereco_complemento,body.cep,body.rg,body.orgao,body.nome_mae,body.nome_pai,body.estado_civil,body.sexo,body.numero,body.profissao,body.cnh,body.data_nascimento,body.id]);
             res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
         } else if (req.method == 'DELETE') {
             let sql = '';
