@@ -72,6 +72,7 @@ export default function FormularioCliente() {
         setEnderecoAutomatico(endereco);
         setFormData({
           ...formData,
+          cep:cep,
           endereco: `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`,
           endereco_complemento: complemento,
           endereco_num: '',
