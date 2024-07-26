@@ -23,7 +23,8 @@ const initialFormData = {
   sexo: 0,
   data_nascimento: '',
   profissao: '',
-  cnh: ''
+  cnh: '',
+  empresas: []
 };
 
 export default function FormularioCliente() {
@@ -97,6 +98,42 @@ export default function FormularioCliente() {
       console.error('Erro ao salvar cliente:', error);
     }
   };
+
+  const addCompany = () => {
+    setFormData(prevData => ({
+      ...prevData,
+      empresas: [...prevData.empresas, {
+        cnpj: '',
+        endereco: '',
+        razao_social: '',
+        inscricao_municipal: '',
+        inscricao_estadual: '',
+        nome_representante: '',
+        cpf_representante: '',
+        profissao_representante: '',
+        numero_representante: '',
+        email_empresa: '',
+        cep_empresa: '',
+        endereco_empresa: '',
+        endereco_numero_empresa: '',
+        endereco_complemento_empresa: ''
+      }]
+    }));
+  };
+
+  const handleCompanyChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedEmpresas = formData.empresas.map((empresa, i) =>
+      i === index ? { ...empresa, [name]: value } : empresa
+    );
+    setFormData({ ...formData, empresas: updatedEmpresas });
+  };
+
+  const removeCompany = (index) => {
+    const updatedEmpresas = formData.empresas.filter((_, i) => i !== index);
+    setFormData({ ...formData, empresas: updatedEmpresas });
+  };
+
 
   const renderInputField = (id, label, type = 'text', mask = null, placeholder = '', required = false, select = false) => {
     return (
@@ -221,17 +258,77 @@ export default function FormularioCliente() {
                   {renderInputField('sexo', 'Sexo', 'text', null, 'Selecione o sexo', true, true)}
                 </div>
                 <div className="col-md-4">
-                       {renderInputField('data_nascimento', 'Data de Nascimento', 'date', null, 'Digite a Data de Nascimento')}
+                  {renderInputField('data_nascimento', 'Data de Nascimento', 'date', null, 'Digite a Data de Nascimento')}
                 </div>
                 <div className="col-md-4">
                   {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
                 </div>
 
+                <div className="col-12">
+              <h3>Empresas</h3>
+              {formData.empresas.map((empresa, index) => (
+                <div key={index} className="border p-3 mb-3 row g-3" >
+                  <h4>Empresa {index + 1}</h4>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].cnpj`, 'CNPJ', 'text', '99.999.999/9999-99', 'Digite o CNPJ')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].razao_social`, 'Razão Social', 'text', null, 'Digite a Razão Social')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].inscricao_municipal`, 'Inscrição Municipal', 'text', null, 'Digite a Inscrição Municipal')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].inscricao_estadual`, 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].nome_representante`, 'Nome do Representante', 'text', null, 'Digite o Nome do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].cpf_representante`, 'CPF do Representante', 'text', '999.999.999-99', 'Digite o Cpf do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].profissao_representante`, 'Profissão do Representante', 'text', null, 'Digite a Profissão do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].numero_representante`, 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].email_empresa`, 'Email da Empresa', 'text', null, 'Digite o Email da empresa')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].cep_empresa`, 'CEP da Empresa', 'text', '99999-999', 'Digite o CEP da Empresa')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].endereco_empresa`, 'Endereço da Empresa', 'text', null, 'Digite o Endereço da Empresa')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].endereco_numero_empresa`, 'Número', 'number', null, 'Digite o Número de Endereço')}
+                  </div>
+                  <div className="col-md-4">
+                  {renderInputField(`empresas[${index}].endereco_complemento_empresa`, 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
+                  </div>
+                  <div className="col-md-12 d-flex align-items-center">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeCompany(index)}
+                  >
+                    Remover Empresa
+                  </button>
+                </div>
+                </div>
+              ))}
+              <button type="button" className="btn btn-primary" onClick={addCompany}>
+                Adicionar Empresa
+              </button>
+            </div>
+
             <div className="col-6 mx-auto text-center w-100">
               <button type="submit" className="btn btn-primary w-50">
                 {formData.id === 0 ? 'Criar Cliente' : 'Atualizar Cliente'}
               </button>
-            </div>
+            </div>        
           </form>
         </div>
       </main>
