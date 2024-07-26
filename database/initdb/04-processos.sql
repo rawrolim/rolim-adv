@@ -17,7 +17,7 @@ CREATE TABLE processos(
     parcelas INT NULL,
     entrada INT NULL,
     inicio_prestacao DATE NULL,
-    createdAt DATETIME NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_processo_clientes FOREIGN KEY (cliente_id) REFERENCES clientes(id),
     CONSTRAINT fp_processo_usuarios FOREIGN KEY (advogado) REFERENCES usuarios(id),
     PRIMARY KEY (`id`)

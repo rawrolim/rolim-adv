@@ -8,14 +8,25 @@ import { useEffect } from 'react';
 import HeaderComponent from '../components/header';
 import FooterComponent from '../components/FooterComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useRouter } from 'next/router';
+import http from '../config/http';
 
 function MyApp({ Component, pageProps }) {
   const [token, setToken] = useLocalStorage('authorization', '');
   const [userData, setUserData] = useLocalStorage('user_data', '');
-  
+  const router = useRouter();
+
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.min.js");
   }, []);
+
+  useEffect(() => {
+    verifyAccess();
+  },[router.pathname]);
+
+  async function verifyAccess(){
+    const res = await http.post('/api/access', {route: router.pathname});
+  }
 
   return (
     <>
