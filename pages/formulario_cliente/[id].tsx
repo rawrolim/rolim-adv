@@ -3,7 +3,6 @@ import InputMask from 'react-input-mask';
 import styles from '../../styles/formCliente.module.css';
 import { useRouter } from 'next/router';
 import http from '../../config/http';
-import { Toast } from 'react-toastify/dist/components';
 
 const initialFormData = {
   id: 0,
@@ -24,13 +23,27 @@ const initialFormData = {
   data_nascimento: '',
   profissao: '',
   cnh: '',
-  empresas: []
+  // Campos para Pessoa Jurídica
+  cnpj: '',
+  razao_social: '',
+  inscricao_municipal: '',
+  inscricao_estadual: '',
+  nome_representante: '',
+  cpf_representante: '',
+  profissao_representante: '',
+  numero_representante: '',
+  email_empresa: '',
+  cep_empresa: '',
+  endereco_empresa: '',
+  endereco_numero_empresa: '',
+  endereco_complemento_empresa: ''
 };
 
 export default function FormularioCliente() {
   const router = useRouter();
   const [formData, setFormData] = useState(initialFormData);
   const [enderecoAutomatico, setEnderecoAutomatico] = useState('');
+  const [tipoPessoa, setTipoPessoa] = useState('física');
 
   useEffect(() => {
     if (router.query.id !== 'novo' && Number(router.query.id)) {
@@ -42,6 +55,9 @@ export default function FormularioCliente() {
     try {
       const resData = await http.get(`/api/cliente/${router.query.id}`);
       setFormData(resData);
+      if (resData.tipo_pessoa) {
+        setTipoPessoa(resData.tipo_pessoa);
+      }
     } catch (error) {
       console.error('Erro ao obter cliente:', error);
     }
@@ -50,14 +66,14 @@ export default function FormularioCliente() {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
-      if (id === 'data_nascimento') {
-        const date = new Date(value);
-        const formattedDate = date.toISOString().substring(0, 10);
-        setFormData({ ...formData, [id]: formattedDate });
-      } else {
-        setFormData({ ...formData, [id]: value });
-        console.error('Data de nascimento inválida');
-      }
+    if (id === 'data_nascimento') {
+      const date = new Date(value);
+      const formattedDate = date.toISOString().substring(0, 10);
+      setFormData({ ...formData, [id]: formattedDate });
+    } else {
+      setFormData({ ...formData, [id]: value });
+      console.error('Data de nascimento inválida');
+    }
     if (id === 'cep' && value.length === 9) {
       getAddressFromCEP(value);
     }
@@ -73,7 +89,7 @@ export default function FormularioCliente() {
         setEnderecoAutomatico(endereco);
         setFormData({
           ...formData,
-          cep:cep,
+          cep: cep,
           endereco: `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`,
           endereco_complemento: complemento,
           endereco_num: '',
@@ -99,12 +115,12 @@ export default function FormularioCliente() {
     }
   };
 
-  const addCompany = () => {
-    setFormData(prevData => ({
-      ...prevData,
-      empresas: [...prevData.empresas, {
+  const handleTipoPessoaChange = (tipo) => {
+    setTipoPessoa(tipo);
+    if (tipo === 'física') {
+      setFormData({
+        ...formData,
         cnpj: '',
-        endereco: '',
         razao_social: '',
         inscricao_municipal: '',
         inscricao_estadual: '',
@@ -117,25 +133,11 @@ export default function FormularioCliente() {
         endereco_empresa: '',
         endereco_numero_empresa: '',
         endereco_complemento_empresa: ''
-      }]
-    }));
+      });
+    }
   };
 
-  const handleCompanyChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedEmpresas = formData.empresas.map((empresa, i) =>
-      i === index ? { ...empresa, [name]: value } : empresa
-    );
-    setFormData({ ...formData, empresas: updatedEmpresas });
-  };
-
-  const removeCompany = (index) => {
-    const updatedEmpresas = formData.empresas.filter((_, i) => i !== index);
-    setFormData({ ...formData, empresas: updatedEmpresas });
-  };
-
-
-  const renderInputField = (id, label, type = 'text', mask = null, placeholder = '', required = false, select = false) => {
+  const renderInputField = (id, label, type = 'text', mask = null, placeholder = '', required = false, select = false, disabled = false) => {
     return (
       <div className="mb-3">
         <label htmlFor={id} className="form-label">
@@ -149,6 +151,7 @@ export default function FormularioCliente() {
             value={formData[id]}
             onChange={handleChange}
             required={required}
+            disabled={disabled}
           >
             {id === 'sexo' ? (
               <>
@@ -180,6 +183,7 @@ export default function FormularioCliente() {
               onChange={handleChange}
               placeholder={placeholder}
               required={required}
+              disabled={disabled}
             />
           ) : (
             <input
@@ -190,6 +194,7 @@ export default function FormularioCliente() {
               onChange={handleChange}
               placeholder={placeholder}
               required={required}
+              disabled={disabled}
             />
           )
         )}
@@ -204,131 +209,144 @@ export default function FormularioCliente() {
     <div>
       <main className={styles.main}>
         <div className={styles.conteudoform}>
+          <h2 className={styles.h2}>Formulário de Cliente</h2>
           <button className={styles.buttonVoltar} onClick={() => router.push('/lista_clientes')}>
             Voltar
           </button>
-          <h2 className={styles.h2}>Formulário de Cliente</h2>
-          <form onSubmit={handleSubmit} className="row g-3">
-               <div className="col-md-4">
-                  {renderInputField('id', 'ID')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('nome', 'Nome', 'text', null, 'Digite seu nome',true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('cpf', 'CPF', 'text', '999.999.999-99', 'Digite seu CPF',true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('email', 'Email', 'email', null, 'Digite seu email',true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('rg', 'RG', 'text', '99.999.999-9', 'Digite seu RG',true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('orgao', 'Órgão Emissor do RG', 'text', null, 'Digite o Órgão Emissor do RG',true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('nome_mae', 'Nome da Mãe', 'text', null, 'Digite o Nome da Mãe')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('nome_pai', 'Nome do Pai', 'text', null, 'Digite o Nome do Pai')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('numero', ' Telefone', 'text','(99)99999-9999', 'Digite o Número de Telefone')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('cep', 'CEP', 'text','99999-999', 'Digite seu CEP')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('endereco', 'Endereço', 'text', null, 'Digite seu endereço')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('endereco_num', 'Número', 'number', null, 'Digite o Número do endereço')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('endereco_complemento', 'Complemento do Endereço', 'text', null, 'Digite seu Complemento do Endereço')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('profissao', 'Profissão', 'text', null, 'Digite sua Profissão')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('cnh', 'CNH', 'number', '999999999', 'Digite sua CNH')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('sexo', 'Sexo', 'text', null, 'Selecione o sexo', true, true)}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('data_nascimento', 'Data de Nascimento', 'date', null, 'Digite a Data de Nascimento')}
-                </div>
-                <div className="col-md-4">
-                  {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
+          <ul className="nav nav-tabs justify-content-end">
+            <li className="nav-item">
+              <a
+                className={`nav-link ${tipoPessoa === 'física' ? 'active' : ''}`}
+                href="#"
+                onClick={() => handleTipoPessoaChange('física')}
+              >
+                Pessoa Física
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className={`nav-link ${tipoPessoa === 'jurídica' ? 'active' : ''}`}
+                href="#"
+                onClick={() => handleTipoPessoaChange('jurídica')}
+              >
+                Pessoa Jurídica
+              </a>
+            </li>
+          </ul>
+          <form onSubmit={handleSubmit} className="row g-3 mt-3">
+            <div className="col-md-4">
+              {renderInputField('id', 'ID')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('nome', 'Nome', 'text', null, 'Digite seu nome', true)}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('cpf', 'CPF', 'text', '999.999.999-99', 'Digite seu CPF', true)}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('email', 'Email', 'email', null, 'Digite seu email', true)}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('rg', 'RG', 'text', '99.999.999-9', 'Digite seu RG', true)}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('orgao', 'Órgão Emissor do RG', 'text', null, 'Digite o Órgão Emissor do RG')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('nome_mae', 'Nome da Mãe', 'text', null, 'Digite o Nome da Mãe')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('nome_pai', 'Nome do Pai', 'text', null, 'Digite o Nome do Pai')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('numero', 'Número de Telefone', 'text', '(99)99999-9999', 'Digite seu Número de Telefone')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('cep', 'CEP', 'text', '99999-999', 'Digite seu CEP')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('endereco', 'Endereço', 'text', null, 'Digite seu endereço')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('endereco_num', 'Número', 'number', null, 'Digite o Número do endereço')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('endereco_complemento', 'Complemento do Endereço', 'text', null, 'Digite seu Complemento do Endereço')}
+            </div>
+            {tipoPessoa === 'física' && (
+              <div className="col-md-4">
+                {renderInputField('profissao', 'Profissão', 'text', null, 'Digite sua Profissão')}
+              </div>
+            )}
+            <div className="col-md-4">
+              {renderInputField('cnh', 'CNH', 'number', '999999999', 'Digite sua CNH')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('sexo', 'Sexo', 'text', null, 'Selecione o sexo', true, true)}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('data_nascimento', 'Data de Nascimento', 'date', null, 'Digite a Data de Nascimento')}
+            </div>
+            <div className="col-md-4">
+              {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
+            </div>
+
+            {tipoPessoa === 'jurídica' && (
+              
+                <div>
+                  <h3>Dados da Empresa</h3>
+                
+                <div className="border p-3 mb-3 row g-3">
+                  <div className="col-md-4">
+                    {renderInputField('cnpj', 'CNPJ', 'text', '99.999.999/9999-99', 'Digite o CNPJ')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('razao_social', 'Razão Social', 'text', null, 'Digite a Razão Social')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('inscricao_municipal', 'Inscrição Municipal', 'text', null, 'Digite a Inscrição Municipal')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('inscricao_estadual', 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('nome_representante', 'Nome do Representante', 'text', null, 'Digite o Nome do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('cpf_representante', 'CPF do Representante', 'text', '999.999.999-99', 'Digite o CPF do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('profissao_representante', 'Profissão do Representante', 'text', null, 'Digite a Profissão do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('numero_representante', 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('email_empresa', 'Email da Empresa', 'text', null, 'Digite o Email da empresa')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('cep_empresa', 'CEP da Empresa', 'text', '99999-999', 'Digite o CEP da Empresa')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('endereco_empresa', 'Endereço da Empresa', 'text', null, 'Digite o Endereço da Empresa')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('endereco_numero_empresa', 'Número', 'number', null, 'Digite o Número de Endereço')}
+                  </div>
+                  <div className="col-md-4">
+                    {renderInputField('endereco_complemento_empresa', 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
+                  </div>
                 </div>
 
-                <div className="col-12">
-              <h3>Empresas</h3>
-              {formData.empresas.map((empresa, index) => (
-                <div key={index} className="border p-3 mb-3 row g-3" >
-                  <h4>Empresa {index + 1}</h4>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].cnpj`, 'CNPJ', 'text', '99.999.999/9999-99', 'Digite o CNPJ')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].razao_social`, 'Razão Social', 'text', null, 'Digite a Razão Social')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].inscricao_municipal`, 'Inscrição Municipal', 'text', null, 'Digite a Inscrição Municipal')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].inscricao_estadual`, 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].nome_representante`, 'Nome do Representante', 'text', null, 'Digite o Nome do Representante')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].cpf_representante`, 'CPF do Representante', 'text', '999.999.999-99', 'Digite o Cpf do Representante')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].profissao_representante`, 'Profissão do Representante', 'text', null, 'Digite a Profissão do Representante')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].numero_representante`, 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].email_empresa`, 'Email da Empresa', 'text', null, 'Digite o Email da empresa')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].cep_empresa`, 'CEP da Empresa', 'text', '99999-999', 'Digite o CEP da Empresa')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].endereco_empresa`, 'Endereço da Empresa', 'text', null, 'Digite o Endereço da Empresa')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].endereco_numero_empresa`, 'Número', 'number', null, 'Digite o Número de Endereço')}
-                  </div>
-                  <div className="col-md-4">
-                  {renderInputField(`empresas[${index}].endereco_complemento_empresa`, 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
-                  </div>
-                  <div className="col-md-12 d-flex align-items-center">
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => removeCompany(index)}
-                  >
-                    Remover Empresa
-                  </button>
                 </div>
-                </div>
-              ))}
-              <button type="button" className="btn btn-primary" onClick={addCompany}>
-                Adicionar Empresa
-              </button>
-            </div>
+              
+            )}
 
             <div className="col-6 mx-auto text-center w-100">
               <button type="submit" className="btn btn-primary w-50">
                 {formData.id === 0 ? 'Criar Cliente' : 'Atualizar Cliente'}
               </button>
-            </div>        
+            </div>
           </form>
         </div>
       </main>

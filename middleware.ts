@@ -8,7 +8,8 @@ export async function middleware(request: NextRequest) {
     const rotasPermitidasComAPIKeyPadrao = [
         '/api/login',
         '/api/checkHeader',
-        '/api/email'
+        '/api/email',
+        '/api/access'
     ];
 
     if(process.env.ENV == 'development' || request.nextUrl.pathname == '/api/refreshToken')
