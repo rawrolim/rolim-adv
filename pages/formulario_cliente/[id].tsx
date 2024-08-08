@@ -43,6 +43,7 @@ export default function FormularioCliente() {
   const router = useRouter();
   const [formData, setFormData] = useState(initialFormData);
   const [enderecoAutomatico, setEnderecoAutomatico] = useState('');
+  const [enderecoEmpresaAutomatico, setEnderecoEmpresaAutomatico] = useState('');
   const [tipoPessoa, setTipoPessoa] = useState('física');
 
   useEffect(() => {
@@ -77,8 +78,31 @@ export default function FormularioCliente() {
     if (id === 'cep' && value.length === 9) {
       getAddressFromCEP(value);
     }
+    if (id === 'cep_empresa' && value.length === 9) {
+      getAddressFromCEPempresa(value);
+    }
   };
 
+  const getAddressFromCEPempresa = async (cep_empresa) => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep_empresa}/json/`);
+      const data = await response.json();
+      if (!data.erro) {
+        const { logradouro, complemento, bairro, localidade, uf } = data;
+        const endereco_empresa = `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`;
+        setEnderecoEmpresaAutomatico(endereco_empresa);
+        setFormData({
+          ...formData,
+          cep_empresa: cep_empresa,
+          endereco_empresa: `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`,
+          endereco_complemento_empresa: complemento,
+          endereco_numero_empresa: '',
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar endereço pelo CEP:', error);
+    }
+  };
   const getAddressFromCEP = async (cep) => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -200,6 +224,9 @@ export default function FormularioCliente() {
         )}
         {id === 'cep' && enderecoAutomatico && (
           <p className="mt-2 mb-0 text-muted">Endereço: {enderecoAutomatico}</p>
+        )}
+        {id === 'cep_empresa' && enderecoEmpresaAutomatico && (
+          <p className="mt-2 mb-0 text-muted">Endereço: {enderecoEmpresaAutomatico}</p>
         )}
       </div>
     );
