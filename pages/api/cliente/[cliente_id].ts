@@ -100,6 +100,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
             }
             else{
+                if (body.inscricao_municipal == '')
+                    throw new Error("Necessário informar a Inscrição Municipal")
+                if (body.inscricao_estadual == '')
+                    throw new Error("Necessário informar a Inscrição Estadual")
+                if (body.cnpj == '')
+                    throw new Error("Necessário informar o CNPJ")
+
                 sql = `UPDATE clientes SET
                 cnpj = ?,
                 razao_social = ?,

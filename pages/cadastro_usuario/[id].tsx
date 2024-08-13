@@ -179,7 +179,7 @@ export default function CadastroUsuario() {
                   placeholder={focused[key] ? placeholders[key] : ''}
                   onFocus={() => handleFocus(key)}
                   onBlur={() => handleBlur(key)}
-                  required={['usuario', 'email','nome','senha_email'].includes(key)}
+                  required={['usuario', 'email','nome','senha_email','cnpj','inscricao_municipal','inscricao_estadual'].includes(key)}
                   className="form-control border-0 border-bottom"
                 />
               )}
