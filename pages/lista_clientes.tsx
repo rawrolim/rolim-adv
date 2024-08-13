@@ -23,7 +23,13 @@ export default function ListaCliente() {
 
   async function getClients() {
     const resData = await http.get("/api/cliente");
-    setUsers(resData);
+    const transformedData = resData.map(user => ({
+      ...user,
+      nome: user.nome || user.nome_representante,
+      email: user.email || user.email_empresa,
+      numero: user.numero || user.numero_representante
+    }));
+    setUsers(transformedData);
   }
 
   async function deleteClient(id){
@@ -72,6 +78,10 @@ export default function ListaCliente() {
             {
               name: 'Telefone',
               field: 'numero'
+            },
+            {
+              name: 'Tipo Pessoa',
+              field: 'tp_pessoa'
             },
             {
               name: 'Status',
