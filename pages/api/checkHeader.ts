@@ -9,8 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const rs_user = await query(`SELECT * FROM usuarios WHERE token = ?`,[authHeader]);
         if (rs_user) {
             jwt.verify(authHeader,process.env.JWT_SECRET);
-            
             const tokenData = jwt.decode(authHeader)
+            console.log("JWT DATA",tokenData)
             const rs_user2 = await query(`SELECT * FROM usuarios WHERE token = ? AND id = ?`, [authHeader,tokenData.user_id]);
             if(rs_user2){
                 res.status(200).json({ accepted: true })
