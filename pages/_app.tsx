@@ -20,14 +20,6 @@ function MyApp({ Component, pageProps }) {
     require("bootstrap/dist/js/bootstrap.min.js");
   }, []);
 
-  useEffect(() => {
-    verifyAccess();
-  },[router.pathname]);
-
-  async function verifyAccess(){
-    const res = await http.post('/api/access', {route: router.pathname});
-  }
-
   return (
     <>
       <ToastContainer />
