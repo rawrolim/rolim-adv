@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     ELSE status
                 END status,
                 tp_pessoa,
-                nome_representante,
+                razao_social nome_representante,
                 email_empresa,
                 numero_representante
             FROM clientes
