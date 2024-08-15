@@ -8,7 +8,7 @@ export default function FormularioCliente() {
   const router = useRouter();
   const [enderecoAutomatico, setEnderecoAutomatico] = useState('');
   const [enderecoEmpresaAutomatico, setEnderecoEmpresaAutomatico] = useState('');
-  const [tipoPessoa, setTipoPessoa] = useState('física');
+  const [tipoPessoa, setTipoPessoa] = useState('Física');
 
   const initialFormData = {
     id: 0,
@@ -154,19 +154,19 @@ export default function FormularioCliente() {
     setFormData(prevFormData => ({
       ...prevFormData,
       tp_pessoa: tipo,
-      cnpj: tipo === 'física' ? '' : prevFormData.cnpj,
-      razao_social: tipo === 'física' ? '' : prevFormData.razao_social,
-      inscricao_municipal: tipo === 'física' ? '' : prevFormData.inscricao_municipal,
-      inscricao_estadual: tipo === 'física' ? '' : prevFormData.inscricao_estadual,
-      nome_representante: tipo === 'física' ? '' : prevFormData.nome_representante,
-      cpf_representante: tipo === 'física' ? '' : prevFormData.cpf_representante,
-      profissao_representante: tipo === 'física' ? '' : prevFormData.profissao_representante,
-      numero_representante: tipo === 'física' ? '' : prevFormData.numero_representante,
-      email_empresa: tipo === 'física' ? '' : prevFormData.email_empresa,
-      cep_empresa: tipo === 'física' ? '' : prevFormData.cep_empresa,
-      endereco_empresa: tipo === 'física' ? '' : prevFormData.endereco_empresa,
-      endereco_numero_empresa: tipo === 'física' ? '' : prevFormData.endereco_numero_empresa,
-      endereco_complemento_empresa: tipo === 'física' ? '' : prevFormData.endereco_complemento_empresa,
+      cnpj: tipo === 'Física' ? '' : prevFormData.cnpj,
+      razao_social: tipo === 'Física' ? '' : prevFormData.razao_social,
+      inscricao_municipal: tipo === 'Física' ? '' : prevFormData.inscricao_municipal,
+      inscricao_estadual: tipo === 'Física' ? '' : prevFormData.inscricao_estadual,
+      nome_representante: tipo === 'Física' ? '' : prevFormData.nome_representante,
+      cpf_representante: tipo === 'Física' ? '' : prevFormData.cpf_representante,
+      profissao_representante: tipo === 'Física' ? '' : prevFormData.profissao_representante,
+      numero_representante: tipo === 'Física' ? '' : prevFormData.numero_representante,
+      email_empresa: tipo === 'Física' ? '' : prevFormData.email_empresa,
+      cep_empresa: tipo === 'Física' ? '' : prevFormData.cep_empresa,
+      endereco_empresa: tipo === 'Física' ? '' : prevFormData.endereco_empresa,
+      endereco_numero_empresa: tipo === 'Física' ? '' : prevFormData.endereco_numero_empresa,
+      endereco_complemento_empresa: tipo === 'Física' ? '' : prevFormData.endereco_complemento_empresa,
     }));
   };
   const renderInputField = (id, label, type = 'text', mask = null, placeholder = '', required = false, select = false, disabled = false) => {
@@ -251,12 +251,12 @@ export default function FormularioCliente() {
           {formData.id === 0 && (
             <ul className="nav nav-tabs justify-content-end">
               <li className="nav-item">
-                <a className={`nav-link ${tipoPessoa === 'física' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('física')}>
+                <a className={`nav-link ${tipoPessoa === 'Física' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('Física')}>
                   Pessoa Física
                 </a>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${tipoPessoa === 'jurídica' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('jurídica')}>
+                <a className={`nav-link ${tipoPessoa === 'Jurídica' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('Jurídica')}>
                   Pessoa Jurídica
                 </a>
               </li>
@@ -280,7 +280,7 @@ export default function FormularioCliente() {
               {renderInputField('tp_pessoa', 'tp_pessoa')}
             </div>
             
-            {formData.tp_pessoa === 'física' ? (
+            {formData.tp_pessoa === 'Física' ? (
         <>
           <div className="col-md-4">
             {renderInputField('nome', 'Nome', 'text', null, 'Digite seu nome', true)}
@@ -334,7 +334,7 @@ export default function FormularioCliente() {
             {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
           </div>
         </>
-      ) : formData.tp_pessoa === 'jurídica' ? (
+      ) : formData.tp_pessoa === 'Jurídica' ? (
         <>
           <div className="col-md-4">
             {renderInputField('cnpj', 'CNPJ', 'text', '99.999.999/9999-99', 'Digite o CNPJ')}

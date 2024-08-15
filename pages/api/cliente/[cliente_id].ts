@@ -12,6 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             SELECT 
                 id,
                 nome,
+                CASE 
+                    WHEN status = 'A' THEN 'Ativo'
+                    WHEN status = 'I' THEN 'Inativo'
+                    ELSE status
+                END status,
                 cpf,
                 numero,
                 mail email,
@@ -42,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 endereco_empresa,
                 endereco_numero_empresa,
                 endereco_complemento_empresa,
-                tp_pessoa
+                CONCAT(UPPER(SUBSTRING(tp_pessoa, 1, 1)), LOWER(SUBSTRING(tp_pessoa, 2))) AS tp_pessoa
             FROM clientes
             WHERE id = ?`
             const rs_cliente = await query(sql, [req.query.cliente_id]);
@@ -73,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     throw new Error("Necessário informar um ID válido para o usuário")
             }
             let sql = '';
-            if(body.tp_pessoa === 'física'){
+            if(body.tp_pessoa === 'Física'){
                 
                 sql = `UPDATE clientes SET
                 nome = ?,

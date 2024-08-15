@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     WHEN status = 'I' THEN 'Inativo'
                     ELSE status
                 END status,
-                tp_pessoa,
+                CONCAT(UPPER(SUBSTRING(tp_pessoa, 1, 1)), LOWER(SUBSTRING(tp_pessoa, 2))) AS tp_pessoa,
                 razao_social nome_representante,
                 email_empresa,
                 numero_representante
@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const body = req.body;
             let sql = '';
             console.log(body.tp_pessoa);
-            if(body.tp_pessoa === 'física'){
+            if(body.tp_pessoa === 'Física'){
                 if(body.nome == '')
                     throw new Error("Necessário informar o nome")
                 if(body.email == '')
