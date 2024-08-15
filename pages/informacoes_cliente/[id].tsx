@@ -93,10 +93,10 @@ export default function InformacoesCliente() {
                             <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.push("/lista_clientes")}>Voltar</button>
                             {selectedClient &&
                                 <div className={styles.rightButtons}>
-                                    <button className={'btn btn-outline-danger'} onClick={() => getHipo(selectedClient.id, selectedClient.nome)}>
+                                    <button className={'btn btn-outline-danger'} onClick={() => getHipo(selectedClient.id, selectedClient.nome || selectedClient.nome_representante)}>
                                         <FaRegFilePdf/> Hipossuficiência
                                     </button>
-                                    <button className={`btn btn-outline-danger`} onClick={() => getProcuracao(selectedClient.id, selectedClient.nome)}>
+                                    <button className={`btn btn-outline-danger`} onClick={() => getProcuracao(selectedClient.id, selectedClient.nome || selectedClient.nome_representante)}>
                                         <FaRegFilePdf/> Procuração
                                     </button>
                                 </div>
