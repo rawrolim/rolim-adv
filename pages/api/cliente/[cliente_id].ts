@@ -46,7 +46,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 cep_empresa,
                 endereco_empresa,
                 endereco_numero_empresa,
+                estado_civil_representante,
                 endereco_complemento_empresa,
+                rg_representante,
+                cep_representante,
+                endereco_representante,
+                endereco_num_representante,
+                endereco_complemento_representante,
                 CONCAT(UPPER(SUBSTRING(tp_pessoa, 1, 1)), LOWER(SUBSTRING(tp_pessoa, 2))) AS tp_pessoa
             FROM clientes
             WHERE id = ?`
@@ -125,10 +131,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 cep_empresa = ?,
                 endereco_empresa = ?,
                 endereco_numero_empresa = ?,
-                endereco_complemento_empresa= ?
+                endereco_complemento_empresa= ?,
+                estado_civil_representante = ?,
+                cep_representante = ?,
+                endereco_representante = ?, 
+                endereco_num_representante = ?,
+                endereco_complemento_representante = ?,
+                rg_representante = ?
             WHERE id = ?
             `;
-            await query(sql,[body.cnpj,body.razao_social,body.inscricao_municipal,body.inscricao_estadual,body.nome_representante,body.cpf_representante,body.profissao_representante,body.numero_representante,body.email_empresa,body.cep_empresa,body.endereco_empresa,body.endereco_numero_empresa ,body.endereco_complemento_empresa,body.id]);
+            await query(sql,[body.cnpj,body.razao_social,
+                body.inscricao_municipal,body.inscricao_estadual,
+                body.nome_representante,body.cpf_representante,
+                body.profissao_representante,body.numero_representante,
+                body.email_empresa,body.cep_empresa,body.endereco_empresa,
+                body.endereco_numero_empresa ,body.endereco_complemento_empresa,
+                body.estado_civil_representante,body.cep_representante,body.endereco_representante,
+                body.endereco_num_representante,
+                body.endereco_complemento_representante,body.rg_representante,body.id]);
             res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
             }
 

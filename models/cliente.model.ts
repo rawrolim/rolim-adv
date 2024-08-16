@@ -21,4 +21,24 @@ export default interface Cliente {
     profissao: String;
     status: String;
     cnh: String;
+    tp_pessoa: String;
+    cnpj: string;
+    razao_social: string;
+    inscricao_municipal: string;
+    inscricao_estadual: string;
+    nome_representante: string;
+    cpf_representante: string;
+    profissao_representante: string;
+    numero_representante: string;
+    email_empresa: string;
+    cep_empresa: string;
+    endereco_empresa: string;
+    endereco_numero_empresa: string;
+    endereco_complemento_empresa: string;
+    estado_civil_representante: string;
+    cep_representante: string;
+    endereco_representante: string;
+    endereco_num_representante: string;
+    rg_representante: string;
+    endereco_complemento_representante: string;
 }
