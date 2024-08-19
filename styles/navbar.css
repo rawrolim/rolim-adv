@@ -122,6 +122,7 @@ nav{
         background-color: #0187a7;
         padding: 10px 15px;
         border-radius: 5px;
+        color: white;
     }
     .nav-list ul button a{
         color: white;

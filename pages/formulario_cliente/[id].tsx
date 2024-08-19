@@ -224,20 +224,20 @@ export default function FormularioCliente() {
             {id === 'sexo' ? (
               <>
                 <option value="">Selecione o Sexo</option>
-                <option value="1">Masculino</option>
-                <option value="2">Feminino</option>
-                <option value="3">Prefiro não informar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Não Informado">Prefiro não Informar</option>
               </>
             ) : id === 'estado_civil' || 'estado_civil_representante' ? (
               <>
                 <option value="">Selecione o Estado Civil</option>
-                <option value="1">Solteiro(a)</option>
-                <option value="2">Casado(a)</option>
-                <option value="3">Divorciado(a)</option>
-                <option value="4">Viúvo(a)</option>
-                <option value="5">Outros(a)</option>
-                <option value="6">Separado(a) Judicialmente</option>
-                <option value="7">União Estável</option>
+                <option value="Solteiro">Solteiro(a)</option>
+                <option value="Casado">Casado(a)</option>
+                <option value="Divorciado">Divorciado(a)</option>
+                <option value="Viúvo">Viúvo(a)</option>
+                <option value="Outros">Outros(a)</option>
+                <option value="Separado">Separado(a) Judicialmente</option>
+                <option value="União Estável">União Estável</option>
               </>
             ) : null}
           </select>
@@ -370,7 +370,7 @@ export default function FormularioCliente() {
             {renderInputField('data_nascimento', 'Data de Nascimento', 'date', null, 'Digite a Data de Nascimento')}
           </div>
           <div className="col-md-4">
-            {renderInputField('estado_civil_representante', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
+            {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
           </div>
         </>
       ) : formData.tp_pessoa === 'Jurídica' ? (
