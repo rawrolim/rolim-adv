@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/listaCliente.module.css';
 import { useRouter } from 'next/router';
-import EditIcon from '@mui/icons-material/Edit';
+import { MdEdit } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
 import http from '../config/http';
 import Table from '../components/table';
@@ -94,7 +94,7 @@ export default function ListaCliente() {
                   handler: (arrReplaced = []) => router.push(`/formulario_cliente/${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
-                  icon: <EditIcon />
+                  icon: <MdEdit/>
                 },
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),

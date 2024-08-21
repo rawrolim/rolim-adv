@@ -5,8 +5,7 @@ import http from '../config/http';
 import Table from '../components/table';
 import { GrUpdate } from "react-icons/gr";
 import { toast } from 'react-toastify';
-import { FaUser } from "react-icons/fa";
-import EditIcon from '@mui/icons-material/Edit';
+import { MdEdit } from "react-icons/md";
 
 interface User {
   id: number;
@@ -76,7 +75,7 @@ export default function ListaUsuarios() {
                 handler: (arrReplaced = []) => router.push(`/cadastro_usuario/${arrReplaced[0]}`),
                 fieldParams: ['id'],
                 name: 'Editar',
-                icon: <EditIcon />
+                icon: <MdEdit />
               },
               {
                 handler: (arrReplaced = []) => deleteUsuario(arrReplaced[0]),
