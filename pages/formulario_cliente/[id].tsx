@@ -8,7 +8,8 @@ export default function FormularioCliente() {
   const router = useRouter();
   const [enderecoAutomatico, setEnderecoAutomatico] = useState('');
   const [enderecoEmpresaAutomatico, setEnderecoEmpresaAutomatico] = useState('');
-  const [tipoPessoa, setTipoPessoa] = useState('física');
+  const [enderecoRepresentanteAutomatico, setEnderecoRepresentanteAutomatico] = useState('');
+  const [tipoPessoa, setTipoPessoa] = useState('Física');
 
   const initialFormData = {
     id: 0,
@@ -43,7 +44,13 @@ export default function FormularioCliente() {
     cep_empresa: '',
     endereco_empresa: '',
     endereco_numero_empresa: '',
-    endereco_complemento_empresa: ''
+    endereco_complemento_empresa: '',
+    estado_civil_representante: '',
+    cep_representante: '',
+    endereco_representante: '', 
+    endereco_num_representante:'',
+    endereco_complemento_representante:'',
+    rg_representante:''
   };
   const [formData, setFormData] = useState(initialFormData);
 
@@ -90,6 +97,29 @@ export default function FormularioCliente() {
     }
     if (id === 'cep_empresa' && value.length === 9) {
       getAddressFromCEPempresa(value);
+    }
+    if (id === 'cep_representante' && value.length === 9) {
+      getAddressFromCEPrepresentante(value);
+    }
+  };
+  const getAddressFromCEPrepresentante = async (cep_representante) => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep_representante}/json/`);
+      const data = await response.json();
+      if (!data.erro) {
+        const { logradouro, complemento, bairro, localidade, uf } = data;
+        const endereco_representante = `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`;
+        setEnderecoRepresentanteAutomatico(endereco_representante);
+        setFormData({
+          ...formData,
+          cep_representante: cep_representante,
+          endereco_representante: `${logradouro}, ${complemento} - ${bairro}, ${localidade} - ${uf}`,
+          endereco_complemento_representante: complemento,
+          endereco_num_representante: '',
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar endereço pelo CEP:', error);
     }
   };
 
@@ -154,19 +184,25 @@ export default function FormularioCliente() {
     setFormData(prevFormData => ({
       ...prevFormData,
       tp_pessoa: tipo,
-      cnpj: tipo === 'física' ? '' : prevFormData.cnpj,
-      razao_social: tipo === 'física' ? '' : prevFormData.razao_social,
-      inscricao_municipal: tipo === 'física' ? '' : prevFormData.inscricao_municipal,
-      inscricao_estadual: tipo === 'física' ? '' : prevFormData.inscricao_estadual,
-      nome_representante: tipo === 'física' ? '' : prevFormData.nome_representante,
-      cpf_representante: tipo === 'física' ? '' : prevFormData.cpf_representante,
-      profissao_representante: tipo === 'física' ? '' : prevFormData.profissao_representante,
-      numero_representante: tipo === 'física' ? '' : prevFormData.numero_representante,
-      email_empresa: tipo === 'física' ? '' : prevFormData.email_empresa,
-      cep_empresa: tipo === 'física' ? '' : prevFormData.cep_empresa,
-      endereco_empresa: tipo === 'física' ? '' : prevFormData.endereco_empresa,
-      endereco_numero_empresa: tipo === 'física' ? '' : prevFormData.endereco_numero_empresa,
-      endereco_complemento_empresa: tipo === 'física' ? '' : prevFormData.endereco_complemento_empresa,
+      cnpj: tipo === 'Física' ? '' : prevFormData.cnpj,
+      razao_social: tipo === 'Física' ? '' : prevFormData.razao_social,
+      inscricao_municipal: tipo === 'Física' ? '' : prevFormData.inscricao_municipal,
+      inscricao_estadual: tipo === 'Física' ? '' : prevFormData.inscricao_estadual,
+      nome_representante: tipo === 'Física' ? '' : prevFormData.nome_representante,
+      cpf_representante: tipo === 'Física' ? '' : prevFormData.cpf_representante,
+      profissao_representante: tipo === 'Física' ? '' : prevFormData.profissao_representante,
+      numero_representante: tipo === 'Física' ? '' : prevFormData.numero_representante,
+      email_empresa: tipo === 'Física' ? '' : prevFormData.email_empresa,
+      cep_representante: tipo === 'Física' ? '' : prevFormData.cep_representante,
+      endereco_representante: tipo === 'Física' ? '' : prevFormData.endereco_representante,
+      endereco_num_representante: tipo === 'Física' ? '' : prevFormData.endereco_num_representante,
+      endereco_complemento_representante: tipo === 'Física' ? '' : prevFormData.endereco_complemento_representante,
+      cep_empresa: tipo === 'Física' ? '' : prevFormData.cep_empresa,
+      rg_representante: tipo ==='Física'?'':prevFormData.rg_representante,
+      estado_civil_representante: tipo === 'Física' ? '': prevFormData.estado_civil_representante,
+      endereco_empresa: tipo === 'Física' ? '' : prevFormData.endereco_empresa,
+      endereco_numero_empresa: tipo === 'Física' ? '' : prevFormData.endereco_numero_empresa,
+      endereco_complemento_empresa: tipo === 'Física' ? '' : prevFormData.endereco_complemento_empresa,
     }));
   };
   const renderInputField = (id, label, type = 'text', mask = null, placeholder = '', required = false, select = false, disabled = false) => {
@@ -188,20 +224,20 @@ export default function FormularioCliente() {
             {id === 'sexo' ? (
               <>
                 <option value="">Selecione o Sexo</option>
-                <option value="1">Masculino</option>
-                <option value="2">Feminino</option>
-                <option value="3">Prefiro não informar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Não Informado">Prefiro não Informar</option>
               </>
-            ) : id === 'estado_civil' ? (
+            ) : id === 'estado_civil' || 'estado_civil_representante' ? (
               <>
                 <option value="">Selecione o Estado Civil</option>
-                <option value="1">Solteiro(a)</option>
-                <option value="2">Casado(a)</option>
-                <option value="3">Divorciado(a)</option>
-                <option value="4">Viúvo(a)</option>
-                <option value="5">Outros(a)</option>
-                <option value="6">Separado(a) Judicialmente</option>
-                <option value="7">União Estável</option>
+                <option value="Solteiro">Solteiro(a)</option>
+                <option value="Casado">Casado(a)</option>
+                <option value="Divorciado">Divorciado(a)</option>
+                <option value="Viúvo">Viúvo(a)</option>
+                <option value="Outros">Outros(a)</option>
+                <option value="Separado">Separado(a) Judicialmente</option>
+                <option value="União Estável">União Estável</option>
               </>
             ) : null}
           </select>
@@ -236,6 +272,9 @@ export default function FormularioCliente() {
         {id === 'cep_empresa' && enderecoEmpresaAutomatico && (
           <p className="mt-2 mb-0 text-muted">Endereço: {enderecoEmpresaAutomatico}</p>
         )}
+        {id === 'cep_representante' && enderecoRepresentanteAutomatico && (
+          <p className="mt-2 mb-0 text-muted">Endereço: {enderecoRepresentanteAutomatico}</p>
+        )}
       </div>
     );
   };
@@ -251,12 +290,12 @@ export default function FormularioCliente() {
           {formData.id === 0 && (
             <ul className="nav nav-tabs justify-content-end">
               <li className="nav-item">
-                <a className={`nav-link ${tipoPessoa === 'física' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('física')}>
+                <a className={`nav-link ${tipoPessoa === 'Física' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('Física')}>
                   Pessoa Física
                 </a>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${tipoPessoa === 'jurídica' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('jurídica')}>
+                <a className={`nav-link ${tipoPessoa === 'Jurídica' ? 'active' : ''}`} onClick={() => handleTipoPessoaChange('Jurídica')}>
                   Pessoa Jurídica
                 </a>
               </li>
@@ -280,7 +319,7 @@ export default function FormularioCliente() {
               {renderInputField('tp_pessoa', 'tp_pessoa')}
             </div>
             
-            {formData.tp_pessoa === 'física' ? (
+            {formData.tp_pessoa === 'Física' ? (
         <>
           <div className="col-md-4">
             {renderInputField('nome', 'Nome', 'text', null, 'Digite seu nome', true)}
@@ -334,7 +373,7 @@ export default function FormularioCliente() {
             {renderInputField('estado_civil', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
           </div>
         </>
-      ) : formData.tp_pessoa === 'jurídica' ? (
+      ) : formData.tp_pessoa === 'Jurídica' ? (
         <>
           <div className="col-md-4">
             {renderInputField('cnpj', 'CNPJ', 'text', '99.999.999/9999-99', 'Digite o CNPJ')}
@@ -347,18 +386,6 @@ export default function FormularioCliente() {
           </div>
           <div className="col-md-4">
             {renderInputField('inscricao_estadual', 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual')}
-          </div>
-          <div className="col-md-4">
-            {renderInputField('nome_representante', 'Nome do Representante', 'text', null, 'Digite o Nome do Representante')}
-          </div>
-          <div className="col-md-4">
-            {renderInputField('cpf_representante', 'CPF do Representante', 'text', '999.999.999-99', 'Digite o CPF do Representante')}
-          </div>
-          <div className="col-md-4">
-            {renderInputField('profissao_representante', 'Profissão do Representante', 'text', null, 'Digite a Profissão do Representante')}
-          </div>
-          <div className="col-md-4">
-            {renderInputField('numero_representante', 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
           </div>
           <div className="col-md-4">
             {renderInputField('email_empresa', 'Email da Empresa', 'text', null, 'Digite o Email da empresa')}
@@ -374,6 +401,38 @@ export default function FormularioCliente() {
           </div>
           <div className="col-md-4">
             {renderInputField('endereco_complemento_empresa', 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('nome_representante', 'Nome do Representante', 'text', null, 'Digite o Nome do Representante')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('cpf_representante', 'CPF do Representante', 'text', '999.999.999-99', 'Digite o CPF do Representante')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('profissao_representante', 'Profissão do Representante', 'text', null, 'Digite a Profissão do Representante')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('rg_representante', 'RG', 'text', '99.999.999-9', 'Digite seu RG', true)}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('estado_civil_representante', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
+          </div>
+
+          <div className="col-md-4">
+            {renderInputField('cep_representante', 'CEP do Representante', 'text', '99999-999', 'Digite o CEP da Empresa')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('endereco_representante', 'Endereço do Representante', 'text', null, 'Digite o Endereço da Empresa')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('endereco_num_representante', 'Número', 'number', null, 'Digite o Número de Endereço')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('endereco_complemento_representante', 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
+          </div>
+
+          <div className="col-md-4">
+            {renderInputField('numero_representante', 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
           </div>
         </>
       ) : null}

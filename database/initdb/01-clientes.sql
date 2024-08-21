@@ -80,6 +80,12 @@ CREATE TABLE `clientes` (
   `endereco_empresa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `endereco_numero_empresa` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `endereco_complemento_empresa` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `estado_civil_representante` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cep_representante` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endereco_representante` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endereco_num_representante` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `rg_representante` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `endereco_complemento_representante` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 13150 DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
@@ -105,7 +111,7 @@ INSERT INTO
   )
 VALUES
   (
-    'física',
+    'Física',
     'CARMELITA FERNANDES DA SILVA',
     '898.253.307-91',
     'Casada',
@@ -113,7 +119,7 @@ VALUES
     '2020-02-18'
   ),
 (
-    'física',
+    'Física',
     'Alex Sandro Grijó Ribeiro',
     '123.654.789-44',
     'Casado',

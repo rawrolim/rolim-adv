@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     WHEN status = 'I' THEN 'Inativo'
                     ELSE status
                 END status,
-                tp_pessoa,
+                CONCAT(UPPER(SUBSTRING(tp_pessoa, 1, 1)), LOWER(SUBSTRING(tp_pessoa, 2))) AS tp_pessoa,
                 razao_social nome_representante,
                 email_empresa,
                 numero_representante
@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const body = req.body;
             let sql = '';
             console.log(body.tp_pessoa);
-            if(body.tp_pessoa === 'física'){
+            if(body.tp_pessoa === 'Física'){
                 if(body.nome == '')
                     throw new Error("Necessário informar o nome")
                 if(body.email == '')
@@ -118,8 +118,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     endereco_empresa,
                     endereco_numero_empresa,
                     endereco_complemento_empresa,
-                    tp_pessoa
+                    tp_pessoa,
+                    estado_civil_representante,
+                    cep_representante,
+                    endereco_representante ,
+                    endereco_num_representante,
+                    endereco_complemento_representante,
+                    rg_representante
                 ) VALUES(
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
                     ?,
                     ?,
                     ?,
@@ -135,8 +147,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     ?,
                     ?
                 )`;
-                await query(sql,[body.cnpj,body.razao_social,body.inscricao_municipal,body.inscricao_estadual,body.nome_representante,body.cpf_representante,
-                    body.profissao_representante,body.numero_representante,body.email_empresa,body.cep_empresa,body.endereco_empresa,body.endereco_numero_empresa,body.endereco_complemento_empresa,body.tp_pessoa]);
+                await query(sql,[body.cnpj,body.razao_social,
+                    body.inscricao_municipal,body.inscricao_estadual,
+                    body.nome_representante,body.cpf_representante,
+                    body.profissao_representante,body.numero_representante,
+                    body.email_empresa,body.cep_empresa,body.endereco_empresa,
+                    body.endereco_numero_empresa,
+                    body.endereco_complemento_empresa,body.tp_pessoa,
+                    body.estado_civil_representante,body.cep_representante,
+                    body.endereco_representante,body.endereco_num_representante,
+                    body.endereco_complemento_representante,body.rg_representante]);
                 res.status(200).json("CLIENTE CRIADO COM SUCESSO");
 
             }
