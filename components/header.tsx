@@ -11,7 +11,7 @@ export default function HeaderComponent() {
     const [userData, setUserData] = useLocalStorage('user_data', '');
     const router = useRouter()
     const ignoredRoutes = ['/login', '/','/senha/novo'];
-    const pages = ['/dashboard', '/lista_clientes', '/perfil','/lista_usuarios','/acessos','/lista_processos']
+    const pages = ['/dashboard', '/lista_clientes', '/perfil','/lista_usuarios','/acessos','/processos/0']
 
     useEffect(() => {
         if (haveToken()) {
@@ -73,7 +73,7 @@ export default function HeaderComponent() {
                                     return (
                                         <li key={'nav-' + i.toString()} className='nav-item'>
                                             <a onClick={() => router.push(pageCurrent)} className={router.pathname == pageCurrent ? 'nav-link-active' : 'nav-link'} style={{ cursor: 'pointer', textTransform: 'capitalize' }}>
-                                                {pageCurrent.replace("/", "").replace("_"," ")}
+                                                {pageCurrent.replace("/", "").replace("_"," ").replace("/0","")}
                                             </a>
                                         </li>
                                     )

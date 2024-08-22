@@ -98,7 +98,7 @@ export default function ListaCliente() {
                   icon: <MdEdit/>
                 },
              {
-                  handler: (arrReplaced = []) => router.push(`/lista_processos/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/processos/${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Processos',
                   icon: <FaFileAlt />
