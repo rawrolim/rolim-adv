@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     CASE
                         WHEN u.status = 'A' THEN 'ATIVO'
                         WHEN u.status = 'I' THEN 'INATIVO'
-                    END status,
+                    END status
                 FROM usuarios u 
                 INNER JOIN tipo_usuario tu ON tu.id = u.tipo_usuario
                 ORDER BY u.nome ASC`;
