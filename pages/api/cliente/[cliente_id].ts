@@ -6,8 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         if (req.method == 'GET') {
             if (!req.query.cliente_id)
-                
-            throw new Error("Necessário informar o id do cliente.")
+                throw new Error("Necessário informar o id do cliente.")
+            
             let sql = `
             SELECT 
                 id,
