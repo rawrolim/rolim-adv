@@ -24,6 +24,36 @@ CREATE TABLE processos(
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 LOCK TABLES `processos` WRITE;
-INSERT INTO `processos`(`advogado`,`cliente_id`,`numero_processo`,`instancia`,`tribunal`,`numero_orgao`,`natureza`,`motivo`,`comarca`,`valor_causa`,`data_distribuicao`,`valor_contrato`,`parcelas`,`entrada`,`inicio_prestacao`) VALUES(13,13150,'0001','dsa','ds','321','dsa','dsasda','dsadsa',3124,'2024-08-22',222,31,133,'2024-08-14');
+INSERT INTO `processos`(`advogado`,`cliente_id`,`numero_processo`,`instancia`,`tribunal`,`numero_orgao`,`natureza`,`motivo`,`comarca`,`valor_causa`,`data_distribuicao`,`valor_contrato`,`parcelas`,`entrada`,`inicio_prestacao`) 
+VALUES(
+    13,
+    13150,
+    '0001',
+    'mato',
+    'arvore',
+    '321',
+    'dsa',
+    'dsasdadsad',
+    'dsadsadasd',
+    3124,
+    '2024-06-23',
+    222,31,133,
+    '2024-02-15'),(
+    13,
+    13150,
+    '0002',
+    'concreto',
+    'Casa',
+    '321',
+    'dsa',
+    'dsasda',
+    'dsadsa',
+    312445,
+    '2024-08-22',
+    222,
+    313,
+    13321,
+    '2024-08-14'
+    );
 
 UNLOCK TABLES;

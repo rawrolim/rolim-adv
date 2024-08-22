@@ -7,31 +7,44 @@ import { MdEdit } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 
 export default function ListaProcessos() {
-    const [users, setUsers] = useState([]);
+    const [processos, setProcessos] = useState([]);
     const router = useRouter();
 
+
     useEffect(() => {
-        getProcessos();
-      }, []);
+      if (router.query.id) {
+          getProcessosCliente();
+      } else {
+          getProcessos();
+      }
+  }, [router.query.id]);
+
+      async function getProcessosCliente(){
+        const resData = await http.get(`/api/processos/${router.query.id}`);
+        const transformedData = resData.map(processo => ({
+          ...processo
+        }));
+        setProcessos(transformedData);
+      }
 
       async function getProcessos() {
-        const resData = await http.get("/api/processo");
-        const transformedData = resData.map(user => ({
-          ...user
+        const resData = await http.get("/api/processos");
+        const transformedData = resData.map(processo => ({
+          ...processo
         }));
-        setUsers(transformedData);
+        setProcessos(transformedData);
       }
 
     return (
         <div>
         <main className={styles.main}>
           <div className='col-12 text-end mb-3'>
-            <button onClick={() => router.push("/lista_clientes")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
-              Clientes
+            <button onClick={() => router.push(`/cadastro_processo/novo`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
+              Cadastrar Processo
             </button>
           </div>
   
-          <Table title={'Lista de Processos'} dataInit={users}
+          <Table title={'Lista de Processos'} dataInit={processos}
             columns={ [
               {
                 name: 'Nº Processo',
@@ -50,7 +63,7 @@ export default function ListaProcessos() {
                 field: 'motivo'
               },
               {
-                name: 'Data Distribuicao',
+                name: 'Data Distribuição',
                 field: 'data_distribuicao'
               },
               {

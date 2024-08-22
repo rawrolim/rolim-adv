@@ -12,6 +12,7 @@ const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
 import { FaUser } from "react-icons/fa";
 import * as pdfMake from 'pdfmake/build/pdfmake';
+import { FaFileAlt } from "react-icons/fa";
 
 export default function ListaCliente() {
   const [users, setUsers] = useState([]);
@@ -96,6 +97,12 @@ export default function ListaCliente() {
                   name: 'Editar',
                   icon: <MdEdit/>
                 },
+             {
+                  handler: (arrReplaced = []) => router.push(`/lista_processos/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Processos',
+                  icon: <FaFileAlt />
+                },
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),
                   fieldParams: ['id'],
@@ -119,7 +126,7 @@ export default function ListaCliente() {
                   fieldParams: ['id'],
                   name: 'Informações',
                   icon: <FaUser />
-                },
+                }
               ]
             }
           ] }
