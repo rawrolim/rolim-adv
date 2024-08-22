@@ -166,8 +166,8 @@ export default function InformacoesCliente() {
                     <button className='btn border' data-bs-toggle="modal" data-bs-target="#AttachModal">Anexar</button>
                 </div>
                 <div className='d-flex flex-wrap'>
-                    {attachs && attachs.map(attach =>
-                        <div className='p-2 col-12 col-sm-6 col-md-4 col-lg-3'>
+                    {attachs && attachs.map((attach,i) =>
+                        <div key={`attach-${i.toString()}`} className='p-2 col-12 col-sm-6 col-md-4 col-lg-3'>
                             <div className='border rounded p-3'>
                                 <div className='mb-3'>{attach.nome_arquivo}</div>
                                 <div className='text-center'>
