@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import http from '../../config/http';
 import { useRouter } from 'next/router';
 import styles from '../../styles/formCliente.module.css';
-import Select from 'react-select';
+import SelectSearch from '../../components/SelectSearch';
+import InputField from '../../components/inputField';
 
 export default function CadastroProceso() {
     const router = useRouter();
@@ -33,8 +34,8 @@ export default function CadastroProceso() {
     useEffect(() => {
         fetchAdvogadosClientes();
         if (router.query.id != 'novo')
-          if (Number(router.query.id)) 
-            getProcesso();
+            if (Number(router.query.id))
+                getProcesso();
     }, []);
 
     async function fetchAdvogadosClientes() {
@@ -90,124 +91,91 @@ export default function CadastroProceso() {
         setFormData({ ...formData, [id]: value });
     };
 
-    const handleSelectChange = (selectedOption, actionMeta) => {
-        const { name } = actionMeta;
-        if (name === 'advogado') {
-            setAdvogado(selectedOption);
-        } else if (name === 'cliente_id') {
-            setCliente(selectedOption);
-        }
-    };
-    const renderInputField = (id, label, type = 'text', placeholder = '', mask = null,required = false) => {
-      return (
-          <div className="mb-3">
-        <label htmlFor={id} className="form-label">
-          {label}
-          {required && <span className="text-danger">*</span>}
-        </label>
-
-              <input
-                  type={type}
-                  className="form-control border-0 border-bottom"
-                  id={id}
-                  value={formData[id]}
-                  onChange={handleInputChange}
-                  placeholder={placeholder}
-                  required={type !== 'text' && type !== 'number' && type !== 'date'}
-              />
-          </div>
-      );
-  };
-  return (
-    <div>
-        <main className={styles.main}>
-            <div className={styles.conteudoform}>
-                <h2 className={styles.h2}>Formulário de Processo</h2>
-                <button className={styles.buttonVoltar} onClick={() => router.push('/processos/0')}>
-                    Voltar
-                </button>
-                <form onSubmit={handleSubmit} className="row g-3 mt-3">
-                    <div className="col-md-4">
-                        {renderInputField('id', 'ID', 'text', '', null)}
-                    </div>
-                    <div className="col-md-4">
-                        <div className="mb-3">
-                            <label htmlFor="advogado" className="form-label">
-                                Advogado *
-                            </label>
-                            <Select
-                                id="advogado"
-                                name="advogado"
-                                value={id_advogado}
-                                onChange={handleSelectChange}
-                                options={advogadosOptions}
-                                placeholder="Selecione o Advogado"
-                                required
-                            />
+    return (
+        <div>
+            <main className={styles.main}>
+                <div className={styles.conteudoform}>
+                    <h2 className={styles.h2}>Formulário de Processo</h2>
+                    <button className={styles.buttonVoltar} onClick={() => router.push('/processos/0')}>
+                        Voltar
+                    </button>
+                    <form onSubmit={handleSubmit} className="row g-3 mt-3">
+                        <div className="col-md-4">
+                            <InputField id='id' label='ID' type='text' value={formData['id']} />
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="mb-3">
-                            <label htmlFor="cliente_id" className="form-label">
-                                Cliente *
-                            </label>
-                            <Select
-                                id="cliente_id"
-                                name="cliente_id"
-                                value={id_cliente}
-                                onChange={handleSelectChange}
-                                options={clientesOptions}
-                                placeholder="Selecione o Cliente"
-                                required
-                            />
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label htmlFor="advogado" className="form-label">
+                                    Advogado *
+                                </label>
+                                <SelectSearch
+                                    value={id_advogado}
+                                    onChange={setAdvogado}
+                                    options={advogadosOptions}
+                                    required={true}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('numero_processo', 'Número do Processo','number','Digite  o número do Processo',null,true)}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('instancia', 'Instância','text','Digite a Instância')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('tribunal', 'Tribunal','text','Digite o Tribunal')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('numero_orgao', 'Número do Órgão','text','Digite o numero do Orgão')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('natureza', 'Natureza','text','Digite a Natureza',null,true)}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('motivo', 'Motivo','text','Digite o Motivo',null,true)}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('comarca', 'Comarca','text','Digite a Comarca',null,true)}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('valor_causa', 'Valor da Causa', 'number', '0')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('data_distribuicao', 'Data de Distribuição', 'date')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('valor_contrato', 'Valor do Contrato', 'number', '0')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('parcelas', 'Parcelas', 'number', '0')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('entrada', 'Entrada', 'number', '0')}
-                    </div>
-                    <div className="col-md-4">
-                        {renderInputField('inicio_prestacao', 'Início da Prestação', 'date')}
-                    </div>
-                    <div className="col-6 mx-auto text-center w-100">
-                        <button type="submit" className="btn btn-primary w-50">
-                            {formData.id === 0 ? 'Criar Processo' : 'Atualizar Processo'}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </main>
-    </div>
-);}
+                        <div className="col-md-4">
+                            <div className="mb-3">
+                                <label htmlFor="cliente_id" className="form-label">
+                                    Cliente *
+                                </label>
+                                <SelectSearch
+                                    value={id_cliente}
+                                    onChange={setCliente}
+                                    options={clientesOptions}
+                                    required={true}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['numero_processo']} id='numero_processo' label='Número do Processo' type='text' placeholder='Digite  o número do Processo' required={true} />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['instancia']} id='instancia' label='Instância' type='text' placeholder='Digite a Instância' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['tribunal']} id='tribunal' label='Tribunal' type='text' placeholder='Digite o Tribunal' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['numero_orgao']} id='numero_orgao' label='Número do Órgão' type='text' placeholder='Digite o numero do Orgão' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['natureza']} id='natureza' label='Natureza' type='text' placeholder='Digite a Natureza' required={true} />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['motivo']} id='motivo' label='Motivo' type='text' placeholder='Digite o Motivo' required={true} />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['comarca']} id='comarca' label='Comarca' type='text' placeholder='Digite a Comarca' required={true} />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['valor_causa']} id='valor_causa' label='Valor da Causa' type='number' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['data_distribuicao']} id='data_distribuicao' label='Data de Distribuição' type='date' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['valor_contrato']} id='valor_contrato' label='Valor do Contrato' type='number' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['parcelas']} id='parcelas' label='Parcelas' type='number' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['entrada']} id='entrada' label='Entrada' type='number' />
+                        </div>
+                        <div className="col-md-4">
+                            <InputField onChange={handleInputChange} value={formData['inicio_prestacao']} id='inicio_prestacao' label='Início da Prestação' type='date' />
+                        </div>
+                        <div className="col-6 mx-auto text-center w-100">
+                            <button type="submit" className="btn btn-primary w-50">
+                                {formData.id === 0 ? 'Criar Processo' : 'Atualizar Processo'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    );
+}
