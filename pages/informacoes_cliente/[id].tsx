@@ -30,7 +30,6 @@ interface User {
     profissao: string;
     cnh: string;
     status: string;
-
     cnpj: string;
     razao_social: string
     inscricao_municipal: string;

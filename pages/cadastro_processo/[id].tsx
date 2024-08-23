@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/formCliente.module.css';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
+import { Type } from 'react-toastify/dist/utils';
 
 export default function CadastroProceso() {
     const router = useRouter();
@@ -59,9 +60,9 @@ export default function CadastroProceso() {
     async function getProcesso() {
         try {
             const resData = await http.get(`/api/processo/${router.query.id}`);
-            setFormData(resData.data);
-            setAdvogado({ value: resData.data.advogado, label: resData.data.nome_advogado });
-            setCliente({ value: resData.data.cliente_id, label: resData.data.nome_cliente });
+            setFormData(resData);
+            setAdvogado({ value: resData.advogado, label: resData.nome_advogado });
+            setCliente({ value: resData.cliente_id, label: resData.nome_cliente });
         } catch (error) {
             console.error('Erro ao obter o Processo:', error);
         }
@@ -99,12 +100,14 @@ export default function CadastroProceso() {
             setCliente(selectedOption);
         }
     };
-    const renderInputField = (id, label, type = 'text', placeholder = '', mask = null) => {
+    const renderInputField = (id, label, type = 'text', placeholder = '', mask = null,required = false) => {
       return (
           <div className="mb-3">
-              <label htmlFor={id} className="form-label">
-                  {label}
-              </label>
+        <label htmlFor={id} className="form-label">
+          {label}
+          {required && <span className="text-danger">*</span>}
+        </label>
+
               <input
                   type={type}
                   className="form-control border-0 border-bottom"
@@ -112,7 +115,7 @@ export default function CadastroProceso() {
                   value={formData[id]}
                   onChange={handleInputChange}
                   placeholder={placeholder}
-                  required={type !== 'text' && type !== 'number'}
+                  required={type !== 'text' && type !== 'number' && type !== 'date'}
               />
           </div>
       );
@@ -132,7 +135,7 @@ export default function CadastroProceso() {
                     <div className="col-md-4">
                         <div className="mb-3">
                             <label htmlFor="advogado" className="form-label">
-                                Advogado
+                                Advogado *
                             </label>
                             <Select
                                 id="advogado"
@@ -141,13 +144,14 @@ export default function CadastroProceso() {
                                 onChange={handleSelectChange}
                                 options={advogadosOptions}
                                 placeholder="Selecione o Advogado"
+                                required
                             />
                         </div>
                     </div>
                     <div className="col-md-4">
                         <div className="mb-3">
                             <label htmlFor="cliente_id" className="form-label">
-                                Cliente
+                                Cliente *
                             </label>
                             <Select
                                 id="cliente_id"
@@ -156,11 +160,12 @@ export default function CadastroProceso() {
                                 onChange={handleSelectChange}
                                 options={clientesOptions}
                                 placeholder="Selecione o Cliente"
+                                required
                             />
                         </div>
                     </div>
                     <div className="col-md-4">
-                        {renderInputField('numero_processo', 'Número do Processo','number','Digite  o número do Processo')}
+                        {renderInputField('numero_processo', 'Número do Processo','number','Digite  o número do Processo',null,true)}
                     </div>
                     <div className="col-md-4">
                         {renderInputField('instancia', 'Instância','text','Digite a Instância')}
@@ -172,13 +177,13 @@ export default function CadastroProceso() {
                         {renderInputField('numero_orgao', 'Número do Órgão','text','Digite o numero do Orgão')}
                     </div>
                     <div className="col-md-4">
-                        {renderInputField('natureza', 'Natureza','text','Digite a Natureza')}
+                        {renderInputField('natureza', 'Natureza','text','Digite a Natureza',null,true)}
                     </div>
                     <div className="col-md-4">
-                        {renderInputField('motivo', 'Motivo','text','Digite o Motivo')}
+                        {renderInputField('motivo', 'Motivo','text','Digite o Motivo',null,true)}
                     </div>
                     <div className="col-md-4">
-                        {renderInputField('comarca', 'Comarca','text','Digite a Comarca')}
+                        {renderInputField('comarca', 'Comarca','text','Digite a Comarca',null,true)}
                     </div>
                     <div className="col-md-4">
                         {renderInputField('valor_causa', 'Valor da Causa', 'number', '0')}
