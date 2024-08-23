@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import http from '../../config/http';
 import { useRouter } from 'next/router';
 import styles from '../../styles/formCliente.module.css';
-import InputMask from 'react-input-mask';
 import Select from 'react-select';
-import { Type } from 'react-toastify/dist/utils';
 
 export default function CadastroProceso() {
     const router = useRouter();
