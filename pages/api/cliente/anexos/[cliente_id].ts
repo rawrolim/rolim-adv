@@ -7,14 +7,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!req.query.cliente_id)
             throw new Error("Necessário informar o id do cliente.");
         if (req.method == 'GET') {
-            const rs_attachs = await query(`SELECT id, nome_arquivo, arquivo FROM anexos WHERE cliente_id = ?`, [req.query.cliente_id]);
+            const rs_attachs = await query(`SELECT id, nome_arquivo, arquivo FROM anexos_cliente WHERE cliente_id = ?`, [req.query.cliente_id]);
             res.status(200).json(rs_attachs);
         } else if (req.method == 'POST') {
-            sql = `INSERT INTO anexos(cliente_id,nome_arquivo, arquivo) VALUES(?,?,?)`
+            sql = `INSERT INTO anexos_cliente(cliente_id,nome_arquivo, arquivo) VALUES(?,?,?)`
             await query(sql, [req.query.cliente_id, req.body.nome_arquivo, req.body.arquivo]);
             res.status(200).json({ response: "ARQUIVO CRIADO" });
         } else if (req.method == 'DELETE') {
-            sql = `DELETE FROM anexos WHERE id = ?`
+            sql = `DELETE FROM anexos_cliente WHERE id = ?`
             await query(sql, [req.query.anexo_id]);
             res.status(200).json({ response: "ARQUIVO DELETADO" });
         } else {
