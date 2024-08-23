@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             ', inscrito no CPF sob nº ',
                             cliente.cpf,
                             ', com endereço residencial na ' + cliente.endereco + ', número ' + cliente.endereco_num + ', ' + cliente.endereco_complemento + ', CEP:' + cliente.cep + 
-                            ' Email: ',cliente.email_empresa ,' Telefone:',cliente.numero_representante ,
+                            ', Email:',cliente.mail ,', Telefone:',cliente.numero ,
                             ', por este instrumento particular de procuração, nomeia e constitui seu bastante procurador, ',
                             { text: "RAWLINSON WAGNER MORAES ROLIM ", bold: true },
                             ', brasileiro, divorciado, advogado inscrito na ',

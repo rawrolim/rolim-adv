@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/listaCliente.module.css';
 import { useRouter } from 'next/router';
-import EditIcon from '@mui/icons-material/Edit';
+import { MdEdit } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
 import http from '../config/http';
 import Table from '../components/table';
@@ -12,6 +12,7 @@ const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
 import { FaUser } from "react-icons/fa";
 import * as pdfMake from 'pdfmake/build/pdfmake';
+import { FaFileAlt } from "react-icons/fa";
 
 export default function ListaCliente() {
   const [users, setUsers] = useState([]);
@@ -94,7 +95,13 @@ export default function ListaCliente() {
                   handler: (arrReplaced = []) => router.push(`/formulario_cliente/${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
-                  icon: <EditIcon />
+                  icon: <MdEdit/>
+                },
+             {
+                  handler: (arrReplaced = []) => router.push(`/processos/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Processos',
+                  icon: <FaFileAlt />
                 },
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),
@@ -119,7 +126,7 @@ export default function ListaCliente() {
                   fieldParams: ['id'],
                   name: 'Informações',
                   icon: <FaUser />
-                },
+                }
               ]
             }
           ] }

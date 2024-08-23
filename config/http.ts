@@ -18,7 +18,6 @@ const http = {
                 } else {
                     toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
-                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }
@@ -40,7 +39,6 @@ const http = {
                 } else {
                     toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
-                    throw new Error(JSON.parse(e.request.response))
                 }
             }
         }
@@ -62,7 +60,6 @@ const http = {
                 } else {
                     toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
-                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }
@@ -84,7 +81,6 @@ const http = {
                 } else {
                     toast.dismiss({ 'containerId': loading });
                     toast.error(JSON.parse(e.request.response));
-                    throw new Error(JSON.parse(e.request.response));
                 }
             }
         }
