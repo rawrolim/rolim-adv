@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `anexos_processos`;
+DROP TABLE IF EXISTS `anexos_processo`;
 
-CREATE TABLE anexos_processos(
+CREATE TABLE anexos_processo(
     id INT(11) NOT NULL AUTO_INCREMENT,
     processo_id INT(11) NULL,
     nome_arquivo TEXT NULL,

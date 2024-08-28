@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from '../../styles/informacoes_cliente.module.css';
 import { useRouter } from 'next/router';
 import http from '../../config/http';
+import AnexoProcesso from '../../components/anexoProcesso';
 
 export default function InformacoesProcesso() {
     const [selectedProcess, setSelectedProcess] = useState(null);
     const router = useRouter();
-    
+
     useEffect(() => {
         if (router.query.id) {
             getProcesso();
@@ -46,11 +47,11 @@ export default function InformacoesProcesso() {
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Parcelas:</strong> {selectedProcess.parcelas}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Entrada:</strong> {selectedProcess.entrada}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>início Prestação:</strong> {selectedProcess.inicio_prestacao}</div>
-                  
                     </div>
                 }
-            
-        </div>
+            </div>
+
+            <AnexoProcesso />
         </div>
     );
 }
