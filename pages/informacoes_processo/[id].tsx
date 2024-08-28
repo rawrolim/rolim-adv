@@ -23,6 +23,14 @@ export default function InformacoesProcesso() {
         }
     }
 
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
     return (
         <div className={styles.container}>
             <div className={'border p-4 rounded'}>
@@ -40,17 +48,16 @@ export default function InformacoesProcesso() {
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Número Orgão:</strong> {selectedProcess.numero_orgao}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Natureza:</strong> {selectedProcess.natureza}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Motivo:</strong> {selectedProcess.motivo}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>comarca:</strong> {selectedProcess.comarca}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Comarca:</strong> {selectedProcess.comarca}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Valor Causa:</strong> {selectedProcess.valor_causa}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Data Distribuição:</strong> {selectedProcess.data_distribuicao}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Data Distribuição:</strong> {formatDate(selectedProcess.data_distribuicao)}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Valor Contrato:</strong> {selectedProcess.valor_contrato}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Parcelas:</strong> {selectedProcess.parcelas}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Entrada:</strong> {selectedProcess.entrada}</div>
-                        <div className='col-12 col-md-6 border-bottom p-2'><strong>início Prestação:</strong> {selectedProcess.inicio_prestacao}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Entrada:</strong> {formatDate(selectedProcess.entrada)}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Início Prestação:</strong> {formatDate(selectedProcess.inicio_prestacao)}</div>
                     </div>
                 }
             </div>
-
             <AnexoProcesso />
         </div>
     );
