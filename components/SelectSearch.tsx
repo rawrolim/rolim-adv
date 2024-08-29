@@ -29,11 +29,16 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
     };
 
     useEffect(() => {
+        if (value) {
+            setSearchTerm(value.label);
+        } else {
+            setSearchTerm(''); 
+        }
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [value]);
 
     return (
         <div ref={selectRef} style={{ position: 'relative' }}>
