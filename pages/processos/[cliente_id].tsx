@@ -78,7 +78,7 @@ export default function ListaProcessos() {
                   icon: <MdEdit />
                 },
                 {
-                  handler: (arrReplaced = []) => router.push(`/informacoes_processos/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/informacoes_processo/${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Informações',
                   icon: <FaFileAlt />
