@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             SELECT * FROM usuarios WHERE status = 'A'`
             const rs_usuarios = await query(sql);
             responseObject.usuariosAtivos = rs_usuarios.length - 2;
-            responseObject.Advogados = rs_usuarios.filter(u => u.tipo_usuario = 1 || 3);
+            responseObject.Advogados = rs_usuarios.filter(u => u.tipo_usuario == 1 || u.tipo_usuario == 3);
 
             res.status(200).json(responseObject);
         }else{
