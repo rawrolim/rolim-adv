@@ -9,14 +9,29 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import { FaRegFilePdf } from 'react-icons/fa';
 import User from '../../interfaces/User';
 import AnexoCliente from '../../components/anexoCliente';
+import Table from '../../components/table';
+import { MdEdit } from "react-icons/md";
+import { FaFileAlt } from "react-icons/fa";
 
 export default function InformacoesCliente() {
     const [selectedClient, setSelectedClient] = useState<User | null>();
     const router = useRouter();
+    const [processos, setProcessos] = useState([]);
 
     useEffect(() => {
         getClients();
+        getProcessos();
     }, [router.query]);
+
+    async function getProcessos() {
+        const resData = await http.get(`/api/processos/${router.query.id}`);
+        if (resData) {
+          const transformedData = resData.map(processo => ({
+            ...processo
+          }));
+          setProcessos(transformedData);
+        }
+      }
 
     async function getClients() {
         if (router.query.id) {
@@ -113,6 +128,52 @@ export default function InformacoesCliente() {
             </div>
 
             <AnexoCliente />
+
+            <div className='col-12 text-end mb-3'>
+          <button onClick={() => router.push(`/cadastro_processo/novo`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2 mt-3'}>
+            Cadastrar Processo
+          </button>
+        </div>
+
+        <Table title={'Lista de Processos'} dataInit={processos}
+          columns={[
+            {
+              name: 'Nº Processo',
+              field: 'numero_processo'
+            },
+            {
+              name: 'Advogado',
+              field: 'nome_advogado'
+            },
+            {
+              name: 'Motivo',
+              field: 'motivo'
+            },
+            {
+              name: 'Data Distribuição',
+              field: 'data_distribuicao'
+            },
+            {
+              name: 'Ações',
+              actions: [
+                {
+                  handler: (arrReplaced = []) => router.push(`/cadastro_processo/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Editar',
+                  icon: <MdEdit />
+                },
+                {
+                  handler: (arrReplaced = []) => router.push(`/informacoes_processo/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Informações',
+                  icon: <FaFileAlt />
+                },
+              ]
+            }
+
+          ]}
+        />
+
         </div>
     )
 }
