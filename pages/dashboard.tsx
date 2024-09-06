@@ -4,9 +4,30 @@ import Card from "../components/card";
 import Chart from "../components/chart";
 import Table from "../components/table";
 import Filter from "../components/filter";
+import http from "../config/http";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [token, setToken] = useLoacalStorage("authorization", "");
+  const [filteredData, setFilteredData] = useLoacalStorage("filtered", {});
+  const [data, setData] = useState({
+    clientesAtivos: 0,
+    clientesTotal: 0,
+    processosAtivos: 0,
+    usuariosAtivos: 0,
+    Advogados: []
+  });
+
+  useEffect(() => {
+    getDashboardData();
+  }, []);
+
+  async function getDashboardData() {
+    const dashboardData = await http.get("/api/dashboard");
+    console.log(dashboardData);
+    setData(dashboardData);
+  }
+
   const chartDataExample = {
     labels: ["January", "February", "March", "April", "May"],
     datasets: [
@@ -38,16 +59,16 @@ export default function Dashboard() {
             <div className="col-md-10">
               <div className="row my-4">
                 <div className="col mx-2">
-                  <Card data={"32"} cardTitle={"Clientes Ativos"} />
+                  <Card data={data.clientesAtivos} cardTitle={"Clientes Ativos"} />
                 </div>
                 <div className="col mx-2">
-                  <Card data={"152"} cardTitle={"Processos Ativos"} />
+                  <Card data={data.processosAtivos} cardTitle={"Processos Ativos"} />
                 </div>
                 <div className="col mx-2">
-                  <Card data={"265"} cardTitle={"Total de Clientes"} />
+                  <Card data={data.clientesTotal} cardTitle={"Total de Clientes"} />
                 </div>
                 <div className="col mx-2">
-                  <Card data={"7592"} cardTitle={"Total de Processos"} />
+                  <Card data={data.processosAtivos} cardTitle={"Total de Processos"} />
                 </div>
               </div>
               <div className="row">
@@ -60,16 +81,19 @@ export default function Dashboard() {
                 </div>
                 <div className="col-5 mx-3">
                   <Table
-                    dataInit={[]}
-                    title={"Últimas atualizações"}
-                    showFilter={false}
-                    columns={[
-                      "ID",
-                      "Data",
-                      "Processo",
-                      "Advogado",
-                      "Atualização",
-                    ]}
+                    dataInit={data.Advogados}
+                    title={"Advogados"}
+                    showFilter={true}
+                    columns={ [
+                      {
+                        name: 'Nome',
+                        field: 'nome'
+                      },
+                      {
+                        name: 'E-mail',
+                        field: 'email'
+                      }
+                    ] }
                   />
                 </div>
               </div>

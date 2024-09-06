@@ -30,7 +30,7 @@ export default function LoginPage() {
       if(res.jwtData.user_first_access){
         router.push("/senha/novo")
       }else{
-        router.push("/dashboard")
+        router.push("/lista_clientes")
       }
     } catch (e) {
       console.log(e);
