@@ -1,4 +1,4 @@
-import mysql, { RowDataPacket } from 'mysql2/promise';
+import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 
 export async function connectDb() {
     const connection = mysql.createPool({
@@ -18,7 +18,12 @@ export async function query(sql = '', values = []) {
             if (values[i] == "")
                 values[i] = null
         };
-        const [rows] = await db.query<RowDataPacket[]>(sql, values);
+        let rows = undefined;
+        if(sql.toUpperCase().includes('INSERT')){
+            [rows] = await db.query<ResultSetHeader>(sql, values);
+        }else{
+            [rows] = await db.query<RowDataPacket[]>(sql, values);
+        }
         await db.end();
         return rows;
     } catch (e) {
