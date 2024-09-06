@@ -5,6 +5,11 @@ import http from '../../config/http';
 import Table from '../../components/table';
 import { MdEdit } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
+import { FaFilePdf } from 'react-icons/fa';
+const pdfMakeX = require('pdfmake/build/pdfmake.js');
+const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
+pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
+import * as pdfMake from 'pdfmake/build/pdfmake';
 
 export default function ListaProcessos() {
   const [processos, setProcessos] = useState([]);
@@ -36,7 +41,14 @@ export default function ListaProcessos() {
     }));
     setProcessos(transformedData);
   }
-
+  
+  async function getContrato(id, nome_cliente){
+    const pdf = await http.post("/api/pdf/contratoProcesso",{
+      id
+    });
+    pdfMake.createPdf(pdf).download("Contrato "+ nome_cliente +".pdf");
+  }
+  
   return (
     <div>
       <main className={styles.main}>
@@ -76,6 +88,12 @@ export default function ListaProcessos() {
                   fieldParams: ['id'],
                   name: 'Editar',
                   icon: <MdEdit />
+                },
+                {
+                  handler: (arrReplaced = []) => getContrato(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','nome_cliente'],
+                  name: 'Contrato',
+                  icon: <FaFilePdf />
                 },
                 {
                   handler: (arrReplaced = []) => router.push(`/informacoes_processos/${arrReplaced[0]}`),

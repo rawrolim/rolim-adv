@@ -11,59 +11,142 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const clientes = await query(clientesSql);
 
             res.status(200).json({ advogados, clientes });
-        }else if(req.method == 'POST'){
+        } else if (req.method === 'POST') {
             const body = req.body;
-            let sql = '';
-            
-                if(body.advogado == '')
-                    throw new Error("Necessário informar o Advogado")
-                if(body.cliente_id == '')
-                    throw new Error("Necessário informar o Cliente")
-    
-                sql = `INSERT INTO processos(
-                    advogado,
-                    cliente_id,
-                    numero_processo,
-                    instancia,
-                    tribunal,
-                    numero_orgao,
-                    natureza,
-                    motivo,
-                    comarca,
-                    valor_causa,
-                    data_distribuicao,
-                    valor_contrato,
-                    parcelas,
-                    entrada,
-                    inicio_prestacao
-                ) VALUES(
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?
-                )`;
-                await query(sql,[body.advogado,
-                    body.cliente_id,body.numero_processo,body.instancia,
-                    body.tribunal,body.numero_orgao,body.natureza,
-                    body.motivo,body.comarca,body.valor_causa,body.data_distribuicao,
-                    body.valor_contrato,body.parcelas,body.entrada,
-                    body.inicio_prestacao]);
-                res.status(200).json("PROCESSO CRIADO COM SUCESSO");
-            
-        }
+            let sqlProcesso = '';
+            let sqlReu = '';
+            let processoId: number;
 
+            if(body.advogado == '')
+                throw new Error("Necessário informar o Advogado")
+
+            if(body.cliente_id == '')
+                throw new Error("Necessário informar o Cliente")
+            
+            let sql = `SELECT * FROM processos WHERE numero_processo = '${body.numero_processo}'`;
+            const rs_email = await query(sql);
+            if (rs_email.length > 0)
+                throw new Error("Número de Processo já cadastrado no sistema.");
+
+            sqlProcesso = `INSERT INTO processos (
+                advogado,
+                cliente_id,
+                numero_processo,
+                instancia,
+                tribunal,
+                numero_orgao,
+                natureza,
+                motivo,
+                comarca,
+                valor_causa,
+                data_distribuicao,
+                valor_contrato,
+                parcelas,
+                entrada,
+                inicio_prestacao
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            const processoResult = await query(sqlProcesso, [
+                body.advogado,
+                body.cliente_id,
+                body.numero_processo,
+                body.instancia,
+                body.tribunal,
+                body.numero_orgao,
+                body.natureza,
+                body.motivo,
+                body.comarca,
+                body.valor_causa,
+                body.data_distribuicao,
+                body.valor_contrato,
+                body.parcelas,
+                body.entrada,
+                body.inicio_prestacao
+            ]);
+
+            processoId = processoResult.insertId;
+
+            for (const reu of body.reus) {
+                if (reu.tp_reu === 'Física') {
+                    sqlReu = `INSERT INTO reus (
+                        nome_reu,
+                        tp_reu,
+                        cpf_reu,
+                        estado_civil_reu,
+                        rg_reu,
+                        email_reu,
+                        numero_reu,
+                        cep_reu,
+                        endereco_reu,
+                        endereco_numero_reu,
+                        endereco_complemento_reu,
+                        sexo_reu,
+                        profissao_reu,
+                        cnh_reu,
+                        processo_id
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ${processoId})`;
+
+                    await query(sqlReu, [
+                        reu.nome_reu,
+                        reu.tp_reu,
+                        reu.cpf_reu || null,
+                        reu.estado_civil_reu || null,
+                        reu.rg_reu || null,
+                        reu.email_reu || null,
+                        reu.numero_reu || null,
+                        reu.cep_reu || null,
+                        reu.endereco_reu || null,
+                        reu.endereco_numero_reu || null,
+                        reu.endereco_complemento_reu || null,
+                        reu.sexo_reu || null,
+                        reu.profissao_reu || null,
+                        reu.cnh_reu || null
+                    ]);
+                } else {
+                    sqlReu = `INSERT INTO reus (
+                        nome_reu,
+                        tp_reu,
+                        cnpj_reu,
+                        estado_civil_reu,
+                        nome_representante_reu,
+                        email_reu,
+                        numero_reu,
+                        cep_reu,
+                        endereco_reu,
+                        endereco_numero_reu,
+                        endereco_complemento_reu,
+                        sexo_reu,
+                        profissao_reu,
+                        processo_id
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ${processoId})`;
+
+                    await query(sqlReu, [
+                        reu.nome_reu,
+                        reu.tp_reu,
+                        reu.cnpj_reu || null,
+                        reu.estado_civil_reu || null,
+                        reu.nome_representante_reu || null,
+                        reu.email_reu || null,
+                        reu.numero_reu || null,
+                        reu.cep_reu || null,
+                        reu.endereco_reu || null,
+                        reu.endereco_numero_reu || null,
+                        reu.endereco_complemento_reu || null,
+                        reu.sexo_reu || null,
+                        reu.profissao_reu || null
+                    ]);
+                }
+            }
+
+
+
+            res.status(200).json("PROCESSO CRIADO COM SUCESSO");
+        } else {
+            res.setHeader('Allow', ['GET', 'POST']);
+            res.status(405).end(`Method ${req.method} Not Allowed`);
+        }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Erro na API:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }

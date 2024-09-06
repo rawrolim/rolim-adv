@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Cliente from "../../../models/cliente.model";
 import { query } from "../../../config/databaseConnection";
-import { Margin } from "@mui/icons-material";
+import { Email, Margin } from "@mui/icons-material";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method, body } = req;
@@ -46,8 +46,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             cliente.orgao,
                             ', inscrito no CPF sob nº ',
                             cliente.cpf,
-                            ', com endereço residencial na ' + cliente.endereco + ', número ' + cliente.endereco_num + ', ' + cliente.endereco_complemento + ', CEP:' + cliente.cep + 
-                            ', Email:',cliente.mail ,', Telefone:',cliente.numero ,
+                            ', com endereço residencial na ' + cliente.endereco + ', número ' + cliente.endereco_num + ', ' + cliente.endereco_complemento + ', CEP:' + cliente.cep , 
+                             `${cliente.mail ? `, Email: ${cliente.mail}` : ''}`
+                            ,`${cliente.numero ? `, Telefone: ${cliente.numero}` : ''}` ,
                             ', por este instrumento particular de procuração, nomeia e constitui seu bastante procurador, ',
                             { text: "RAWLINSON WAGNER MORAES ROLIM ", bold: true },
                             ', brasileiro, divorciado, advogado inscrito na ',
@@ -130,7 +131,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     cliente.endereco_num_representante,', ',
                                     cliente.endereco_complemento_representante,
                                     ', CEP:',cliente.cep_representante,
-                                    ', Email:',cliente.email_empresa,' ,Telefone:',cliente.numero_representante,
+
+                                    `${cliente.email_empresa ? `, Email: ${cliente.email_empresa}` : ''}`,
+                                    
+                                    `${cliente.numero_representante ? `, Email: ${cliente.numero_representante}` : ''}`,
                                     ', por este instrumento particular de procuração, nomeia e constitui seu bastante procurador, ',
                                     { text: "RAWLINSON WAGNER MORAES ROLIM ", bold: true },
                                     ', brasileiro, divorciado, advogado inscrito na ',
