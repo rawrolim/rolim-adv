@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS `processos`;
 CREATE TABLE processos(
     id int(11) NOT NULL AUTO_INCREMENT,
     advogado int(11) NOT NULL,
-    cliente_id int(11) NOT NULL,
     numero_processo TEXT NULL,
     instancia TEXT NULL,
     tribunal TEXT NULL,
@@ -24,10 +23,9 @@ CREATE TABLE processos(
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 LOCK TABLES `processos` WRITE;
-INSERT INTO `processos`(`advogado`,`cliente_id`,`numero_processo`,`instancia`,`tribunal`,`numero_orgao`,`natureza`,`motivo`,`comarca`,`valor_causa`,`data_distribuicao`,`valor_contrato`,`parcelas`,`entrada`,`inicio_prestacao`) 
+INSERT INTO `processos`(`advogado`,`numero_processo`,`instancia`,`tribunal`,`numero_orgao`,`natureza`,`motivo`,`comarca`,`valor_causa`,`data_distribuicao`,`valor_contrato`,`parcelas`,`entrada`,`inicio_prestacao`) 
 VALUES(
     13,
-    13150,
     '0001',
     'mato',
     'arvore',
