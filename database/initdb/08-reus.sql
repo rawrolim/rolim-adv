@@ -1,4 +1,4 @@
- DROP TABLE IF EXISTS `reus`;
+DROP TABLE IF EXISTS `reus`;
 
 CREATE TABLE reus(
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -19,10 +19,13 @@ CREATE TABLE reus(
     profissao_reu TEXT NULL,
     cnh_reu TEXT NULL,
     processo_id int(11) DEFAULT NULL,
-    CONSTRAINT fk_reus FOREIGN KEY (processo_id) REFERENCES processos(id),
+    CONSTRAINT fk_processo_reus FOREIGN KEY (processo_id) REFERENCES processos(id),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 LOCK TABLES `reus` WRITE;
-INSERT INTO `reus` (`nome_reu`,`processo_id`) VALUES ('gab',1);
+INSERT INTO `reus` 
+(`nome_reu`,
+`processo_id`
+) VALUES ('gab',1),('clinica',2);
  UNLOCK TABLES;
