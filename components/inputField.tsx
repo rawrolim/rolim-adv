@@ -6,6 +6,7 @@ export default function InputField({
     mask=null, 
     required=false, 
     onChange=(e)=>{},
+    disabled=false,
     value 
 }) {
     return (
@@ -19,6 +20,7 @@ export default function InputField({
                 className="form-control border-0 border-bottom"
                 id={id}
                 value={value}
+                disabled={disabled}
                 onChange={e=>onChange(e)}
                 placeholder={placeholder}
                 required={type !== 'text' && type !== 'number' && type !== 'date'}

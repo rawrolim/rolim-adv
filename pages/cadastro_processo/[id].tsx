@@ -455,7 +455,7 @@ export default function CadastroProceso() {
                         {step === 1 && (
                             <>
                         <div className="col-md-4">
-                            <InputField id='id' label='ID' type='text' value={formData['id']} />
+                            <InputField id='id' label='ID' type='text' disabled={true} value={formData['id']} />
                         </div>
                         <div className="col-md-4">
                             <div className="mb-3">

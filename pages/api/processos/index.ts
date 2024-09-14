@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             let sql = `
                 SELECT 
                     p.id,
-                    c.nome AS nome_cliente,
+                    GROUP_CONCAT(c.nome SEPARATOR '; ') AS nome_cliente,
                     u.nome AS nome_advogado,
                     p.numero_processo,
                     DATE_FORMAT(p.data_distribuicao, '%d/%m/%Y') AS data_distribuicao,
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     ON c.id = cp.cliente_id
                 INNER JOIN usuarios u
                     ON u.id = p.advogado
-                ORDER BY p.numero_processo ASC;`
+                group by p.id, p.numero_processo, p.data_distribuicao, p.motivo, u.nome;`
 
             const rs_processos = await query(sql);
             res.status(200).json(rs_processos);

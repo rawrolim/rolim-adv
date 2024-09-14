@@ -66,7 +66,7 @@ export default function ListaProcessos() {
             },
             {
               name: 'Cliente',
-              field: 'nome_cliente'
+              field: 'nome_cliente',
             },
             {
               name: 'Advogado',
