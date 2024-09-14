@@ -28,7 +28,7 @@ export default function ListaProcessos() {
     const resData = await http.get(`/api/processos/${router.query.cliente_id}`);
     if (resData) {
       const transformedData = resData.map(processo => ({
-        ...processo
+        ...processo,
       }));
       setProcessos(transformedData);
     }

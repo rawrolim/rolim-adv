@@ -14,23 +14,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } else if (req.method === 'POST') {
             const body = req.body;
             let sqlProcesso = '';
+            let sqlCliente = '';
             let sqlReu = '';
             let processoId: number;
 
             if(body.advogado == '')
                 throw new Error("Necessário informar o Advogado")
-
-            if(body.cliente_id == '')
-                throw new Error("Necessário informar o Cliente")
             
             let sql = `SELECT * FROM processos WHERE numero_processo = '${body.numero_processo}'`;
-            const rs_email = await query(sql);
-            if (rs_email.length > 0)
+            const rs_numero_processo = await query(sql);
+            if (rs_numero_processo.length > 0)
                 throw new Error("Número de Processo já cadastrado no sistema.");
 
             sqlProcesso = `INSERT INTO processos (
                 advogado,
-                cliente_id,
                 numero_processo,
                 instancia,
                 tribunal,
@@ -44,11 +41,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 parcelas,
                 entrada,
                 inicio_prestacao
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
             const processoResult = await query(sqlProcesso, [
                 body.advogado,
-                body.cliente_id,
                 body.numero_processo,
                 body.instancia,
                 body.tribunal,
@@ -65,6 +61,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             ]);
 
             processoId = processoResult.insertId;
+
+            for (const cliente of body.clientes) {
+                sqlCliente = `INSERT INTO cliente_processo (
+                        cliente_id,
+                        processo_id
+                    ) VALUES (?, ${processoId})`;
+                    await query(sqlCliente, [cliente.cliente_id]);
+            }
 
             for (const reu of body.reus) {
                 if (reu.tp_reu === 'Física') {
