@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const advogadosSql = "SELECT id, nome FROM usuarios WHERE (tipo_usuario = 1 OR tipo_usuario = 3) AND STATUS = 'A'";
             const advogados = await query(advogadosSql);
             
-            const clientesSql = 'SELECT id, nome FROM clientes';
+            const clientesSql = 'SELECT id, IFNULL(nome,razao_social) nome FROM clientes';
             const clientes = await query(clientesSql);
 
             res.status(200).json({ advogados, clientes });
