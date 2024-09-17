@@ -12,15 +12,14 @@ export async function middleware(request: NextRequest) {
         '/api/access'
     ];
 
-    if(process.env.ENV == 'development' || request.nextUrl.pathname == '/api/refreshToken')
+    if (process.env.ENV == 'development' || request.nextUrl.pathname == '/api/refreshToken')
         return NextResponse.next();
 
     if (authHeader) {
-        if((rotasPermitidasComAPIKeyPadrao.find(route => route == request.nextUrl.pathname)) && authHeader == process.env.API_KEY){
+        if ((rotasPermitidasComAPIKeyPadrao.find(route => route == request.nextUrl.pathname)) && authHeader == process.env.API_KEY) {
             Authorized = true;
-        }else{
-            try{
-                console.log('URL FUNCTION',`${process.env.NEXT_URL}/api/checkHeader`) 
+        } else {
+            try {
                 const res = await axios.post(`${process.env.NEXT_URL}/api/checkHeader`, {
                     authorization: authHeader
                 }, {
@@ -30,8 +29,8 @@ export async function middleware(request: NextRequest) {
                 });
 
                 Authorized = res.data.accepted;
-            }catch(e){
-                if(e.response.status == 401){
+            } catch (e) {
+                if (e.response.status == 401) {
                     return new NextResponse(JSON.stringify({ error: 'TokenExpiredError' }), {
                         status: 401,
                         headers: {
@@ -43,14 +42,14 @@ export async function middleware(request: NextRequest) {
         }
     }
 
-    if(!Authorized){
+    if (!Authorized) {
         return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
             status: 400,
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-    }else{
+    } else {
         return NextResponse.next();
     }
 }
