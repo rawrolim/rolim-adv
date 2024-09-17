@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
             Authorized = true;
         }else{
             try{
+                console.log('URL FUNCTION',`${process.env.NEXT_URL}/api/checkHeader`)
                 const res = await axios.post(`${process.env.NEXT_URL}/api/checkHeader`, {
                     authorization: authHeader
                 }, {
