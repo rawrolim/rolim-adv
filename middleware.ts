@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
             Authorized = true;
         }else{
             try{
-                /*const res = await axios.post(`${process.env.NEXT_URL}/api/checkHeader`, {
+                const res = await axios.post(`${process.env.NEXT_URL}/api/checkHeader`, {
                     authorization: authHeader
                 }, {
                     headers: {
@@ -28,8 +28,7 @@ export async function middleware(request: NextRequest) {
                     }
                 });
 
-                Authorized = res.data.accepted;*/
-                Authorized = true;
+                Authorized = res.data.accepted;
             }catch(e){
                 if(e.response.status == 401){
                     return new NextResponse(JSON.stringify({ error: 'TokenExpiredError' }), {
