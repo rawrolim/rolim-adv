@@ -53,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 endereco_representante,
                 endereco_num_representante,
                 endereco_complemento_representante,
+                sexo_representante,
                 CONCAT(UPPER(SUBSTRING(tp_pessoa, 1, 1)), LOWER(SUBSTRING(tp_pessoa, 2))) AS tp_pessoa
             FROM clientes
             WHERE id = ?`
@@ -137,7 +138,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 endereco_representante = ?, 
                 endereco_num_representante = ?,
                 endereco_complemento_representante = ?,
-                rg_representante = ?
+                rg_representante = ?,
+                sexo_representante = ?
             WHERE id = ?
             `;
             await query(sql,[body.cnpj,body.razao_social,
@@ -148,7 +150,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 body.endereco_numero_empresa ,body.endereco_complemento_empresa,
                 body.estado_civil_representante,body.cep_representante,body.endereco_representante,
                 body.endereco_num_representante,
-                body.endereco_complemento_representante,body.rg_representante,body.id]);
+                body.endereco_complemento_representante,body.rg_representante,body.sexo_representante,body.id]);
             res.status(200).json("CLIENTE ATUALIZADO COM SUCESSO");
             }
 

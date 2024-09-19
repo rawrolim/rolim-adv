@@ -1,4 +1,5 @@
-export default interface Cliente {
+export default interface Processo {
+    //Cliente
     id: String;
     nome: String;
     cpf: String;
@@ -36,9 +37,43 @@ export default interface Cliente {
     endereco_numero_empresa: string;
     endereco_complemento_empresa: string;
     estado_civil_representante: string;
+    sexo_representante:string;
     cep_representante: string;
     endereco_representante: string;
     endereco_num_representante: string;
     rg_representante: string;
     endereco_complemento_representante: string;
+
+    //Reus
+    nome_reu: string;
+    tp_reu: string;
+    cpf_reu: string;
+    cnpj_reu: string;
+    nome_representante_reu: string;
+    estado_civil_reu: string;
+    rg_reu: string;
+    email_reu: string;
+    numero_reu: string;
+    cep_reu: string;
+    endereco_reu: string;
+    endereco_numero_reu: string;
+    endereco_complemento_reu: string;
+    sexo_reu: string;
+    profissao_reu: string;
+    cnh_reu: string;
+
+    //Processo
+    numero_processo: string;
+    instancia : string;
+    tribunal : string;
+    numero_orgao: string;
+    natureza: string;
+    motivo: string;
+    comarca: string;
+    valor_causa: string;
+    data_distribuicao: string;
+    valor_contrato : string;
+    parcelas: string;
+    entrada: string;
+    inicio_prestacao: string;
 }

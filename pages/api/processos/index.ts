@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             let sql = `
                 SELECT 
                     p.id,
-                    GROUP_CONCAT(c.nome SEPARATOR '; ') AS nome_cliente,
+                    GROUP_CONCAT(IFNULL(c.nome,c.razao_social) SEPARATOR '; ') AS nome_cliente,
                     u.nome AS nome_advogado,
                     p.numero_processo,
                     DATE_FORMAT(p.data_distribuicao, '%d/%m/%Y') AS data_distribuicao,

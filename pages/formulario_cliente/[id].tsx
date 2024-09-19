@@ -221,7 +221,7 @@ export default function FormularioCliente() {
             required={required}
             disabled={disabled}
           >
-            {id === 'sexo' ? (
+            {id === 'sexo' || id === 'sexo_representante' ?(
               <>
                 <option value="">Selecione o Sexo</option>
                 <option value="Masculino">Masculino</option>
@@ -334,7 +334,7 @@ export default function FormularioCliente() {
             {renderInputField('rg', 'RG', 'text', '99.999.999-9', 'Digite seu RG', true)}
           </div>
           <div className="col-md-4">
-            {renderInputField('orgao', 'Órgão Emissor do RG', 'text', null, 'Digite o Órgão Emissor do RG')}
+            {renderInputField('orgao', 'Órgão Emissor do RG', 'text', null, 'Digite o Órgão Emissor do RG',true)}
           </div>
           <div className="col-md-4">
             {renderInputField('nome_mae', 'Nome da Mãe', 'text', null, 'Digite o Nome da Mãe')}
@@ -382,13 +382,13 @@ export default function FormularioCliente() {
             {renderInputField('razao_social', 'Razão Social', 'text', null, 'Digite a Razão Social')}
           </div>
           <div className="col-md-4">
-            {renderInputField('inscricao_municipal', 'Inscrição Municipal', 'text', null, 'Digite a Inscrição Municipal')}
+            {renderInputField('inscricao_municipal', 'Inscrição Municipal', 'text', null, 'Digite a Inscrição Municipal',true)}
           </div>
           <div className="col-md-4">
-            {renderInputField('inscricao_estadual', 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual')}
+            {renderInputField('inscricao_estadual', 'Inscrição Estadual', 'text', null, 'Digite a Inscrição Estadual',true)}
           </div>
           <div className="col-md-4">
-            {renderInputField('email_empresa', 'Email da Empresa', 'text', null, 'Digite o Email da empresa')}
+            {renderInputField('email_empresa', 'Email da Empresa', 'text', null, 'Digite o Email da empresa', true)}
           </div>
           <div className="col-md-4">
             {renderInputField('cep_empresa', 'CEP da Empresa', 'text', '99999-999', 'Digite o CEP da Empresa')}
@@ -415,9 +415,14 @@ export default function FormularioCliente() {
             {renderInputField('rg_representante', 'RG', 'text', '99.999.999-9', 'Digite seu RG', true)}
           </div>
           <div className="col-md-4">
+            {renderInputField('numero_representante', 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
+          </div>
+          <div className="col-md-4">
+            {renderInputField('sexo_representante', 'Sexo', 'text', null, 'Selecione o sexo', true, true)}
+          </div>
+          <div className="col-md-4">
             {renderInputField('estado_civil_representante', 'Estado Civil', 'text', null, 'Selecione o estado civil', true, true)}
           </div>
-
           <div className="col-md-4">
             {renderInputField('cep_representante', 'CEP do Representante', 'text', '99999-999', 'Digite o CEP da Empresa')}
           </div>
@@ -429,10 +434,6 @@ export default function FormularioCliente() {
           </div>
           <div className="col-md-4">
             {renderInputField('endereco_complemento_representante', 'Complemento do Endereço', 'text', null, 'Digite o Complemento do Endereço')}
-          </div>
-
-          <div className="col-md-4">
-            {renderInputField('numero_representante', 'Telefone do Representante', 'text', '(99)99999-9999', 'Digite o Telefone do Representante')}
           </div>
         </>
       ) : null}

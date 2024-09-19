@@ -31,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 ON u.id = p.advogado
             WHERE p.id = ?`;
             const rs_processo = await query(sql, [req.query.processo_id]);
-            console.log(rs_processo)
 
             const sqlCliente=`
             SELECT 
@@ -68,7 +67,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (rs_processo.length === 0) {
                 throw new Error("Processo não encontrado.");
             }
-
             res.status(200).json({
                 processo: rs_processo[0],
                 clientes: rs_clientes,

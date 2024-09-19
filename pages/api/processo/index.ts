@@ -17,6 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             let sqlCliente = '';
             let sqlReu = '';
             let processoId: number;
+            console.log(body)
 
             if(body.advogado == '')
                 throw new Error("Necessário informar o Advogado")
@@ -68,78 +69,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         processo_id
                     ) VALUES (?, ${processoId})`;
                     await query(sqlCliente, [cliente.cliente_id]);
-            }
-
-            for (const reu of body.reus) {
-                if (reu.tp_reu === 'Física') {
-                    sqlReu = `INSERT INTO reus (
-                        nome_reu,
-                        tp_reu,
-                        cpf_reu,
-                        estado_civil_reu,
-                        rg_reu,
-                        email_reu,
-                        numero_reu,
-                        cep_reu,
-                        endereco_reu,
-                        endereco_numero_reu,
-                        endereco_complemento_reu,
-                        sexo_reu,
-                        profissao_reu,
-                        cnh_reu,
-                        processo_id
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ${processoId})`;
-
-                    await query(sqlReu, [
-                        reu.nome_reu,
-                        reu.tp_reu,
-                        reu.cpf_reu || null,
-                        reu.estado_civil_reu || null,
-                        reu.rg_reu || null,
-                        reu.email_reu || null,
-                        reu.numero_reu || null,
-                        reu.cep_reu || null,
-                        reu.endereco_reu || null,
-                        reu.endereco_numero_reu || null,
-                        reu.endereco_complemento_reu || null,
-                        reu.sexo_reu || null,
-                        reu.profissao_reu || null,
-                        reu.cnh_reu || null
-                    ]);
-                } else {
-                    sqlReu = `INSERT INTO reus (
-                        nome_reu,
-                        tp_reu,
-                        cnpj_reu,
-                        estado_civil_reu,
-                        nome_representante_reu,
-                        email_reu,
-                        numero_reu,
-                        cep_reu,
-                        endereco_reu,
-                        endereco_numero_reu,
-                        endereco_complemento_reu,
-                        sexo_reu,
-                        profissao_reu,
-                        processo_id
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ${processoId})`;
-
-                    await query(sqlReu, [
-                        reu.nome_reu,
-                        reu.tp_reu,
-                        reu.cnpj_reu || null,
-                        reu.estado_civil_reu || null,
-                        reu.nome_representante_reu || null,
-                        reu.email_reu || null,
-                        reu.numero_reu || null,
-                        reu.cep_reu || null,
-                        reu.endereco_reu || null,
-                        reu.endereco_numero_reu || null,
-                        reu.endereco_complemento_reu || null,
-                        reu.sexo_reu || null,
-                        reu.profissao_reu || null
-                    ]);
-                }
             }
 
 

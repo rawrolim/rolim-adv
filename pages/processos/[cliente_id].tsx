@@ -42,11 +42,11 @@ export default function ListaProcessos() {
     setProcessos(transformedData);
   }
   
-  async function getContrato(id, nome_cliente){
-    const pdf = await http.post("/api/pdf/contratoProcesso",{
+  async function getContrato(id, numero_processo) {
+    const pdf = await http.post("/api/pdf/contratoProcesso", {
       id
     });
-    pdfMake.createPdf(pdf).download("Contrato "+ nome_cliente +".pdf");
+      pdfMake.createPdf(pdf).download("Contrato Número " + numero_processo + ".pdf");
   }
   
   return (
@@ -66,7 +66,7 @@ export default function ListaProcessos() {
             },
             {
               name: 'Cliente',
-              field: 'nome_cliente',
+              field: 'nome_cliente'
             },
             {
               name: 'Advogado',
@@ -91,7 +91,7 @@ export default function ListaProcessos() {
                 },
                 {
                   handler: (arrReplaced = []) => getContrato(arrReplaced[0],arrReplaced[1]),
-                  fieldParams: ['id','nome_cliente'],
+                  fieldParams: ['id','numero_processo'],
                   name: 'Contrato',
                   icon: <FaFilePdf />
                 },
