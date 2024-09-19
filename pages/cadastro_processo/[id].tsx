@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/formCliente.module.css';
 import SelectSearch from '../../components/SelectSearch';
 import InputField from '../../components/inputField';
-import {GrFormNext, GrFormPrevious} from "react-icons/gr";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 export default function CadastroProceso() {
     const router = useRouter();
@@ -28,14 +28,14 @@ export default function CadastroProceso() {
         parcelas: '',
         entrada: '',
         inicio_prestacao: '',
-        clientes:[],
+        clientes: [],
         reus: []
     });
 
     useEffect(() => {
         fetchAdvogadosClientes();
         if (router.query.id !== 'novo') {
-            if (Number(router.query.id)) 
+            if (Number(router.query.id))
                 getProcesso();
         }
     }, []);
@@ -45,7 +45,7 @@ export default function CadastroProceso() {
             if (reu.cep_reu && reu.cep_reu.length === 8) {
                 await fetchEnderecoByCep(reu.cep_reu, index);
             }
-        });   
+        });
     }, [formData.reus]);
 
     async function fetchEnderecoByCep(cep, index) {
@@ -113,7 +113,7 @@ export default function CadastroProceso() {
                 clientes: resData.clientes || [],
                 reus: resData.reus || []
             });
-        
+
 
             setAdvogado({ value: resData.advogado, label: resData.nome_advogado });
             setCliente({ value: resData.cliente_id, label: resData.nome_cliente });
@@ -131,7 +131,7 @@ export default function CadastroProceso() {
                 clientes: formData.clientes.map(cliente => ({
                     cliente_id: cliente.cliente_id ? cliente.cliente_id.value : null,
                 }))
-            };            
+            };
             if (formData.id === 0) {
                 await http.post('/api/processo/', updatedFormData);
             } else {
@@ -165,7 +165,7 @@ export default function CadastroProceso() {
         };
         setFormData(prevFormData => ({ ...prevFormData, clientes: newClientes }));
     };
-    
+
 
     const addReu = () => {
         setFormData(prevFormData => ({
@@ -246,7 +246,7 @@ export default function CadastroProceso() {
             const { id, value } = e.target;
             onChange(index, id, value);
         };
-    
+
         return (
             <div className='row g-3 mt-3'>
                 <div className="col-md-4">
@@ -260,62 +260,62 @@ export default function CadastroProceso() {
                     <select
                         id={`tp_reu_${index}`}
                         className="form-select"
-                        value={reu.tp_reu} 
+                        value={reu.tp_reu}
                         onChange={(e) => onChange(index, 'tp_reu', e.target.value)}
                     >
-                    <option value="Física">Física</option>
-                    <option value="Jurídica">Jurídica</option>
+                        <option value="Física">Física</option>
+                        <option value="Jurídica">Jurídica</option>
                     </select>
-                    </div>
+                </div>
                 {reu.tp_reu === 'Física' && (
                     <>
-                    <div className="col-md-4">
-                        <InputField id="cpf_reu" label="CPF" type="text" placeholder='Digite o CPF do Reú' value={reu.cpf_reu} onChange={handleInputChange}/>
+                        <div className="col-md-4">
+                            <InputField id="cpf_reu" label="CPF" type="text" placeholder='Digite o CPF do Reú' value={reu.cpf_reu} onChange={handleInputChange} />
                         </div>
                         <div className="col-md-4">
-                        <InputField id="rg_reu" label="RG" type="text" placeholder='Digite o RG do Reú' value={reu.rg_reu} onChange={handleInputChange} />
+                            <InputField id="rg_reu" label="RG" type="text" placeholder='Digite o RG do Reú' value={reu.rg_reu} onChange={handleInputChange} />
                         </div>
                         <div className="col-md-4">
-                        <InputField id="cnh_reu" label="CNH" type="text" placeholder='Digite a CNH do Reú'  value={reu.cnh_reu}  onChange={handleInputChange} />
+                            <InputField id="cnh_reu" label="CNH" type="text" placeholder='Digite a CNH do Reú' value={reu.cnh_reu} onChange={handleInputChange} />
                         </div>
                     </>
                 )}
                 {reu.tp_reu === 'Jurídica' && (
                     <>
-                    <div className="col-md-4">
-                        <InputField id="cnpj_reu" label="CNPJ" type="text" placeholder='Digite o CNPJ do Reú'  value={reu.cnpj_reu}  onChange={handleInputChange}/>
+                        <div className="col-md-4">
+                            <InputField id="cnpj_reu" label="CNPJ" type="text" placeholder='Digite o CNPJ do Reú' value={reu.cnpj_reu} onChange={handleInputChange} />
                         </div>
                         <div className="col-md-4">
-                        <InputField id="nome_representante_reu" label="Nome do Representante" placeholder='Digite o Nome do Representante do Reú' type="text" value={reu.nome_representante_reu}  onChange={handleInputChange} />
+                            <InputField id="nome_representante_reu" label="Nome do Representante" placeholder='Digite o Nome do Representante do Reú' type="text" value={reu.nome_representante_reu} onChange={handleInputChange} />
                         </div>
                     </>
                 )}
-                    <div className="col-md-4">
-                    <InputField  id="email_reu"  label="E-mail" placeholder='Digite o email do Reú'  type="email"  value={reu.email_reu}  onChange={handleInputChange}
+                <div className="col-md-4">
+                    <InputField id="email_reu" label="E-mail" placeholder='Digite o email do Reú' type="email" value={reu.email_reu} onChange={handleInputChange}
                     />
-                    </div>
-                    <div className="col-md-4">
-                    <InputField  id="numero_reu"  label="Número"  type="text" placeholder='Digite o Telefone do Reú'  value={reu.numero_reu}  onChange={handleInputChange}
+                </div>
+                <div className="col-md-4">
+                    <InputField id="numero_reu" label="Número" type="text" placeholder='Digite o Telefone do Reú' value={reu.numero_reu} onChange={handleInputChange}
                     />
-                    </div>
-                    <div className="col-md-4">
-                    <InputField  id="cep_reu"  label="CEP"  type="text" placeholder='Digite o Cep do Reú'  value={reu.cep_reu}  onChange={handleInputChange}
+                </div>
+                <div className="col-md-4">
+                    <InputField id="cep_reu" label="CEP" type="text" placeholder='Digite o Cep do Reú' value={reu.cep_reu} onChange={handleInputChange}
                     />
-                    </div>
-                    <div className="col-md-4">
-                    <InputField  id="endereco_reu"  label="Endereço" placeholder='Digite o Endereço'  type="text"  value={reu.endereco_reu}  onChange={handleInputChange}
+                </div>
+                <div className="col-md-4">
+                    <InputField id="endereco_reu" label="Endereço" placeholder='Digite o Endereço' type="text" value={reu.endereco_reu} onChange={handleInputChange}
                     />
-                    </div>
-                    <div className="col-md-4">
+                </div>
+                <div className="col-md-4">
                     <InputField id="endereco_numero_reu" label="Número" placeholder='Digite o Número do Endereço' type="text" value={reu.endereco_numero_reu} onChange={handleInputChange}
                     />
-                    </div>
-                    <div className="col-md-4">
+                </div>
+                <div className="col-md-4">
                     <InputField id="endereco_complemento_reu" placeholder='Digite o complemento Endereço' label="Complemento" type="text" value={reu.endereco_complemento_reu} onChange={handleInputChange}
                     />
-                    </div>
-    
-                    <div className="col-md-4">
+                </div>
+
+                <div className="col-md-4">
                     <label htmlFor={`sexo_reu`} className="form-label">
                         Sexo
                     </label>
@@ -330,9 +330,9 @@ export default function CadastroProceso() {
                         <option value="Feminino">Feminino</option>
                         <option value="Não Informado">Prefiro não Informar</option>
                     </select>
-                    </div>
-    
-                    <div className="col-md-4">
+                </div>
+
+                <div className="col-md-4">
                     <label htmlFor={`estado_civil_reu`} className="form-label">
                         Estado Civil
                     </label>
@@ -352,32 +352,32 @@ export default function CadastroProceso() {
                         <option value="União Estável">União Estável</option>
                     </select>
                 </div>
-    
-                    <div className="col-md-4">
+
+                <div className="col-md-4">
                     <InputField id="profissao_reu" label="Profissão" placeholder='Digite a profissão' type="text" value={reu.profissao_reu} onChange={handleInputChange} />
-                    </div>
-                    <div className='w-100'>
-                        <button type="button" className="btn btn-danger mb-2 w-25" onClick={() => onRemove(index)}>
-                            Remover Réu
-                        </button>
-                    </div>
+                </div>
+                <div className='w-100'>
+                    <button type="button" className="btn btn-danger mb-2 w-25" onClick={() => onRemove(index)}>
+                        Remover Réu
+                    </button>
+                </div>
             </div>
-            
+
         );
     };
 
     const [step, setStep] = useState(1);
     const handleStepProximo = () => {
-        if(step === 1){
+        if (step === 1) {
             setStep(2);
-        }else if (step === 2){
+        } else if (step === 2) {
             setStep(3);
         }
     };
     const handleStepVoltar = () => {
-        if(step === 2){
+        if (step === 2) {
             setStep(1);
-        }else if(step === 3){
+        } else if (step === 3) {
             setStep(2);
         }
     }
@@ -392,125 +392,125 @@ export default function CadastroProceso() {
                     </button>
                     {step === 1 && (
                         <>
-                       <div className='d-flex justify-content-center grid gap-5'>
-                            <div className='etapa1'>
-                                <div className='border border-3 border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                            <div className='d-flex justify-content-center grid gap-5'>
+                                <div className='etapa1'>
+                                    <div className='border border-3 border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
                                     <br />
                                     <span>Informações</span><div className='mt2'><div className='text-center'>Processos</div></div>
-                            </div>
-                            <div className='etapa2'>
-                                <div  className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
-                                <span>Seleção</span><span> Clientes</span>
+                                </div>
+                                <div className='etapa2'>
+                                    <div className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
+                                    <span>Seleção</span><span> Clientes</span>
                                 </div>
 
-                            <div className='etapa3'>
-                                <div className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div>
-                                <br /><span>Seleção</span><span> Réus</span>
+                                <div className='etapa3'>
+                                    <div className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                                    <br /><span>Seleção</span><span> Réus</span>
                                 </div>
-                        </div>
+                            </div>
                         </>
                     )}
                     {step === 2 && (
                         <>
-                      <div className='d-flex justify-content-center grid gap-5'>
-                            <div className='etapa1'>
-                                <div className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                            <div className='d-flex justify-content-center grid gap-5'>
+                                <div className='etapa1'>
+                                    <div className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
                                     <br />
                                     <span>Informações</span><div className='mt2'><div className='text-center'>Processos</div></div>
+                                </div>
+                                <div className={styles.linha}></div>
+                                <div className='etapa2'>
+                                    <div className='border border-3  border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
+                                    <span>Seleção</span><span> Clientes</span>
+                                </div>
+                                <div className='etapa3'>
+                                    <div className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                                    <br /><span>Seleção</span><span> Réus</span>
+                                </div>
                             </div>
-                            <div className={styles.linha}></div>
-                            <div className='etapa2'>
-                                <div className='border border-3  border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
-                                <span>Seleção</span><span> Clientes</span>
-                                </div>
-                            <div className='etapa3'>
-                                <div className='border border-3 border-gray rounded-circle d-flex p-4 w-25 mx-auto'></div>
-                                <br /><span>Seleção</span><span> Réus</span>
-                                </div>
-                        </div>
                         </>
                     )}
                     {step === 3 && (
                         <>
-                      <div className='d-flex justify-content-center grid gap-5'>
-                            <div className='etapa1'>
-                                <div  className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                            <div className='d-flex justify-content-center grid gap-5'>
+                                <div className='etapa1'>
+                                    <div className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
                                     <br />
                                     <span>Informações</span><div className='mt2'><div className='text-center'>Processos</div></div>
-                            </div>
-                            <div className={styles.linha2}></div>
-                            <div className='etapa2'>
-                                <div className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
-                                <span>Seleção</span><span> Clientes</span>
+                                </div>
+                                <div className={styles.linha2}></div>
+                                <div className='etapa2'>
+                                    <div className='border border-3 bg-primary border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div><br />
+                                    <span>Seleção</span><span> Clientes</span>
                                 </div>
                                 <div className={styles.linha3}></div>
-                            <div className='etapa3'>
-                                <div  className='border border-3 border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
-                                <br /><span>Seleção</span><span> Réus</span>
+                                <div className='etapa3'>
+                                    <div className='border border-3 border-primary rounded-circle d-flex p-4 w-25 mx-auto'></div>
+                                    <br /><span>Seleção</span><span> Réus</span>
                                 </div>
-                        </div>
+                            </div>
                         </>
                     )}
                     <form onSubmit={handleSubmit} className='row g-3 mt-3'>
                         {step === 1 && (
                             <>
-                        <div className="col-md-4">
-                            <InputField id='id' label='ID' type='text' disabled={true} value={formData['id']} />
-                        </div>
-                        <div className="col-md-4">
-                            <div className="mb-3">
-                                <label htmlFor="advogado" className="form-label">
-                                    Advogado *
-                                </label>
-                                <SelectSearch
-                                    value={id_advogado}
-                                    onChange={setAdvogado}
-                                    options={advogadosOptions}
-                                    required={true}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['numero_processo']} id='numero_processo' label='Número processo' type='text' placeholder='Digite o número do processo' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['instancia']} id='instancia' label='Instância' type='text' placeholder='Digite a instância' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['tribunal']} id='tribunal' label='Tribunal' type='text' placeholder='Digite o tribunal' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['numero_orgao']} id='numero_orgao' label='Número Orgão' type='text' placeholder='Digite o Número do Orgão' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['natureza']} id='natureza' label='Natureza' type='text' placeholder='Digite a Natureza' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['motivo']} id='motivo' label='Motivo' type='text' placeholder='Digite o Motivo' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['comarca']} id='comarca' label='Comarca' type='text' placeholder='Digite a Comarca' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['valor_causa']} id='valor_causa' label='Valor da Causa' type='text' placeholder='Digite o Valor da Causa' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['data_distribuicao']} id='data_distribuicao' label='Data Distribuição' type='date' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['valor_contrato']} id='valor_contrato' label='Valor do Contrato' type='text' placeholder='Digite o Valor do Contrato' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['parcelas']} id='parcelas' label='Parcelas' type='number' placeholder='Digite a Quantidade de Parcelas' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['entrada']} id='entrada' label='Entrada' type='text' placeholder='Digite o Valor de Entrada' />
-                        </div>
-                        <div className="col-md-4">
-                            <InputField onChange={handleInputChange} value={formData['inicio_prestacao']} id='inicio_prestacao' label='Início Prestação' type='date' />
-                        </div>
-                        </>
-                    )}
+                                <div className="col-md-4">
+                                    <InputField id='id' label='ID' type='text' disabled={true} value={formData['id']} />
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="mb-3">
+                                        <label htmlFor="advogado" className="form-label">
+                                            Advogado *
+                                        </label>
+                                        <SelectSearch
+                                            value={id_advogado}
+                                            onChange={setAdvogado}
+                                            options={advogadosOptions}
+                                            required={true}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['numero_processo']} id='numero_processo' label='Número processo' type='text' placeholder='Digite o número do processo' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['instancia']} id='instancia' label='Instância' type='text' placeholder='Digite a instância' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['tribunal']} id='tribunal' label='Tribunal' type='text' placeholder='Digite o tribunal' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['numero_orgao']} id='numero_orgao' label='Número Orgão' type='text' placeholder='Digite o Número do Orgão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['natureza']} id='natureza' label='Natureza' type='text' placeholder='Digite a Natureza' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['motivo']} id='motivo' label='Motivo' type='text' placeholder='Digite o Motivo' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['comarca']} id='comarca' label='Comarca' type='text' placeholder='Digite a Comarca' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['valor_causa']} id='valor_causa' label='Valor da Causa' type='text' placeholder='Digite o Valor da Causa' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['data_distribuicao']} id='data_distribuicao' label='Data Distribuição' type='date' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['valor_contrato']} id='valor_contrato' label='Valor do Contrato' type='text' placeholder='Digite o Valor do Contrato' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['parcelas']} id='parcelas' label='Parcelas' type='number' placeholder='Digite a Quantidade de Parcelas' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['entrada']} id='entrada' label='Entrada' type='text' placeholder='Digite o Valor de Entrada' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['inicio_prestacao']} id='inicio_prestacao' label='Início Prestação' type='date' />
+                                </div>
+                            </>
+                        )}
                         {step === 2 && (
                             <>
                                 {formData.clientes && formData.clientes.map((cliente, index) => (
@@ -522,38 +522,38 @@ export default function CadastroProceso() {
                                     </div>
                                 ))}
                                 <button type="button" className="btn btn-secondary w-25 mb-3" onClick={addCliente}>
-                                {formData.clientes.length === 0 ? 'Adicionar um Autor' : 'Adicionar Autor'}
+                                    {formData.clientes.length === 0 ? 'Adicionar um Autor' : 'Adicionar Autor'}
                                 </button>
                             </>
                         )}
                         {step === 3 && (
                             <>
-                            {formData.reus && formData.reus.map((reu, index) => (
-                                <div key={index} className="col-md-12 mb-3 border border-3 p-3 rounded">
-                                    <div>
-                                        <h5>Réu Pessoa {reu.tp_reu} {index + 1}</h5>
-                                        <ReuForm reu={reu} index={index} onChange={handleReuChange} onRemove={removeReu} />
+                                {formData.reus && formData.reus.map((reu, index) => (
+                                    <div key={index} className="col-md-12 mb-3 border border-3 p-3 rounded">
+                                        <div>
+                                            <h5>Réu Pessoa {reu.tp_reu} {index + 1}</h5>
+                                            <ReuForm reu={reu} index={index} onChange={handleReuChange} onRemove={removeReu} />
+                                        </div>
                                     </div>
-                                </div>
                                 ))}
-                            <button type="button" className="btn btn-secondary w-25 mb-3" onClick={addReu}>
-                            {formData.reus.length === 0 ? 'Adicionar um Réu' : 'Adicionar Réu'}
-                            </button>
+                                <button type="button" className="btn btn-secondary w-25 mb-3" onClick={addReu}>
+                                    {formData.reus.length === 0 ? 'Adicionar um Réu' : 'Adicionar Réu'}
+                                </button>
 
-                            <div className="col-6 mx-auto text-center w-100">
+                                <div className="col-6 mx-auto text-center w-100">
                                     <button type="submit" className="btn btn-primary w-50">
-                                    {formData.id === 0 ? 'Criar Processo' : 'Atualizar Processo'}
+                                        {formData.id === 0 ? 'Criar Processo' : 'Atualizar Processo'}
                                     </button>
                                 </div>
                             </>
                         )}
-                
-                <div className='actions row'>
+
+                        <div className='actions row'>
                             {step > 1 && (
                                 <div className='col-2'>
-                                    <button 
-                                        type='button' 
-                                        className='btn btn-block btn-primary' 
+                                    <button
+                                        type='button'
+                                        className='btn btn-block btn-primary'
                                         onClick={handleStepVoltar}
                                     >
                                         <GrFormPrevious /><span>Voltar</span>
@@ -563,9 +563,9 @@ export default function CadastroProceso() {
 
                             {step < 3 && (
                                 <div className='col'>
-                                    <button 
-                                        type='button' 
-                                        className='btn btn-block btn-primary' 
+                                    <button
+                                        type='button'
+                                        className='btn btn-block btn-primary'
                                         onClick={handleStepProximo}
                                     >
                                         <span>Avançar</span><GrFormNext />
