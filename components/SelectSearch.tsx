@@ -7,7 +7,7 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
     const selectRef = useRef(null);
 
     const filteredOptions = options.filter(option =>
-        option.label.toLowerCase().includes(searchTerm.toLowerCase())
+        option.label.toLowerCase().includes(searchTerm ? searchTerm.toLowerCase() : "")
     );
 
     const handleOptionClick = (option) => {
@@ -19,7 +19,6 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
 
     const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
-            console.log(selectedOption,value)
             if(selectedOption?.label){
                 console.log(value)
                 setSearchTerm(selectedOption?.label)
@@ -30,7 +29,7 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
 
     useEffect(() => {
         if (value) {
-            setSearchTerm(value.label);
+         setSearchTerm(value.label);
         } else {
             setSearchTerm(''); 
         }
