@@ -28,7 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 p.entrada,
                 primeira_rescisao,
                 segunda_rescisao,
-                terceira_rescisao
+                terceira_rescisao,
+                percent_final_processo
             FROM processos p
             INNER JOIN usuarios u 
                 ON u.id = p.advogado
@@ -103,7 +104,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 inicio_prestacao = ?,
                 primeira_rescisao = ?,
                 segunda_rescisao = ?,
-                terceira_rescisao = ?
+                terceira_rescisao = ?,
+                percent_final_processo = ?
             WHERE id = ?`;
 
             await query(sqlProcesso, [
@@ -124,6 +126,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 body.primeira_rescisao,
                 body.segunda_rescisao,
                 body.terceira_rescisao,
+                body.percent_final_processo,
                 body.id
             ]);
            for (const cliente of body.clientes) {

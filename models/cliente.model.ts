@@ -79,4 +79,5 @@ export default interface Processo {
     primeira_rescisao: string;
     segunda_rescisao: string;
     terceira_rescisao: string;
+    percent_final_processo: string;
 }

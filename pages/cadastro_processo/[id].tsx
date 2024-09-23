@@ -31,6 +31,7 @@ export default function CadastroProceso() {
         primeira_rescisao: '',
         segunda_rescisao: '',
         terceira_rescisao: '',
+        percent_final_processo: '',
         clientes: [],
         reus: []
     });
@@ -116,6 +117,7 @@ export default function CadastroProceso() {
                 primeira_rescisao: resData.processo.primeira_rescisao || '',
                 segunda_rescisao: resData.processo.segunda_rescisao || '',
                 terceira_rescisao: resData.processo.terceira_rescisao || '',
+                percent_final_processo: resData.processo.percent_final_processo || '',
                 clientes: resData.clientes || [],
                 reus: resData.reus || []
             });
@@ -524,6 +526,9 @@ export default function CadastroProceso() {
                                 </div>
                                 <div className="col-md-4">
                                     <InputField onChange={handleInputChange} value={formData['terceira_rescisao']} id='terceira_rescisao' label='Terceira Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['percent_final_processo']} id='percent_final_processo' label='Percentual Final do Processo' type='text' placeholder='Digite o Percentual do Final do Processo' />
                                 </div>
                             </>
                         )}
