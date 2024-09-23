@@ -28,6 +28,9 @@ export default function CadastroProceso() {
         parcelas: '',
         entrada: '',
         inicio_prestacao: '',
+        primeira_rescisao: '',
+        segunda_rescisao: '',
+        terceira_rescisao: '',
         clientes: [],
         reus: []
     });
@@ -110,6 +113,9 @@ export default function CadastroProceso() {
                 parcelas: resData.processo.parcelas || '',
                 entrada: resData.processo.entrada || '',
                 inicio_prestacao: resData.processo.inicio_prestacao || '',
+                primeira_rescisao: resData.processo.primeira_rescisao || '',
+                segunda_rescisao: resData.processo.segunda_rescisao || '',
+                terceira_rescisao: resData.processo.terceira_rescisao || '',
                 clientes: resData.clientes || [],
                 reus: resData.reus || []
             });
@@ -508,6 +514,16 @@ export default function CadastroProceso() {
                                 </div>
                                 <div className="col-md-4">
                                     <InputField onChange={handleInputChange} value={formData['inicio_prestacao']} id='inicio_prestacao' label='Início Prestação' type='date' />
+                                </div>
+
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['primeira_rescisao']} id='primeira_rescisao' label='Primeira Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['segunda_rescisao']} id='segunda_rescisao' label='Segunda Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['terceira_rescisao']} id='terceira_rescisao' label='Terceira Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
                                 </div>
                             </>
                         )}

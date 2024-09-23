@@ -55,6 +55,9 @@ export default function InformacoesProcesso() {
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Parcelas:</strong> {selectedProcess.parcelas}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Entrada:</strong> {formatDate(selectedProcess.entrada)}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Início Prestação:</strong> {formatDate(selectedProcess.inicio_prestacao)}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Primeira Rescisão:</strong> {formatDate(selectedProcess.primeira_rescisao)}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Segunda Rescisão:</strong> {formatDate(selectedProcess.segunda_rescisao)}</div>
+                        <div className='col-12 col-md-6 border-bottom p-2'><strong>Terceira Rescisão:</strong> {formatDate(selectedProcess.terceira_rescisao)}</div>
                     </div>
                 }
             </div>

@@ -41,8 +41,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 valor_contrato,
                 parcelas,
                 entrada,
-                inicio_prestacao
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                inicio_prestacao,
+                primeira_rescisao,
+                segunda_rescisao,
+                terceira_rescisao
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
             const processoResult = await query(sqlProcesso, [
                 body.advogado,
@@ -58,7 +61,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 body.valor_contrato,
                 body.parcelas,
                 body.entrada,
-                body.inicio_prestacao
+                body.inicio_prestacao,
+                body.primeira_rescisao,
+                body.segunda_rescisao,
+                body.terceira_rescisao
             ]);
 
             processoId = processoResult.insertId;
