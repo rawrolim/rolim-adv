@@ -25,7 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 DATE_FORMAT(p.data_distribuicao, '%Y-%m-%d') AS data_distribuicao,
                 p.valor_contrato,
                 p.parcelas,
-                p.entrada
+                p.entrada,
+                primeira_rescisao,
+                segunda_rescisao,
+                terceira_rescisao,
+                percent_final_processo
             FROM processos p
             INNER JOIN usuarios u 
                 ON u.id = p.advogado
@@ -97,7 +101,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 valor_contrato = ?,
                 parcelas = ?,
                 entrada = ?,
-                inicio_prestacao = ?
+                inicio_prestacao = ?,
+                primeira_rescisao = ?,
+                segunda_rescisao = ?,
+                terceira_rescisao = ?,
+                percent_final_processo = ?
             WHERE id = ?`;
 
             await query(sqlProcesso, [
@@ -115,6 +123,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 body.parcelas,
                 body.entrada,
                 body.inicio_prestacao,
+                body.primeira_rescisao,
+                body.segunda_rescisao,
+                body.terceira_rescisao,
+                body.percent_final_processo,
                 body.id
             ]);
            for (const cliente of body.clientes) {

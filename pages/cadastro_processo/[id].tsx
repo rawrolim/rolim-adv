@@ -28,6 +28,10 @@ export default function CadastroProceso() {
     parcelas: "",
     entrada: "",
     inicio_prestacao: "",
+        primeira_rescisao: '',
+        segunda_rescisao: '',
+        terceira_rescisao: '',
+        percent_final_processo: '',
     clientes: [],
     reus: [],
   });
@@ -109,6 +113,10 @@ export default function CadastroProceso() {
         parcelas: resData.processo.parcelas || "",
         entrada: resData.processo.entrada || "",
         inicio_prestacao: resData.processo.inicio_prestacao || "",
+                primeira_rescisao: resData.processo.primeira_rescisao || '',
+                segunda_rescisao: resData.processo.segunda_rescisao || '',
+                terceira_rescisao: resData.processo.terceira_rescisao || '',
+                percent_final_processo: resData.processo.percent_final_processo || '',
         clientes: resData.clientes || [],
         reus: resData.reus || [],
       });
@@ -730,6 +738,19 @@ export default function CadastroProceso() {
                     type="date"
                   />
                 </div>
+
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['primeira_rescisao']} id='primeira_rescisao' label='Primeira Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['segunda_rescisao']} id='segunda_rescisao' label='Segunda Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['terceira_rescisao']} id='terceira_rescisao' label='Terceira Rescisão' type='text' placeholder='Digite o valor da Rescisão' />
+                                </div>
+                                <div className="col-md-4">
+                                    <InputField onChange={handleInputChange} value={formData['percent_final_processo']} id='percent_final_processo' label='Percentual Final do Processo' type='text' placeholder='Digite o Percentual do Final do Processo' />
+                                </div>
               </>
             )}
             {step === 2 && (

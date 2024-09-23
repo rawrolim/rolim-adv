@@ -76,4 +76,8 @@ export default interface Processo {
     parcelas: string;
     entrada: string;
     inicio_prestacao: string;
+    primeira_rescisao: string;
+    segunda_rescisao: string;
+    terceira_rescisao: string;
+    percent_final_processo: string;
 }
