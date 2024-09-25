@@ -179,7 +179,14 @@ export default function CadastroProceso() {
       ...newClientes[index],
       cliente_id: value.value,
     };
+
+    const auxClientes = [...cliente_id];
+    auxClientes[index] = {
+      value: value.value,
+      label: value.label
+    };
     setFormData((prevFormData) => ({ ...prevFormData, clientes: newClientes }));
+    setCliente(auxClientes);
   };
 
   const addReu = () => {
