@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const clientesText = clientes.map((cliente, index) => {
                 const isLast = index === clientes.length - 1;
-                if(cliente.tp_pessoa == 'Física'){
+                if(cliente.tp_pessoa == 'fisica'){
                     return [ 
                         {text: `${cliente.nome.toUpperCase()}`, bold: true },
                         ', brasileiro, ',{text: `${cliente.estado_civil}`},', ',
@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const reusText = reus.map((reu, index) => {
                 const isLast = index === reus.length - 1;
-                if(reu.tp_reu === 'Física'){
+                if(reu.tp_reu === 'fisica'){
                     return [ 
                         {text: ` ${reu.nome_reu.toUpperCase()}`, bold: true },
                         isLast ? { text: '.' } : { text: ', e ' }

@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }else if(req.method == 'POST'){
             const body = req.body;
             let sql = '';
-            if(body.tp_pessoa === 'Física'){
+            if(body.tp_pessoa === 'fisica'){
                 if(body.nome == '')
                     throw new Error("Necessário informar o nome")
                 if(body.email == '')

@@ -28,7 +28,8 @@ export default function ListaCliente() {
       ...user,
       nome: user.nome || user.nome_representante,
       email: user.email || user.email_empresa,
-      numero: user.numero || user.numero_representante
+      numero: user.numero || user.numero_representante,
+      tp_pessoa: user.tp_pessoa == 'Juridica' ? 'Jurídica': 'Física'
     }));
     setUsers(transformedData);
   }

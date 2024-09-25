@@ -112,7 +112,7 @@ INSERT INTO
   )
 VALUES
   (
-    'Física',
+    'fisica',
     'CARMELITA FERNANDES DA SILVA',
     '898.253.307-91',
     'Casada',
@@ -120,7 +120,7 @@ VALUES
     '2020-02-18'
   ),
 (
-    'Física',
+    'fisica',
     'Alex Sandro Grijó Ribeiro',
     '123.654.789-44',
     'Casado',

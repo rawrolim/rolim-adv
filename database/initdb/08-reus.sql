@@ -26,6 +26,22 @@ CREATE TABLE reus(
 LOCK TABLES `reus` WRITE;
 INSERT INTO `reus` 
 (`nome_reu`,
+`tp_reu`,
+`nome_representante_reu`,
+`cpf_reu`,
+`cnpj_reu`,
 `processo_id`
-) VALUES ('gab',1),('clinica',2);
+) VALUES
+('gabriel',
+'fisica',
+null,
+'22859784721',
+null,
+1),
+('CROOS',
+'juridica',
+'Gabriel R',
+null,
+'2231293128',
+1);
  UNLOCK TABLES;

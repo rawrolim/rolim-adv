@@ -19,9 +19,5 @@ INSERT INTO `cliente_processo`
 (
 13150,
 1
-),
-(
-13150,    
-2   
 );
 UNLOCK TABLES;
