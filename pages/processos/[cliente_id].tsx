@@ -48,7 +48,13 @@ export default function ListaProcessos() {
     });
       pdfMake.createPdf(pdf).download("Contrato Número " + numero_processo + ".pdf");
   }
-  
+
+  async function getContratoFinal(id, numero_processo) {
+    const pdf = await http.post("/api/pdf/contratoProcessoFinal", {
+      id
+    });
+      pdfMake.createPdf(pdf).download("Contrato Final Número " + numero_processo + ".pdf");
+  }
   return (
     <div>
       <main className={styles.main}>
@@ -93,6 +99,12 @@ export default function ListaProcessos() {
                   handler: (arrReplaced = []) => getContrato(arrReplaced[0],arrReplaced[1]),
                   fieldParams: ['id','numero_processo'],
                   name: 'Contrato',
+                  icon: <FaFilePdf />
+                },
+                {
+                  handler: (arrReplaced = []) => getContratoFinal(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','numero_processo'],
+                  name: 'Contrato Final',
                   icon: <FaFilePdf />
                 },
                 {
