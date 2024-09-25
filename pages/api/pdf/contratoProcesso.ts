@@ -32,7 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         ,{text: `${cliente.profissao}`},', portador da cédula de identidade nº ',
                         {text: `${cliente.rg}`},', e inscrito no CPF/MF sob o nº ',{text: `${cliente.cpf}`},
                         ', residente e domiciliado na ',{text: `${cliente.endereco}`},', ',{text: `${cliente.endereco_num}`},', '
-                        ,{text: `${cliente.endereco_complemento}`},', CEP: ',{text: `${cliente.cep}`},(cliente.mail != null ? {text: `, Email: ${cliente.mail}`} : null),isLast ? { text: '.' } : { text: ', e ' }
+                        ,{text: `${cliente.endereco_complemento}`},', CEP: ',{text: `${cliente.cep}`},(cliente.mail != null ? {text: `, Email: ${cliente.mail}`} : null),
+                        (cliente.numero != null ? {text: `, Número de Telefone: ${cliente.numero}`} : null),
+                        isLast ? { text: '.' } : { text: ', e ' }
                     ];
                 }else{
                     return [ 
@@ -42,6 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         ,{text: `${cliente.profissao_representante}`},', portador da cédula de identidade nº ',
                         {text: `${cliente.rg_representante}`},', e inscrito no CPF/MF sob o nº ',{text: `${cliente.cpf_representante}`},
                         ', residente e domiciliado na ',{text: `${cliente.endereco_representante}`},', ',{text: `${cliente.endereco_num_representante}`},', ',{text: `${cliente.endereco_complemento_representante}`},', CEP: ',{text: `${cliente.cep_representante}`},(cliente.email_empresa != null ? {text: `, Email: ${cliente.email_empresa}`} : null),
+                        (cliente.numero_representante != null ? {text: `, Número de Telefone: ${cliente.numero_representante}`} : null),
                         isLast ? { text: '.' } : { text: ', e ' }
                     ];
                 }
@@ -57,8 +60,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 else{
                     return [ 
-                        {text: ` ${reu.razao_social.toUpperCase()}`, bold: true },
-                        {text: ` representado por ${reu.nome_representante}`, bold: true },
+                        {text: ` ${reu.nome_reu.toUpperCase()}`, bold: true },
+                        {text: ` representando por ${reu.nome_representante_reu}`, bold: true },
                         isLast ? { text: '.' } : { text: ', e ' }
                     ];
                 }
@@ -85,27 +88,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const clientePrincipal = (clientes.length > 0)
             ? [
-                { text: clientes[0].tp_pessoa === 'Física' ? `${clientes[0].nome} \n CPF/MF nº ${clientes[0].cpf}` : `${clientes[0].razao_social} \n CNPJ: ${clientes[0].cnpj} \n representado por: ${clientes[0].nome_representante} \n CPF/MF nº ${clientes[0].cpf_representante}` }
+                { text: clientes[0].tp_pessoa === 'fisica' ? `${clientes[0].nome} \n CPF/MF nº ${clientes[0].cpf}` : `${clientes[0].razao_social} \n CNPJ: ${clientes[0].cnpj} \n representado por: ${clientes[0].nome_representante} \n CPF/MF nº ${clientes[0].cpf_representante}` }
               ]
             : [];
+
             const parcela = {
-                parcelas: Number(processo.parcelas), // Convert to number
-                valorContrato: Number(processo.valor_contrato), // Convert to number
-                entrada: Number(processo.entrada), // Convert to number
+                parcelas: Number(processo.parcelas),
+                valorContrato: Number(processo.valor_contrato),
+                entrada: Number(processo.entrada),
                 valor: (() => {
-                    const valorTotal = Number(processo.valor_contrato); // Ensure it's a number
-                    const entrada = Number(processo.entrada); // Ensure it's a number
-                    const numeroParcelas = Number(processo.parcelas); // Ensure it's a number
+                    const valorTotal = Number(processo.valor_contrato); 
+                    const entrada = Number(processo.entrada);
+                    const numeroParcelas = Number(processo.parcelas);
             
-                    // Check for valid input
                     if (numeroParcelas <= 0) {
                         throw new Error("Número de parcelas deve ser maior que zero.");
                     }
             
-                    // Calculate the value of the installment
                     const valorParcela = (valorTotal - entrada) / numeroParcelas;
             
-                    return valorParcela; // Return the installment value
+                    return valorParcela.toFixed(2).replace('.', ',');
                 })()
             };
 
@@ -139,13 +141,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             '\n','\n',
                             
                             {text:'CLÁUSULA 2ª - DO OBJETO',bold:true},'\n','\n',{text:'2.1',bold:true},' O presente contrato tem por objeto a prestação de serviços de advocacia, por parte do Advogado contratado',', para ',processo.motivo,' em face de ',
+
                             ...reusText,
+
                             '\n','\n',{text:'2.2',bold:true},' O presente contrato abrange todas as fases do processo, tais como Execuções e instâncias superiores.','\n','\n',
                             
                             {text: 'CLÁUSULA 3ª - DAS OBRIGAÇÕES',bold:true},'\n','\n',{text:'3.1. ',bold:true},'O ', {text:'CONTRATADO ',bold:true},'obriga-se, por consequência do presente contrato, a prestar seus serviços jurídicos em defesa dos direitos do ',{text:'CONTRATANTE ',bold:true},'mediante a prática de todos os atos inerentes ao exercício da advocacia.','\n','\n',{text:'3.2. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'fica obrigado a fornecer todos os dados, informações e documentos necessários para o bom e fiel desenvolvimento do objeto contratado, declarando por meio do presente a veracidade dos mesmos, comprometendo-se a não faltar com a verdade, sendo responsável pela idoneidade moral, legitimidade e veracidade dos documentos e informações que apresentar ao ',{text:'CONTRATADO, ',bold:true},'fica obrigado a comparecer em audiências ou perícias designadas, desde que previamente informadas.','\n','\n',
                             
-                            {text:'CLÁUSULA 4ª - DA REMUNERAÇÃO',bold:true},'\n','\n',{text:'4.1. ',bold:true},'Em remuneração aos serviços ora avençados, o ',{text:'CONTRATANTE ',bold:true},'pagará ao ',{text:'CONTRATADO ',bold:true},'a verba honorária assim contratada:','\n','\n',{text:'VALOR PONTUAL: ',bold:true},'\n','\n','R$ ',processo.valor_contrato,' (',extenso(processo.valor_contrato, { mode: 'currency', currency: { type: 'BRL' } }),')',' para defender os interesses do ',{text:'CONTRATANTE ',bold:true},'na Ação de ',processo.motivo,' em face de ',...reusText,'\n','\n',' Os honorários serão pagos da seguinte forma: na data da assinatura do contrato: ',processo.entrada,' (',extenso(processo.entrada, { mode: 'currency', currency: { type: 'BRL' } }),'), e ',extenso(processo.parcelas, { locale: 'br' }),' parcelas de ','R$ ',parcela.valor,' (',extenso(parcela.valor, { mode: 'currency', currency: { type: 'BRL' } }),'), ','com vencimento da 1ª em ',vencimentoParcela.vencimento,' e as outras sucessivamente, que serão pagos por meio de PIX: 22999653649 ou transferência para conta corrente do banco do brasil agencia 0051, conta corrente 13.490-2, Rawlinson Wagner Moraes Rolim, CPF:004.904.467-28.','\n','\n',{text:'4.2 ',bold:true},'Eventual atraso no pagamento dos honorários refletirá ao CONTRATANTE, sobre o saldo devedor, multa de 10% (dez por cento), sem prejuízo de juros de 1% ao mês e correção monetária consoante a variação do IGP-M, sobre o valor do débito.','\n','\n',{text:'4.3 ',bold:true},
-                            'No caso de ',{text:'ACORDO',bold:true},' entre as partes, o valor devido pela atuação será de ',processo.valor_contrato,' (',extenso(processo.valor_contrato, { mode: 'currency', currency: { type: 'BRL' } }),').','\n','\n',{text:'4.4 ',bold:true},'Os valores pactuados neste contrato serão devidos independente dos valores eventualmente recebidos a título de sucumbência no processo, que serão pagos integralmente ao ',{text:'CONTRATADO, ',bold:true},'nos termos do Art. 23 da Lei nº 8.906/94 e Art. 51, do Código de Ética e Disciplina da Ordem dos Advogado do Brasil.','\n','\n',{text:'4.5 ',bold:true},'Em eventual levantamento ou recebimento dos valores advindos da ação objeto do presente contrato, diretamente pelo ',{text:'CONTRATADO, ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'autoriza expressamente por meio deste a retenção dos valores pactuados e exigíveis.','\n','\n',{text:'4.6 ',bold:true},'Em eventual levantamento ou recebimento dos valores advindos da ação objeto do presente contrato, diretamente pelo ',{text:'CONTRATANTE, ',bold:true},'será imediatamente exigível a verba honorária a contar do efetivo recebimento pelo ',{text:'CONTRATANTE, ',bold:true},'correndo a partir de então os juros, cláusula penal e correção monetária.','\n','\n',{text:'4.7 ',bold:true},'Fica desde já autorizado que seja destacado o valor dos honorários contratados quando da expedição do RPV ou Precatório.','\n','\n',
+                            {text:'CLÁUSULA 4ª - DA REMUNERAÇÃO',bold:true},'\n','\n',{text:'4.1. ',bold:true},'Em remuneração aos serviços ora avençados, o ',{text:'CONTRATANTE ',bold:true},'pagará ao ',{text:'CONTRATADO ',bold:true},'a verba honorária assim contratada:','\n','\n',{text:'VALOR PONTUAL: ',bold:true},'\n','\n','R$ ',
+                            
+                            Number(processo.valor_contrato).toFixed(2).replace('.', ','),' (',extenso(Number(processo.valor_contrato).toFixed(2).replace('.', ','), { number: { decimal: 'informal' } }),
+                            
+                            ')',' para defender os interesses do ',{text:'CONTRATANTE ',bold:true},'na Ação de ',processo.motivo,' em face de ',
+
+                            ...reusText,
+
+                            '\n','\n',' Os honorários serão pagos da seguinte forma: na data da assinatura do contrato: R$ ',Number(processo.entrada).toFixed(2).replace('.', ','),
+                            ' ( ' + extenso(Number(processo.entrada).toFixed(2).replace('.', ','), { number: { decimal: 'informal' } }) + ' reais ) ',
+                            
+                            ' e ',
+                            extenso(processo.parcelas, { locale: 'br' }),
+                            ' parcelas de ','R$ ',
+                            
+                            parcela.valor,' ( ',extenso(parcela.valor, { number: { decimal: 'informal' } }),' reais ) ',
+                            
+                            'com vencimento da 1ª em ',vencimentoParcela.vencimento,' e as outras sucessivamente, que serão pagos por meio de PIX: 22999653649 ou transferência para conta corrente do banco do brasil agencia 0051, conta corrente 13.490-2, Rawlinson Wagner Moraes Rolim, CPF:004.904.467-28.','\n','\n',{text:'4.2 ',bold:true},'Eventual atraso no pagamento dos honorários refletirá ao CONTRATANTE, sobre o saldo devedor, multa de 10% (dez por cento), sem prejuízo de juros de 1% ao mês e correção monetária consoante a variação do IGP-M, sobre o valor do débito.','\n','\n',{text:'4.3 ',bold:true},
+                            'No caso de ',{text:'ACORDO',bold:true},' entre as partes, o valor devido pela atuação será de ',
+                            
+                            Number(processo.valor_contrato).toFixed(2).replace('.', ','),' (',extenso(Number(processo.valor_contrato).toFixed(2).replace('.', ','), { number: { decimal: 'informal' } }),').','\n','\n',
+
+                            {text:'4.4 ',bold:true},'Os valores pactuados neste contrato serão devidos independente dos valores eventualmente recebidos a título de sucumbência no processo, que serão pagos integralmente ao ',{text:'CONTRATADO, ',bold:true},'nos termos do Art. 23 da Lei nº 8.906/94 e Art. 51, do Código de Ética e Disciplina da Ordem dos Advogado do Brasil.','\n','\n',{text:'4.5 ',bold:true},'Em eventual levantamento ou recebimento dos valores advindos da ação objeto do presente contrato, diretamente pelo ',{text:'CONTRATADO, ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'autoriza expressamente por meio deste a retenção dos valores pactuados e exigíveis.','\n','\n',{text:'4.6 ',bold:true},'Em eventual levantamento ou recebimento dos valores advindos da ação objeto do presente contrato, diretamente pelo ',{text:'CONTRATANTE, ',bold:true},'será imediatamente exigível a verba honorária a contar do efetivo recebimento pelo ',{text:'CONTRATANTE, ',bold:true},'correndo a partir de então os juros, cláusula penal e correção monetária.','\n','\n',{text:'4.7 ',bold:true},'Fica desde já autorizado que seja destacado o valor dos honorários contratados quando da expedição do RPV ou Precatório.','\n','\n',
                             
                             {text:'CLÁUSULA 5ª - O PRAZO DO CONTRATO',bold:true},'\n','\n',{text:'5.1. ',bold:true},'O contrato tem validade até o trânsito em julgado do processo.','\n','\n',{text:'5.2 ',bold:true},'A revogação do mandato por vontade do ',{text:'CONTRATANTE ',bold:true},'não o desobriga do pagamento das verbas honorárias contratadas devidas até o ato da revogação, bem como não retira o direito do ',{text:'CONTRATADO '},'de receber o quanto lhe seja devido em eventual verba honorária de sucumbência, calculada proporcionalmente, em face do serviço efetivamente prestado.','\n','\n',
                             
@@ -158,8 +183,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         bold: false,
                     },
                     {
+                        
                         text:[
-                            {text:'7.1.1 ',bold:true},'Rescisão em primeira Instância - após elaboração da peça inicial: ',processo.primeira_rescisao,' (',extenso(processo.primeira_rescisao, { mode: 'currency', currency: { type: 'BRL' } }),');','\n','\n',{text:'7.1.2 ',bold:true},'Rescisão em segunda Instância: ',processo.segunda_rescisao,' (',extenso(processo.segunda_rescisao, { mode: 'currency', currency: { type: 'BRL' } }),');','\n','\n',{text:'7.1.3 ',bold:true},'Rescisão em fase de Execução: ',processo.terceira_rescisao,' (',extenso(processo.terceira_rescisao, { mode: 'currency', currency: { type: 'BRL' } }),');'
+                            {text:'7.1.1 ',bold:true},'Rescisão em primeira Instância - após elaboração da peça inicial: R$ ',Number(processo.primeira_rescisao).toFixed(2).replace('.', ','),' (',extenso(Number(processo.primeira_rescisao).toFixed(2).replace('.', ','),{ number: { decimal: 'informal' } }),');','\n','\n',{text:'7.1.2 ',bold:true},'Rescisão em segunda Instância: R$ ',Number(processo.segunda_rescisao).toFixed(2).replace('.', ','),' (',extenso(Number(processo.segunda_rescisao).toFixed(2).replace('.', ','), { number: { decimal: 'informal' } }),');','\n','\n',{text:'7.1.3 ',bold:true},'Rescisão em fase de Execução: R$ ',Number(processo.terceira_rescisao).toFixed(2).replace('.', ','),' (',extenso(Number(processo.terceira_rescisao).toFixed(2).replace('.', ','), { number: { decimal: 'informal' } }),');'
                         ],
                         margin:[30,0,0,0]
                     },
@@ -171,7 +197,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             
                             {text:'CÁUSULA 9ª - DA OBSERVÂNCIA À LGPD',bold:true},'\n','\n',{text:'9.1 ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'declara expresso ',{text:'CONSENTIMENTO ',bold:true},'que o ',{text:'CONTRATADO '},'irá coletar, tratar e compartilhar os dados necessários ao cumprimento do contrato, nos termos do Art. 7º, inc. V da LGPD, os dados necessários para cumprimento de obrigações legais, nos termos do Art. 7º, inc. II da LGPD, bem como os dados, se necessários para proteção ao crédito, conforme autorizado pelo Art. 7º, inc. X da LGPD.','\n','\n',{text:'9.2 ',bold:true},'Outros dados poderão ser coletados, tratados e compartilhados conforme termo de consentimento específico em anexo.','\n','\n',
                             
-                            {text:'CLÁUSULA 10ª - DAS DISPOSIÇÕES GERAIS',bold:true},'\n','\n',{text:'10.1. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'por meio deste contrato autoriza expressamente o ',{text:'CONTRATADO ',bold:true},'a não atuar ou interpor recursos que julgue incabíveis, infundados, inócuos, sem resultado prático útil e/ou meramente protelatórios.','\n','\n',{text:'10.2. ',bold:true},'O ',{text:'CONTRATADO ',bold:true},'não garante o resultado favorável ao ',{text:'CONTRATANTE, ',bold:true},'mas, compromete-se a usar de todos os meios jurídicos, legais, morais e legítimos para defender os interesses do ',{text:'CONTRATANTE.'},'\n','\n',{text:'10.3. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'é totalmente responsável pelo comparecimento nos locais e horários indicados, bem como se compromete na obtenção da documentação necessária para viabilizar as ações contratadas pelo presente instrumento, sendo responsável por eventual perda de prazo ou influência no resultado pela inobservância de algum destas obrigações.','\n','\n',{text:'10.4 ',bold:true},'Em quaisquer casos de arquivamento, extinção do processo ou improcedência da ação em que tenha o ',{text:'CONTRATANTE ',bold:true},'dado causa por não comparecimento sem motivo justificado, inverdade das informações ou documentos, serão cobrados honorários integrais nos valores e percentuais ajustados como êxito no presente contrato.','\n','\n',{text:'10.5. ',bold:true},'Fica definido que toda e qualquer comunicação a ser feita pelo ',{text:'CONTRATADO ',bold:true},'ao ',{text:'CONTRATANTE ',bold:true},'ocorrerá pelo endereço eletrônico acima referido, sendo que a simples remessa de mensagens para tal e-mail presume o recebimento da informação pelo ',{text:'CONTRATANTE, ',bold:true},'o qual se obriga a informar qualquer alteração.','\n','\n',{text:'10.6. ',bold:true},'O meio de comunicação estabelecido, para contato com os profissionais contratados, será realizado exclusivamente por meio de ligações para o telefone 22-99965-3649 e e-mail: contato@rawlinsonrolimadv.com, via redes sociais ou whatsapp, exceto quando necessários ao esclarecimento de informações requisitados pelos profissionais contratados, exclusivamente em horário comercial (9h-18h) em dias úteis.','\n','\n',{text:'10.7. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'declara expressamente a veracidade dos fatos narrados e ter recebido a orientação preventiva, comportamental e jurídica, para a consecução dos serviços, ficando ciente dos riscos de sucumbência, honorários advocatícios, honorários periciais ou multa por litigância de má fé independentemente do benefício de gratuidade judiciária, em observância aos dispositivos da CLT: Art. 844, §2º.','\n','\n','Parágrafo único: O ',{text:'CONTRATANTE ',bold:true},'declara por meio deste contrato ter plena ciência de que caso receba salário superior a 40% do limite máximo dos benefícios do Regime Geral de Previdência Social, ou, caso não comprove insuficiência de recursos (parágrafos 3º e 4º do art. 790 da CLT), poderá não ser beneficiário da Gratuidade de Justiça, tendo que arcar com custas processuais.','\n','\n',{text:'CLÁUSULA 11ª - DO FORO'},'\n','\n',{text:'11.1 ',bold:true},'As partes elegem o foro da cidade de Macaé - RJ para conhecer das questões porventura emergentes da presente relação contratual, com a expressa renúncia de qualquer outro, por mais privilegiado que possa vir a ser.','\n','\n',{text:'11.2 ',bold:true},'E, por assim estarem justos e contratados, assinam o presente pacto em duas vias de igual teor e forma, para um só efeito legal, na presença de duas testemunhas instrumentárias.'
+                            {text:'CLÁUSULA 10ª - DAS DISPOSIÇÕES GERAIS',bold:true},'\n','\n',{text:'10.1. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'por meio deste contrato autoriza expressamente o ',{text:'CONTRATADO ',bold:true},'a não atuar ou interpor recursos que julgue incabíveis, infundados, inócuos, sem resultado prático útil e/ou meramente protelatórios.','\n','\n',{text:'10.2. ',bold:true},'O ',{text:'CONTRATADO ',bold:true},'não garante o resultado favorável ao ',{text:'CONTRATANTE, ',bold:true},'mas, compromete-se a usar de todos os meios jurídicos, legais, morais e legítimos para defender os interesses do ',{text:'CONTRATANTE.'},'\n','\n',{text:'10.3. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'é totalmente responsável pelo comparecimento nos locais e horários indicados, bem como se compromete na obtenção da documentação necessária para viabilizar as ações contratadas pelo presente instrumento, sendo responsável por eventual perda de prazo ou influência no resultado pela inobservância de algum destas obrigações.','\n','\n',{text:'10.4 ',bold:true},'Em quaisquer casos de arquivamento, extinção do processo ou improcedência da ação em que tenha o ',{text:'CONTRATANTE ',bold:true},'dado causa por não comparecimento sem motivo justificado, inverdade das informações ou documentos, serão cobrados honorários integrais nos valores e percentuais ajustados como êxito no presente contrato.','\n','\n',{text:'10.5. ',bold:true},'Fica definido que toda e qualquer comunicação a ser feita pelo ',{text:'CONTRATADO ',bold:true},'ao ',{text:'CONTRATANTE ',bold:true},'ocorrerá pelo endereço eletrônico acima referido, sendo que a simples remessa de mensagens para tal e-mail presume o recebimento da informação pelo ',{text:'CONTRATANTE, ',bold:true},'o qual se obriga a informar qualquer alteração.','\n','\n',{text:'10.6. ',bold:true},'O meio de comunicação estabelecido, para contato com os profissionais contratados, será realizado exclusivamente por meio de ligações para o telefone 22-99965-3649 e e-mail: contato@rawlinsonrolimadv.com, via redes sociais ou whatsapp, exceto quando necessários ao esclarecimento de informações requisitados pelos profissionais contratados, exclusivamente em horário comercial (9h-18h) em dias úteis.','\n','\n',{text:'10.7. ',bold:true},'O ',{text:'CONTRATANTE ',bold:true},'declara expressamente a veracidade dos fatos narrados e ter recebido a orientação preventiva, comportamental e jurídica, para a consecução dos serviços, ficando ciente dos riscos de sucumbência, honorários advocatícios, honorários periciais ou multa por litigância de má fé independentemente do benefício de gratuidade judiciária, em observância aos dispositivos da CLT: Art. 844, §2º.','\n','\n','Parágrafo único: O ',{text:'CONTRATANTE ',bold:true},'declara por meio deste contrato ter plena ciência de que caso receba salário superior a 40% do limite máximo dos benefícios do Regime Geral de Previdência Social, ou, caso não comprove insuficiência de recursos (parágrafos 3º e 4º do art. 790 da CLT), poderá não ser beneficiário da Gratuidade de Justiça, tendo que arcar com custas processuais.','\n','\n',{text:'CLÁUSULA 11ª - DO FORO',bold:true},'\n','\n',
+                            {text:'11.1 ',bold:true},'As partes elegem o foro da cidade de Macaé - RJ para conhecer das questões porventura emergentes da presente relação contratual, com a expressa renúncia de qualquer outro, por mais privilegiado que possa vir a ser.','\n','\n',{text:'11.2 ',bold:true},'E, por assim estarem justos e contratados, assinam o presente pacto em duas vias de igual teor e forma, para um só efeito legal, na presença de duas testemunhas instrumentárias.'
 
                         ],
                         style: 'medium',

@@ -18,7 +18,7 @@ CREATE TABLE processos(
     data_distribuicao DATE NULL,
     valor_contrato REAL NULL,
     parcelas INT NULL,
-    entrada INT NULL,
+    entrada REAL NULL,
     inicio_prestacao DATE NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fp_processo_usuarios FOREIGN KEY (advogado) REFERENCES usuarios(id),
@@ -61,7 +61,7 @@ VALUES(
     'dsadsadasd',
     3124,
     '2024-06-23',
-    222,31,133,
+    222,3,133.32,
     '2024-02-15');
 
 UNLOCK TABLES;
