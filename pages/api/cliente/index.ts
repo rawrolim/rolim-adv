@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }else if(req.method == 'POST'){
             const body = req.body;
             let sql = '';
-            if(body.tp_pessoa === 'Física'){
+            if(body.tp_pessoa === 'fisica'){
                 if(body.nome == '')
                     throw new Error("Necessário informar o nome")
                 if(body.email == '')
@@ -50,7 +50,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 if(rs_email.length > 0)
                     throw new Error("E-mail já cadastrado no sistema.");
     
-                sql = `INSERT INTO clientes(
+                sql = `
+                INSERT INTO clientes(
                     nome,
                     cpf,
                     numero,
@@ -71,29 +72,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     status,
                     cnh,
                     tp_pessoa
-                ) VALUES(
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    NOW(),
-                    ?,
-                    'A',
-                    ?,
-                    ?
-                )`;
-                await query(sql,[body.nome,body.cpf,body.numero,body.email,body.endereco,body.endereco_num,body.endereco_complemento,body.cep,body.rg,body.orgao,body.nome_mae,body.nome_pai,body.estado_civil,body.sexo,body.data_nascimento,body.profissao,body.cnh,body.tp_pessoa]);
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, 'A', ?, ?)
+            `;
+            await query(sql, [
+                body.nome,
+                body.cpf,
+                body.numero,
+                body.email,
+                body.endereco,
+                body.endereco_num,
+                body.endereco_complemento,
+                body.cep,
+                body.rg,
+                body.orgao,
+                body.nome_mae,
+                body.nome_pai,
+                body.estado_civil,
+                body.sexo,
+                body.data_nascimento,
+                body.profissao,
+                body.cnh,
+                body.tp_pessoa
+            ]);
                 res.status(200).json("CLIENTE CRIADO COM SUCESSO");
             }else{
                 if(body.cnpj == '')
@@ -123,8 +123,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     endereco_representante ,
                     endereco_num_representante,
                     endereco_complemento_representante,
-                    rg_representante
+                    rg_representante,
+                    sexo_representante
                 ) VALUES(
+                    ?,
                     ?,
                     ?,
                     ?,
@@ -155,7 +157,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     body.endereco_complemento_empresa,body.tp_pessoa,
                     body.estado_civil_representante,body.cep_representante,
                     body.endereco_representante,body.endereco_num_representante,
-                    body.endereco_complemento_representante,body.rg_representante]);
+                    body.endereco_complemento_representante,body.rg_representante,body.sexo_representante]);
                 res.status(200).json("CLIENTE CRIADO COM SUCESSO");
 
             }

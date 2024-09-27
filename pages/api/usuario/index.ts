@@ -39,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const rs_email = await query(sql);
             if (rs_email.length > 0)
                 throw new Error("E-mail já cadastrado no sistema.");
+            
             const senhaGerada = generateRandomPassword();
 
             sql = `INSERT INTO usuarios (

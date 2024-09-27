@@ -5,6 +5,11 @@ import http from '../../config/http';
 import Table from '../../components/table';
 import { MdEdit } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
+import { FaFilePdf } from 'react-icons/fa';
+const pdfMakeX = require('pdfmake/build/pdfmake.js');
+const pdfFontsX = require('pdfmake-unicode/dist/pdfmake-unicode.js');
+pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
+import * as pdfMake from 'pdfmake/build/pdfmake';
 
 export default function ListaProcessos() {
   const [processos, setProcessos] = useState([]);
@@ -23,7 +28,7 @@ export default function ListaProcessos() {
     const resData = await http.get(`/api/processos/${router.query.cliente_id}`);
     if (resData) {
       const transformedData = resData.map(processo => ({
-        ...processo
+        ...processo,
       }));
       setProcessos(transformedData);
     }
@@ -36,7 +41,20 @@ export default function ListaProcessos() {
     }));
     setProcessos(transformedData);
   }
+  
+  async function getContrato(id, numero_processo) {
+    const pdf = await http.post("/api/pdf/contratoProcesso", {
+      id
+    });
+      pdfMake.createPdf(pdf).download("Contrato Número " + numero_processo + ".pdf");
+  }
 
+  async function getContratoFinal(id, numero_processo) {
+    const pdf = await http.post("/api/pdf/contratoProcessoFinal", {
+      id
+    });
+      pdfMake.createPdf(pdf).download("Contrato Final Número " + numero_processo + ".pdf");
+  }
   return (
     <div>
       <main className={styles.main}>
@@ -78,7 +96,19 @@ export default function ListaProcessos() {
                   icon: <MdEdit />
                 },
                 {
-                  handler: (arrReplaced = []) => router.push(`/informacoes_processo/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => getContrato(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','numero_processo'],
+                  name: 'Contrato',
+                  icon: <FaFilePdf />
+                },
+                {
+                  handler: (arrReplaced = []) => getContratoFinal(arrReplaced[0],arrReplaced[1]),
+                  fieldParams: ['id','numero_processo'],
+                  name: 'Contrato Final',
+                  icon: <FaFilePdf />
+                },
+                {
+                  handler: (arrReplaced = []) => router.push(`/informacoes_processos/${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Informações',
                   icon: <FaFileAlt />

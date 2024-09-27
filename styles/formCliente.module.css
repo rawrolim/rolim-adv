@@ -5,6 +5,55 @@
     padding: 50px;
     min-height: 75vh;
   }
+  .linha {
+    content: "";
+    width: 115px; 
+    margin-right: 168px;
+    margin-top: 25px;
+    border-bottom: 4px solid rgb(0, 123, 255);
+    position: absolute;
+    animation: aparecer 0.2s ease-in-out; 
+}
+.linha2{
+    content: "";
+    width: 112px; 
+    margin-right: 170px;
+    margin-top: 25px;
+    border-bottom: 4px solid rgb(0, 123, 255);
+    position: absolute;
+}
+.linha3{
+    content: "";
+    width: 118px;
+    margin-left: 165px;
+    margin-top: 25px;
+    border-bottom: 4px solid rgb(0, 123, 255);
+    position: absolute;
+    animation: aparecer 0.2s ease-in-out;
+}
+@keyframes aparecer {
+    0% {
+        width: 0;
+        transform: translateX(-300%);
+    }
+    20% {
+        width: 0;
+        transform: translateX(-200%);
+    }
+    40% {
+        width: 30px;
+        transform: translateX(-150%); 
+    }
+    60% {
+        width: 50px;
+        transform: translateX(-100%); 
+    }
+    100% {
+        width: 115px;
+        transform: translateX(0);
+    }
+}
+
   .buttonVoltar{
     background-color: transparent;
     border: none;
@@ -15,6 +64,7 @@
     color: #007bff;
   }
   .conteudoform{
+    min-width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     padding: 20px;
     border-radius: 8px;

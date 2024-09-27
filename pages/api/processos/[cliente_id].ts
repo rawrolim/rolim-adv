@@ -19,8 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     DATE_FORMAT(p.data_distribuicao, '%d/%m/%Y') AS data_distribuicao,
                     p.motivo          
                 FROM processos p
+                INNER JOIN cliente_processo cp
+                    ON p.id = cp.processo_id
                 INNER JOIN clientes c 
-                    ON c.id = p.cliente_id
+                    ON c.id = cp.cliente_id
                 INNER JOIN usuarios u
                     ON u.id = p.advogado 
                 WHERE c.id = ?
