@@ -98,14 +98,13 @@ export default function ListaProcessos() {
                 {
                   handler: (arrReplaced = []) => getContrato(arrReplaced[0],arrReplaced[1]),
                   fieldParams: ['id','numero_processo'],
-                  name: 'Contrato',
-                  icon: <FaFilePdf />
+                  name: 'Contrato Inicial',
                 },
                 {
                   handler: (arrReplaced = []) => getContratoFinal(arrReplaced[0],arrReplaced[1]),
                   fieldParams: ['id','numero_processo'],
                   name: 'Contrato Final',
-                  icon: <FaFilePdf />
+
                 },
                 {
                   handler: (arrReplaced = []) => router.push(`/informacoes_processos/${arrReplaced[0]}`),
