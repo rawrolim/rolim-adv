@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { query } from "../../../config/databaseConnection";
 
+export const revalidate = 5;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method == 'GET') {
