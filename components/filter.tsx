@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineWeekend, MdOutlinePeopleAlt } from "react-icons/md";
 
-export function Filter({ data, title }) {
+export function Filter({ dataInit, title, select }) {
+  const [data, setData] = useState(dataInit);
+  const [filter, setFilter] = useState('');
+  const[selection, setSelect] = useState(select);
+
+  const applyFilters = () => {
+    if (dataInit) {
+      let filteredUsers = [...dataInit];
+
+      if (filter) {
+        filteredUsers = filteredUsers.filter(user =>
+          Object.values(user).some(value => {
+            if (value) {
+              return value.toString().toLowerCase().includes(filter)
+            }
+          }
+          )
+        );
+      }
+
+      setData(filteredUsers);
+    } else {
+      setData([]);
+    }
+  };
+
+  useEffect(() => {
+    applyFilters()
+  }, [filter, dataInit]);
   return (
     <div className="card mx-1 my-4">
       <div className="card-header bg-white p-3 pt-2">
@@ -15,25 +43,17 @@ export function Filter({ data, title }) {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Dropdown button
+              Selecione
             </button>
             <ul className="dropdown-menu">
-                <input type="search" className="m-2"/>
-                <li>
-                    <a className="dropdown-item" href="#">
-                    {data}
-                    </a>
+            <input type={'search'} placeholder={'Pesquisar'} className='form-control' onChange={e => setFilter(e.target.value)} />
+              {data.map((item, index) => (
+                <li key={index}>
+                  <a className="dropdown-item" onChange={selection}>
+                  {item["MONTH(data_distribuicao)"] || item["YEAR(data_distribuicao)"] || item.nome}
+                  </a>
                 </li>
-                <li>
-                    <a className="dropdown-item" href="#">
-                    Option
-                    </a>
-                </li>
-                <li>
-                    <a className="dropdown-item" href="#">
-                    Option
-                    </a>
-                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -41,5 +61,3 @@ export function Filter({ data, title }) {
     </div>
   );
 }
-
-export default Filter;
