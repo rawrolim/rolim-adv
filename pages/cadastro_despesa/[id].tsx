@@ -42,6 +42,7 @@ export default function CadastroTipoDespesa() {
       const tipoSelecionado = tiposOptions.find(
         (option) => option.value === resData.id
       );
+      setTipo(tipoSelecionado);
 
       setFormData({
         ...resData.data,
@@ -51,7 +52,6 @@ export default function CadastroTipoDespesa() {
         tipoDespesa: tipoSelecionado || null,
       });
       console.log(tipoSelecionado)
-      setTipo(tipoSelecionado);
     } catch (err) {
       console.error('Erro ao buscar despesa:', err);
     }
@@ -127,7 +127,7 @@ export default function CadastroTipoDespesa() {
               <label htmlFor="tipoDespesa" className="form-label">Tipo Despesa*</label>
               {tiposOptions.length > 0 ? (
                 <SelectSearch
-                  value={{value: 2, label: 'Escritorio'}}
+                  value={id_tipo}
                   onChange={setTipo}
                   options={tiposOptions}
                   required={true}
