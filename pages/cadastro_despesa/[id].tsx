@@ -26,12 +26,10 @@ export default function CadastroTipoDespesa() {
   async function fetchTipos() {
     try {
       const response = await http.get("/api/despesa/tipos");
-      console.log("Resposta da API:", response.data);
       const tiposDespesas = response.tiposDespesas.map((tiposDespesas) => ({
         value: tiposDespesas.id,
         label: tiposDespesas.nome,
       }));
-      console.log("Opções mapeadas:", tiposDespesas);
       setTipos(tiposDespesas);
     } catch (error) {
       console.error("Erro ao obter Tipos de despesa:", error);
@@ -41,8 +39,9 @@ export default function CadastroTipoDespesa() {
   async function getDespesa() {
     try {
       const resData = await http.get(`/api/despesa/${router.query.id}`);
+      console.log(resData)
       const tipoSelecionado = tiposOptions.find(
-        (option) => option.value === resData.data.id_tipo
+        (option) => option.value === resData.id
       );
 
       setFormData({
