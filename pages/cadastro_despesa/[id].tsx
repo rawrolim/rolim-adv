@@ -83,7 +83,7 @@ export default function CadastroTipoDespesa() {
       } else {
         await http.put(`/api/despesa/${formData.id}`, formattedData);
       }
-      router.push('/lista_despesas');
+      router.push('/despesas');
     } catch (err) {
       console.error('Erro ao salvar despesa:', err);
     }
@@ -94,7 +94,7 @@ export default function CadastroTipoDespesa() {
       <div className="shadow p-4 rounded">
         <button
           className="btn btn-outline-primary border-end-0 border-start-0 rounded-4"
-          onClick={() => router.push('/lista_despesas')}
+          onClick={() => router.push('/despesas')}
         >
           Voltar
         </button>

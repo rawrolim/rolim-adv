@@ -43,6 +43,7 @@ export default function ListaTipoDespesa() {
   return (
     <div>
     <main className={styles.main}>
+    <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('despesas')}>Voltar</button>
       <div className='col-12 text-end mb-3'>
         <button onClick={() => router.push("/cadastro_tipo_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
           Cadastrar Tipo de Despesa
