@@ -129,7 +129,7 @@ export default function CadastroTipoDespesa() {
               <label htmlFor="tipoDespesa" className="form-label">Tipo Despesa*</label>
               {tiposOptions.length > 0 ? (
                 <SelectSearch
-                  value={id_tipo}
+                  value={{value: 2, label: 'Escritorio'}}
                   onChange={setTipo}
                   options={tiposOptions}
                   required={true}
