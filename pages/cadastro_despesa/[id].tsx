@@ -39,7 +39,6 @@ export default function CadastroTipoDespesa() {
   async function getDespesa() {
     try {
       const resData = await http.get(`/api/despesa/${router.query.id}`);
-      console.log(resData)
       const tipoSelecionado = tiposOptions.find(
         (option) => option.value === resData.id
       );
