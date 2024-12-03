@@ -34,6 +34,9 @@ export default function ListaDespesa() {
     <div>
     <main className={styles.main}>
       <div className='col-12 text-end mb-3'>
+        <button onClick={() => router.push("lista_tipoDespesa")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+          Tipo Despesas
+        </button>
         <button onClick={() => router.push("/cadastro_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
           Cadastrar Despesa
         </button>
