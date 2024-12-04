@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import http from '../../config/http';
 import SelectSearch from "../../components/SelectSearch";
 
-export default function CadastroTipoDespesa() {
+export default function CadastroDespesa() {
   const router = useRouter();
   const [id_tipo, setTipo] = useState({ value: 0, label: "" });
   const [tiposOptions, setTipos] = useState([]);
@@ -13,24 +13,27 @@ export default function CadastroTipoDespesa() {
     id: 0,
     data_pagamento: '',
     valor: '',
-    tipoDespesa: null
+    tipo_despesa: null
   });
 
   useEffect(() => {
-    fetchTipos();
     if (router.query.id !== "novo") {
-      if (Number(router.query.id)) getDespesa();
+      if (Number(router.query.id)){
+        fetchTipos().then(() => getDespesa());
+      }
+    } else {
+      fetchTipos(); 
     }
   }, [router.query.id]);
 
   async function fetchTipos() {
     try {
       const response = await http.get("/api/despesa/tipos");
-      const tiposDespesas = response.tiposDespesas.map((tiposDespesas) => ({
-        value: tiposDespesas.id,
-        label: tiposDespesas.nome,
+      const tipo_despesas = response.tipo_despesas.map((tipo_despesas) => ({
+        value: tipo_despesas.id,
+        label: tipo_despesas.nome,
       }));
-      setTipos(tiposDespesas);
+      setTipos(tipo_despesas);
     } catch (error) {
       console.error("Erro ao obter Tipos de despesa:", error);
     }
@@ -40,22 +43,26 @@ export default function CadastroTipoDespesa() {
     try {
       const resData = await http.get(`/api/despesa/${router.query.id}`);
       const tipoSelecionado = tiposOptions.find(
-        (option) => option.value === resData.id
+        (option) => option.value === resData.tipo_despesa
       );
-      setTipo(tipoSelecionado);
-
+  
+      const dataFormatada = resData.data_pagamento
+        ? new Date(resData.data_pagamento.split('/').reverse().join('-')).toLocaleDateString('pt-BR')
+        : '';
+  
       setFormData({
-        ...resData.data,
-        data_pagamento: resData.data.data_pagamento
-          ? new Date(resData.data.data_pagamento).toLocaleDateString('pt-BR')
-          : '',
-        tipoDespesa: tipoSelecionado || null,
+        ...resData,
+        data_pagamento: dataFormatada,
       });
-      console.log(tipoSelecionado)
+  
+      if (tipoSelecionado) {
+        setTipo(tipoSelecionado);
+      }
     } catch (err) {
       console.error('Erro ao buscar despesa:', err);
     }
   }
+  
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -67,24 +74,24 @@ export default function CadastroTipoDespesa() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formattedData = {
       ...formData,
       data_pagamento: formData.data_pagamento
-        ? formData.data_pagamento.split('/').reverse().join('-')
+        ? formData.data_pagamento.split('/').reverse().join('-') 
         : null,
-      tipoDespesa: id_tipo.value || null,
+      tipo_despesa: id_tipo?.value || null,
     };
-
+  
     try {
       if (formData.id === 0) {
-        await http.post('/api/despesa/', formattedData);
+        await http.post('/api/despesa', formattedData);
       } else {
         await http.put(`/api/despesa/${formData.id}`, formattedData);
       }
       router.push('/despesas');
-    } catch (err) {
-      console.error('Erro ao salvar despesa:', err);
+    } catch (error) {
+      console.error('Erro ao salvar despesa:', error);
     }
   };
 

@@ -10,9 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             SELECT 
             id,
             valor,
-            DATE_FORMAT(data_pagamento, '%d/%m/%Y'),
+            DATE_FORMAT(data_pagamento, '%d/%m/%Y') AS data_pagamento,
             tipo_despesa
-            FROM despesas d
+            FROM despesas
             WHERE id = ?`
             const rs_despesa = await query(sql, [req.query.despesa_id]);
 
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (body.valor == '')
                 throw new Error("Necessário informar o valor")
             
-            if(body.tipoDespesa == '')
+            if(body.tipo_despesa == '')
                 throw new Error("Necessário informar o Tipo Despesa")
 
             if(body.data_pagamento == '')
@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await query(sql, [
                 body.valor,
                 body.data_pagamento,
-                body.tipoDespesa,
+                body.tipo_despesa,
                 body.id
             ]);
             res.status(200).json("DESPESA ATUALIZADO COM SUCESSO");

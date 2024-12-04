@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 DATE_FORMAT(d.data_pagamento, '%d/%m/%Y') AS data_pagamento, 
                 d.valor AS valor, 
                 td.id AS tipo_despesa_id, 
-                d.tipo_despesa
+                d.tipo_despesa AS tipo_despesa
             FROM despesas d 
             INNER JOIN tipo_despesa td ON td.id = d.tipo_despesa
             `
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if(body.valor == '')
                 throw new Error("Necessário informar o Valor")
 
-            if(body.tipoDespesa == '')
+            if(body.tipo_despesa == '')
                 throw new Error("Necessário informar o Tipo Despesa")
 
             if(body.data_pagamento == '')
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 tipo_despesa
             ) VALUES (?,?,?)
         `;
-        await query(sql, [body.data_pagamento,body.valor,body.tipoDespesa]);
+        await query(sql, [body.data_pagamento,body.valor,body.tipo_despesa]);
             res.status(200).json("DESPESA CRIADO COM SUCESSO");
            
         }          
