@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function SelectSearch({ value, options, onChange=(e)=>{}, required = false}) {
+export default function SelectSearch({ value, options, onChange = (e) => { }, required = false }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -19,7 +19,7 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
 
     const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
-            if(selectedOption?.label){
+            if (selectedOption?.label) {
                 console.log(value)
                 setSearchTerm(selectedOption?.label)
             }
@@ -29,9 +29,10 @@ export default function SelectSearch({ value, options, onChange=(e)=>{}, require
 
     useEffect(() => {
         if (value) {
-         setSearchTerm(value.label);
+            setSearchTerm(value.label);
+            setSelectedOption(value)
         } else {
-            setSearchTerm(''); 
+            setSearchTerm('');
         }
         document.addEventListener('mousedown', handleClickOutside);
         return () => {

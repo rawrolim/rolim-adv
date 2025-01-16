@@ -3,30 +3,31 @@ import useLoacalStorage from "../hooks/useLocalStorage";
 import Card from "../components/card";
 import Chart from "../components/chart";
 import Table from "../components/table";
-import Filter from "../components/filter";
+import { Filter } from "../components/filter";
 import http from "../config/http";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [token, setToken] = useLoacalStorage("authorization", "");
-  const [filteredData, setFilteredData] = useLoacalStorage("filtered", {});
   const [data, setData] = useState({
     clientesAtivos: 0,
     clientesTotal: 0,
     processosAtivos: 0,
     usuariosAtivos: 0,
-    Advogados: []
+    Advogados: [],
+    mes: [],
+    Clientes: [],
+    ano: []
   });
 
   useEffect(() => {
+    async function getDashboardData() {
+      const dashboardData = await http.get("/api/dashboard");
+      setData(dashboardData);
+    }
     getDashboardData();
   }, []);
 
-  async function getDashboardData() {
-    const dashboardData = await http.get("/api/dashboard");
-    console.log(dashboardData);
-    setData(dashboardData);
-  }
 
   const chartDataExample = {
     labels: ["January", "February", "March", "April", "May"],
@@ -50,10 +51,10 @@ export default function Dashboard() {
             <div className="col-md-2 bg-body-secondary border-5">
               <div className="container-full">
                 <h3 className="m-4">Filtros</h3>
-                <Filter data={["10"]} title={"Selecione o mês"} />
-                <Filter data={["10"]} title={"Selecione o ano"} />
-                <Filter data={["10"]} title={"Selecione o advogado"} />
-                <Filter data={["10"]} title={"Selecione o cliente"} />
+                <Filter dataInit={data.mes} select={data.mes} title={"Selecione o mês"} />
+                <Filter dataInit={data.ano} select={data.ano} title={"Selecione o ano"} />
+                <Filter dataInit={data.Advogados} select={data.Advogados} title={"Selecione o advogado"} />
+                <Filter dataInit={data.Clientes} select={data.Clientes} title={"Selecione o cliente"} />
               </div>
             </div>
             <div className="col-md-10">
@@ -73,18 +74,14 @@ export default function Dashboard() {
               </div>
               <div className="row">
                 <div className="col-6 mx-3">
-                  <Chart
-                    data={chartDataExample}
-                    title={"Processos por mês"}
-                    type={"line"}
-                  />
+                  <Chart data={chartDataExample} title={"Processos por mês"} type={"line"} />
                 </div>
                 <div className="col-5 mx-3">
                   <Table
                     dataInit={data.Advogados}
                     title={"Advogados"}
                     showFilter={true}
-                    columns={ [
+                    columns={[
                       {
                         name: 'Nome',
                         field: 'nome'
@@ -93,7 +90,7 @@ export default function Dashboard() {
                         name: 'E-mail',
                         field: 'email'
                       }
-                    ] }
+                    ]}
                   />
                 </div>
               </div>

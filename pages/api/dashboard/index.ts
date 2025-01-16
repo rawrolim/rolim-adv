@@ -11,7 +11,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 clientesTotal: 0,
                 processosAtivos: 0,
                 usuariosAtivos: 0,
-                Advogados: []
+                Advogados: [],
+                mes:[],
+                Clientes:[],
+                ano:[]
             };
 
             let sql = `
@@ -19,6 +22,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const rs_clientes = await query(sql);
             responseObject.clientesAtivos = rs_clientes.filter(c => c.status = 'A').length;
             responseObject.clientesTotal = rs_clientes.length;
+            responseObject.Clientes = rs_clientes; 
+
+            sql = `SELECT DISTINCT YEAR(data_distribuicao) FROM processos`;
+            const rs_ano = await query(sql);
+            responseObject.ano = rs_ano;
+            
+            sql = `SELECT DISTINCT MONTH(data_distribuicao) FROM processos`;
+            const rs_mes = await query(sql);
+            responseObject.mes = rs_mes;
+
 
             sql = `
             SELECT * FROM processos`
