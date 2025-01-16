@@ -17,14 +17,16 @@ export default function CadastroDespesa() {
   });
 
   useEffect(() => {
-    if (router.query.id !== "novo") {
-      if (Number(router.query.id)){
-        fetchTipos().then(() => getDespesa());
-      }
-    } else {
-      fetchTipos(); 
-    }
+    fetchTipos();
   }, [router.query.id]);
+
+  useEffect(()=>{
+    if (router.query.id !== "novo") {
+      if (Number(router.query.id)) {
+        getDespesa()
+      }
+    }
+  },[tiposOptions]);
 
   async function fetchTipos() {
     try {
@@ -42,19 +44,17 @@ export default function CadastroDespesa() {
   async function getDespesa() {
     try {
       const resData = await http.get(`/api/despesa/${router.query.id}`);
-      const tipoSelecionado = tiposOptions.find(
-        (option) => option.value === resData.tipo_despesa
-      );
+      const tipoSelecionado = tiposOptions.find((tipoDespesaCurrent) => tipoDespesaCurrent.value === resData.tipo_despesa);
   
       const dataFormatada = resData.data_pagamento
         ? new Date(resData.data_pagamento.split('/').reverse().join('-')).toLocaleDateString('pt-BR')
         : '';
-  
+
       setFormData({
         ...resData,
         data_pagamento: dataFormatada,
       });
-  
+
       if (tipoSelecionado) {
         setTipo(tipoSelecionado);
       }
@@ -62,7 +62,7 @@ export default function CadastroDespesa() {
       console.error('Erro ao buscar despesa:', err);
     }
   }
-  
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -74,15 +74,15 @@ export default function CadastroDespesa() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formattedData = {
       ...formData,
       data_pagamento: formData.data_pagamento
-        ? formData.data_pagamento.split('/').reverse().join('-') 
+        ? formData.data_pagamento.split('/').reverse().join('-')
         : null,
       tipo_despesa: id_tipo?.value || null,
     };
-  
+
     try {
       if (formData.id === 0) {
         await http.post('/api/despesa', formattedData);
@@ -108,10 +108,11 @@ export default function CadastroDespesa() {
         <h2 className="mb-4 text-center">Cadastro de Despesa</h2>
         <form
           onSubmit={handleSubmit}
-          className="bg-white"
+          className="bg-white d-flex flex-wrap"
           style={{ maxWidth: '1200px', width: '100%', display: 'flex', flexWrap: 'wrap', gap: '20px' }}
         >
-          <div className="form-group position-relative" style={{ flex: '1 1 calc(50% - 20px)', minWidth: '230px' }}>
+          <div className="form-group col-12 col-sm-2">
+            <label htmlFor="id">ID</label>
             <input
               type="number"
               value={formData.id}
@@ -121,31 +122,24 @@ export default function CadastroDespesa() {
               className="form-control border-0 border-bottom"
               readOnly
             />
-            <label htmlFor="id" className="position-absolute top-0 left-1 text-primary" style={{
-              transform: 'translateY(-50%)', cursor: 'auto', padding: '0 5px', fontSize: '12px', color: '#007bff',
-              transition: 'none',
-            }}>
-              ID
-            </label>
           </div>
 
-          <div className="col-md-4">
-            <div className="mb-3">
-              <label htmlFor="tipoDespesa" className="form-label">Tipo Despesa*</label>
-              {tiposOptions.length > 0 ? (
-                <SelectSearch
-                  value={id_tipo}
-                  onChange={setTipo}
-                  options={tiposOptions}
-                  required={true}
-                />
-              ) : (
-                <p>Carregando tipos de despesas...</p>
-              )}
-            </div>
+          <div className="col-12 col-sm-3">
+            <label >Tipo Despesa*</label>
+            {tiposOptions.length > 0 ? (
+              <SelectSearch
+                value={id_tipo}
+                onChange={setTipo}
+                options={tiposOptions}
+                required={true}
+              />
+            ) : (
+              <p>Carregando tipos de despesas...</p>
+            )}
           </div>
 
-          <div className="form-group position-relative" style={{ flex: '1 1 calc(50% - 20px)', minWidth: '230px' }}>
+          <div className="col-12 col-sm-3">
+            <label htmlFor="data_pagamento">DATA PAGAMENTO</label>
             <InputMask
               value={formData.data_pagamento}
               onChange={handleChange}
@@ -155,30 +149,20 @@ export default function CadastroDespesa() {
               required={true}
               className="form-control border-0 border-bottom"
             />
-            <label htmlFor="data_pagamento" className="position-absolute top-0 left-1 text-primary" style={{
-              transform: 'translateY(-50%)', cursor: 'auto', padding: '0 5px', fontSize: '12px', color: '#007bff',
-              transition: 'none',
-            }}>
-              DATA PAGAMENTO *
-            </label>
           </div>
 
-          <div className="form-group position-relative" style={{ flex: '1 1 calc(50% - 20px)', minWidth: '230px' }}>
+          <div className="col-12 col-sm-3">
+            <label htmlFor="valor">VALOR</label>
             <input
               type="number"
               value={formData.valor}
+              step="0.01"
               onChange={handleChange}
               id="valor"
               placeholder="Digite o Valor"
               required={true}
               className="form-control border-0 border-bottom"
             />
-            <label htmlFor="valor" className="position-absolute top-0 left-1 text-primary" style={{
-              transform: 'translateY(-50%)', cursor: 'auto', padding: '0 5px', fontSize: '12px', color: '#007bff',
-              transition: 'none',
-            }}>
-              VALOR *
-            </label>
           </div>
 
           <div className="col-6 mx-auto text-center w-100">
