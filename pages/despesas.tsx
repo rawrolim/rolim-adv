@@ -8,7 +8,7 @@ import { MdEdit } from "react-icons/md";
 interface despesa {
   id: number;
   nome: string;
-  data_pagamento:string;
+  data_pagamento: string;
   valor: number;
 }
 
@@ -32,47 +32,47 @@ export default function ListaDespesa() {
 
   return (
     <div>
-    <main className={styles.main}>
-      <div className='col-12 text-end mb-3'>
-        <button onClick={() => router.push("lista_tipoDespesa")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
-          Tipo Despesas
-        </button>
-        <button onClick={() => router.push("/cadastro_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
-          Cadastrar Despesa
-        </button>
-      </div>
-      <Table title={'Lista Despesas'} dataInit={despesa}
-        columns={ [
-          {
-            name: '#',
-            field: 'index'
-          },
-          {
-            name: 'Tipo Despesa',
-            field: 'nome'
-          },
-          {
-            name: 'Data Pagamento',
-            field: 'data_pagamento'
-          },
-          {
-            name: 'Valor',
-            field: 'valor'
-          },
-          {
-            name: 'Ações',
-            actions: [
-              {
-                handler: (arrReplaced = []) => router.push(`/cadastro_despesa/${arrReplaced[0]}`),
-                fieldParams: ['id'],
-                name: 'Editar',
-                icon: <MdEdit />
-              }
-            ]
-          }
-        ] }
-      />
-    </main>
-  </div>
+      <main className={styles.main}>
+        <div className='col-12 d-flex flex-wrap justify-content-end gap-2 mb-3'>
+          <button onClick={() => router.push("lista_tipoDespesa")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+            Tipo Despesas
+          </button>
+          <button onClick={() => router.push("/cadastro_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+            Cadastrar Despesa
+          </button>
+        </div>
+        <Table title={'Lista Despesas'} dataInit={despesa}
+          columns={[
+            {
+              name: '#',
+              field: 'index'
+            },
+            {
+              name: 'Tipo Despesa',
+              field: 'nome'
+            },
+            {
+              name: 'Data Pagamento',
+              field: 'data_pagamento'
+            },
+            {
+              name: 'Valor',
+              field: 'valor'
+            },
+            {
+              name: 'Ações',
+              actions: [
+                {
+                  handler: (arrReplaced = []) => router.push(`/cadastro_despesa/${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Editar',
+                  icon: <MdEdit />
+                }
+              ]
+            }
+          ]}
+        />
+      </main>
+    </div>
   );
 }
