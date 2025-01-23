@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/listaCliente.module.css';
-import http from '../config/http';
-import Table from '../components/table';
+import styles from '../../styles/listaCliente.module.css';
+import http from '../../config/http';
+import Table from '../../components/table';
 import { GrUpdate } from "react-icons/gr";
 import { toast } from 'react-toastify';
 import { MdEdit } from "react-icons/md";
@@ -41,7 +41,7 @@ export default function ListaUsuarios() {
     <div>
     <main className={styles.main}>
       <div className='col-12 text-end mb-3'>
-        <button onClick={() => router.push("/cadastro_usuario/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+        <button onClick={() => router.push("/usuarios/formulario")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
           Cadastrar usuário
         </button>
       </div>
@@ -72,7 +72,7 @@ export default function ListaUsuarios() {
             name: 'Ações',
             actions: [
               {
-                handler: (arrReplaced = []) => router.push(`/cadastro_usuario/${arrReplaced[0]}`),
+                handler: (arrReplaced = []) => router.push(`/usuarios/formulario?id=${arrReplaced[0]}`),
                 fieldParams: ['id'],
                 name: 'Editar',
                 icon: <MdEdit />

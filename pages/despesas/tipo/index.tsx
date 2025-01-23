@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/listaCliente.module.css';
-import http from '../config/http';
-import Table from '../components/table';
+import styles from '../../../styles/listaCliente.module.css';
+import http from '../../../config/http';
+import Table from '../../../components/table';
 import { toast } from 'react-toastify';
 import { MdEdit } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
@@ -44,8 +44,8 @@ export default function ListaTipoDespesa() {
     <div>
       <main className={styles.main}>
         <div className='d-flex flex-wrap col-12 p-0 m-0 mb-3' style={{'justifyContent': 'space-between'}}>
-          <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('despesas')}>Voltar</button>
-          <button onClick={() => router.push("/cadastro_tipo_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+          <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('/despesas')}>Voltar</button>
+          <button onClick={() => router.push("/despesas/tipo/formulario")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
             Cadastrar Tipo de Despesa
           </button>
         </div>
@@ -67,7 +67,7 @@ export default function ListaTipoDespesa() {
               name: 'Ações',
               actions: [
                 {
-                  handler: (arrReplaced = []) => router.push(`/cadastro_tipo_despesa/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/despesas/tipo/formulario?id=${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
                   icon: <MdEdit />

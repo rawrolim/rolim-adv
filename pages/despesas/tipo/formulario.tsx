@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
 import { useRouter } from 'next/router';
-import http from '../../config/http';
+import http from '../../../config/http';
 
 export default function CadastroTipoDespesa() {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function CadastroTipoDespesa() {
     } else {
       try {
         const res = await http.put(`/api/despesa/tipo_despesa/${formData.id}`, formData);
-        router.push("/lista_tipoDespesa");
+        router.push("/despesas");
       } catch (err) {
         console.error(err);
       }
@@ -63,7 +63,7 @@ export default function CadastroTipoDespesa() {
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ minHeight: '75vh' }}>
       <div className="shadow p-4 rounded">
-        <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('/lista_tipoDespesa')}>Voltar</button>
+        <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.back()}>Voltar</button>
 
         <h2 className="mb-4 text-center">Cadastro de Tipo Despesa</h2>
         <form onSubmit={handleSubmit} className="bg-white" style={{ maxWidth: '1200px', width: '100%', display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
