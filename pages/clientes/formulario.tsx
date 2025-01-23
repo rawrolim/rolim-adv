@@ -55,7 +55,7 @@ export default function FormularioCliente() {
   const [formData, setFormData] = useState(initialFormData);
 
   useEffect(() => {
-    if (router.query.id !== 'novo' && Number(router.query.id)) {
+    if (Number(router.query.id)) {
       getClient();
     }
   }, [router.query.id]);
@@ -173,7 +173,7 @@ export default function FormularioCliente() {
       } else {
         await http.put(`/api/cliente/${formData.id}`, formData);
       }
-      router.push('/lista_clientes');
+      router.push('/clientes');
     } catch (error) {
       console.error('Erro ao salvar cliente:', error);
     }
@@ -284,7 +284,7 @@ export default function FormularioCliente() {
       <main className={styles.main}>
         <div className={styles.conteudoform}>
           <h2 className={styles.h2}>Formulário de Cliente</h2>
-          <button className={styles.buttonVoltar} onClick={() => router.push('/lista_clientes')}>
+          <button className={styles.buttonVoltar} onClick={() => router.push('/clientes')}>
             Voltar
           </button>
           {formData.id === 0 && (

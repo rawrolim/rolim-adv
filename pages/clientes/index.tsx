@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import styles from '../styles/listaCliente.module.css';
+import styles from '../../styles/listaCliente.module.css';
 import { useRouter } from 'next/router';
 import { MdEdit } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
-import http from '../config/http';
-import Table from '../components/table';
+import http from '../../config/http';
+import Table from '../../components/table';
 import { FaFilePdf } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 const pdfMakeX = require('pdfmake/build/pdfmake.js');
@@ -29,42 +29,42 @@ export default function ListaCliente() {
       nome: user.nome || user.nome_representante,
       email: user.email || user.email_empresa,
       numero: user.numero || user.numero_representante,
-      tp_pessoa: user.tp_pessoa == 'Juridica' ? 'Jurídica': 'Física'
+      tp_pessoa: user.tp_pessoa == 'Juridica' ? 'Jurídica' : 'Física'
     }));
     setUsers(transformedData);
   }
 
-  async function deleteClient(id){
-    await http.delete("/api/cliente/"+id);
+  async function deleteClient(id) {
+    await http.delete("/api/cliente/" + id);
     getClients();
     toast.success("Status do cliente alterado com sucesso.")
   }
 
-  async function getProcuracao(id, nome){
-    const pdf = await http.post("/api/pdf/procuracao",{
+  async function getProcuracao(id, nome) {
+    const pdf = await http.post("/api/pdf/procuracao", {
       id
     });
-    pdfMake.createPdf(pdf).download("Procuração "+nome+".pdf");
+    pdfMake.createPdf(pdf).download("Procuração " + nome + ".pdf");
   }
 
-  async function getHipo(id, nome){
-    const pdf = await http.post("/api/pdf/hipo",{
+  async function getHipo(id, nome) {
+    const pdf = await http.post("/api/pdf/hipo", {
       id
     });
-    pdfMake.createPdf(pdf).download("Hipo "+ nome +".pdf");
+    pdfMake.createPdf(pdf).download("Hipo " + nome + ".pdf");
   }
 
   return (
     <div>
       <main className={styles.main}>
         <div className='col-12 text-end mb-3'>
-          <button onClick={() => router.push("/formulario_cliente/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
+          <button onClick={() => router.push("/clientes/formulario")} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-3'}>
             Cadastrar cliente
           </button>
         </div>
 
         <Table title={'Lista de clientes'} dataInit={users}
-          columns={ [
+          columns={[
             {
               name: '#',
               field: 'index'
@@ -93,16 +93,16 @@ export default function ListaCliente() {
               name: 'Ações',
               actions: [
                 {
-                  handler: (arrReplaced = []) => router.push(`/formulario_cliente/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/clientes/informacoes?id=${arrReplaced[0]}`),
+                  fieldParams: ['id'],
+                  name: 'Informações',
+                  icon: <FaUser />
+                },
+                {
+                  handler: (arrReplaced = []) => router.push(`/clientes/formulario?id=${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
-                  icon: <MdEdit/>
-                },
-             {
-                  handler: (arrReplaced = []) => router.push(`/processos/${arrReplaced[0]}`),
-                  fieldParams: ['id'],
-                  name: 'Processos',
-                  icon: <FaFileAlt />
+                  icon: <MdEdit />
                 },
                 {
                   handler: (arrReplaced = []) => deleteClient(arrReplaced[0]),
@@ -111,26 +111,20 @@ export default function ListaCliente() {
                   icon: <GrUpdate />
                 },
                 {
-                  handler: (arrReplaced = []) => getProcuracao(arrReplaced[0],arrReplaced[1]),
-                  fieldParams: ['id','nome'],
+                  handler: (arrReplaced = []) => getProcuracao(arrReplaced[0], arrReplaced[1]),
+                  fieldParams: ['id', 'nome'],
                   name: 'Procuração',
                   icon: <FaFilePdf />
                 },
                 {
-                  handler: (arrReplaced = []) => getHipo(arrReplaced[0],arrReplaced[1]),
-                  fieldParams: ['id','nome'],
+                  handler: (arrReplaced = []) => getHipo(arrReplaced[0], arrReplaced[1]),
+                  fieldParams: ['id', 'nome'],
                   name: 'Hipo',
                   icon: <FaFilePdf />
                 },
-                {
-                  handler: (arrReplaced = []) => router.push(`/informacoes_cliente/${arrReplaced[0]}`),
-                  fieldParams: ['id'],
-                  name: 'Informações',
-                  icon: <FaUser />
-                }
               ]
             }
-          ] }
+          ]}
         />
       </main>
     </div>

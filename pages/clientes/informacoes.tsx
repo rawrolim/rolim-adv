@@ -82,7 +82,7 @@ export default function InformacoesCliente() {
                         }
                     </div>
                 </div>
-                {selectedClient && selectedClient.tp_pessoa === 'Física' &&
+                {selectedClient && selectedClient.tp_pessoa === 'fisica' &&
                     <div className='row mt-3'>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>ID:</strong> {selectedClient.id}</div>
                         <div className='col-12 col-md-6 border-bottom p-2'><strong>Nome:</strong> {selectedClient.nome}</div>
@@ -130,7 +130,7 @@ export default function InformacoesCliente() {
             <AnexoCliente />
 
             <div className='col-12 text-end mb-3'>
-          <button onClick={() => router.push(`/cadastro_processo/novo`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2 mt-3'}>
+          <button onClick={() => router.push(`/cadastro_processo/novo`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-3 mt-3'}>
             Cadastrar Processo
           </button>
         </div>

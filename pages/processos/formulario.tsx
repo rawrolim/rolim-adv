@@ -292,7 +292,7 @@ export default function CadastroProceso() {
           <h2 className={styles.h2}>Formulário de Processo</h2>
           <button
             className={styles.buttonVoltar}
-            onClick={() => router.push("/processos/0")}
+            onClick={() => router.back()}
           >
             Voltar
           </button>

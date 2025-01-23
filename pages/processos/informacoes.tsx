@@ -35,7 +35,7 @@ export default function InformacoesProcesso() {
         <div className={styles.container}>
             <div className={'border p-4 rounded'}>
                 <h3 className='text-center'>Informações do Processo</h3>
-                <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.push("/processos/0")}>Voltar</button>
+                <button className={`btn btn-outline-primary border-end-0 border-start-0 rounded-4`} onClick={() => router.back()}>Voltar</button>
                 <div className='mt-3'></div>
                 {selectedProcess &&
                     <div className='row mt-3'>

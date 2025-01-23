@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/listaCliente.module.css';
-import http from '../config/http';
-import Table from '../components/table';
+import styles from '../../styles/listaCliente.module.css';
+import http from '../../config/http';
+import Table from '../../components/table';
 import { MdEdit } from "react-icons/md";
 
 interface despesa {
@@ -34,10 +34,10 @@ export default function ListaDespesa() {
     <div>
       <main className={styles.main}>
         <div className='col-12 d-flex flex-wrap justify-content-end gap-2 mb-3'>
-          <button onClick={() => router.push("lista_tipoDespesa")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+          <button onClick={() => router.push("/despesas/tipo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
             Tipo Despesas
           </button>
-          <button onClick={() => router.push("/cadastro_despesa/novo")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
+          <button onClick={() => router.push("/despesas/formulario")} className={'btn btn-primary col-12 col-sm-6 col-md-auto'}>
             Cadastrar Despesa
           </button>
         </div>
@@ -63,7 +63,7 @@ export default function ListaDespesa() {
               name: 'Ações',
               actions: [
                 {
-                  handler: (arrReplaced = []) => router.push(`/cadastro_despesa/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/despesas/formulario?id=${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
                   icon: <MdEdit />

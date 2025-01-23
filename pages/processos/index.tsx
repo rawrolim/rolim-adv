@@ -59,7 +59,7 @@ export default function ListaProcessos() {
     <div>
       <main className={styles.main}>
         <div className='col-12 text-end mb-3'>
-          <button onClick={() => router.push(`/cadastro_processo/novo`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-2'}>
+          <button onClick={() => router.push(`/processos/formulario`)} className={'btn btn-primary col-12 col-sm-6 col-md-4 col-lg-3'}>
             Cadastrar Processo
           </button>
         </div>
@@ -90,7 +90,7 @@ export default function ListaProcessos() {
               name: 'Ações',
               actions: [
                 {
-                  handler: (arrReplaced = []) => router.push(`/cadastro_processo/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/processos/formulario?id=${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Editar',
                   icon: <MdEdit />
@@ -107,7 +107,7 @@ export default function ListaProcessos() {
 
                 },
                 {
-                  handler: (arrReplaced = []) => router.push(`/informacoes_processos/${arrReplaced[0]}`),
+                  handler: (arrReplaced = []) => router.push(`/processos/informacoes?id=${arrReplaced[0]}`),
                   fieldParams: ['id'],
                   name: 'Informações',
                   icon: <FaFileAlt />
