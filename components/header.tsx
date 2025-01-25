@@ -11,7 +11,7 @@ export default function HeaderComponent() {
     const [userData, setUserData] = useLocalStorage('user_data', '');
     const router = useRouter()
     const ignoredRoutes = ['/login', '/', '/senha/novo'];
-    const pages = ['/dashboard', '/clientes', '/processos', '/usuarios', { name: "financeiro", items: ['/despesas', '/entradas', '/cobrancas'] }, '/perfil']
+    const pages = ['/dashboard', '/clientes', '/processos', '/usuarios', { name: "financeiro", items: ['/despesas', '/entradas', '/cobrancas'] },'/servidor' ,'/perfil']
 
     useEffect(() => {
         if (haveToken()) {
