@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
                 res.status(200).json(serverResponse.data);
             }else{
-                const serverResponse = await axios.get(`${process.env.FILESERVER}/getDirectory`, {
+                const serverResponse = await axios.get(`${process.env.FILESERVER}/getDirectory?force=${req.query.force}`, {
                     headers: {
                         Authorization: req.headers.authorization
                     }

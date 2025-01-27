@@ -9,11 +9,11 @@ export default function Servidor() {
     const [dir, setDir] = useState([]);
 
     useEffect(() => {
-        getDirectory()
+        getDirectory(false)
     }, [])
 
-    async function getDirectory() {
-        const res = await http.get(`/api/servidor`);
+    async function getDirectory(force: boolean) {
+        const res:[] = await http.get(`/api/servidor?force=${force ? 1 : 0}`);
         setDir(res);
     }
 
@@ -57,22 +57,27 @@ export default function Servidor() {
     const downloadItem = async (path: string) => {
         const pathArr = path.split('/');
         const base64Data = await http.get(`/api/servidor?path=${path}`)
-        if(base64Data){
+        if (base64Data) {
             const linkSource = `data:application/octet-stream;base64,${base64Data}`;
             const downloadLink = document.createElement('a');
             downloadLink.href = linkSource;
-            downloadLink.download = pathArr[pathArr.length-1];
+            downloadLink.download = pathArr[pathArr.length - 1];
             downloadLink.click();
-        }else{
+        } else {
             toast.warn("O arquivo solicitado está vazio.")
         }
     }
 
     return (
-        <div>
-            <main className="mt-3" >
-                <button className='btn btn-outline-light text-dark' onClick={getDirectory}>Get directory</button>
-                <DirectoryList items={dir} father={''} />
+        <div className="container-lg mt-4">
+            <main className="container-fluid">
+                <div className="card p-3 mb-5 bg-white rounded">
+                    <h4 className="text-center">Servidor de arquivos</h4>
+                    <div className="col-12 d-flex justify-content-end">
+                        <button className='btn btn-primary mb-3' onClick={() => getDirectory(true)}>Buscar arquivos</button>
+                    </div>
+                    <DirectoryList items={dir} father={''} />
+                </div>
             </main>
         </div>
     )
