@@ -7,7 +7,8 @@ const nextConfig = {
     ENV: process.env.ENV,
     NEXT_URL: process.env.NEXT_URL,
     FILESERVER: process.env.FILESERVER
-  }
+  },
+  crossOrigin: 'anonymous',
 }
 
 module.exports = nextConfig
