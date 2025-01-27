@@ -35,7 +35,7 @@ export default function Servidor() {
         };
 
         return (
-            <li className="list-group-item">
+            <li className="list-group-item pe-0">
                 {item.type === 'directory' ? (
                     <>
                         <span onClick={toggleOpen} style={{ cursor: 'pointer' }}>
