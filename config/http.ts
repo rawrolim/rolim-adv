@@ -12,12 +12,17 @@ const http = {
                 toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
-                if (e.response.status == 401) {
-                    await refreshAuthorization();
-                    return http.get(uri, config, instancia + 1);
+                if (e.response) {
+                    if (e.response.status == 401) {
+                        await refreshAuthorization();
+                        return http.get(uri, config, instancia + 1);
+                    } else {
+                        toast.dismiss({ 'containerId': loading });
+                        toast.error(JSON.parse(e.request.response));
+                    }
                 } else {
                     toast.dismiss({ 'containerId': loading });
-                    toast.error(JSON.parse(e.request.response));
+                    toast.error(e.toString());
                 }
             }
         }
@@ -33,12 +38,17 @@ const http = {
                 toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
-                if (e.response.status == 401) {
-                    await refreshAuthorization();
-                    return http.post(uri, data, config, instancia + 1);
+                if (e.response) {
+                    if (e.response.status == 401) {
+                        await refreshAuthorization();
+                        return http.post(uri, data, config, instancia + 1);
+                    } else {
+                        toast.dismiss({ 'containerId': loading });
+                        toast.error(JSON.parse(e.request.response));
+                    }
                 } else {
                     toast.dismiss({ 'containerId': loading });
-                    toast.error(JSON.parse(e.request.response));
+                    toast.error(e.toString());
                 }
             }
         }
@@ -54,12 +64,17 @@ const http = {
                 toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
-                if (e.response.status == 401) {
-                    await refreshAuthorization();
-                    return http.put(uri, data, config, instancia + 1);
+                if (e.response) {
+                    if (e.response.status == 401) {
+                        await refreshAuthorization();
+                        return http.put(uri, data, config, instancia + 1);
+                    } else {
+                        toast.dismiss({ 'containerId': loading });
+                        toast.error(JSON.parse(e.request.response));
+                    }
                 } else {
                     toast.dismiss({ 'containerId': loading });
-                    toast.error(JSON.parse(e.request.response));
+                    toast.error(e.toString());
                 }
             }
         }
@@ -75,12 +90,17 @@ const http = {
                 toast.dismiss({ 'containerId': loading });
                 return res.data;
             } catch (e) {
-                if (e.response.status == 401) {
-                    await refreshAuthorization();
-                    return http.delete(uri, config, instancia + 1);
+                if (e.response) {
+                    if (e.response.status == 401) {
+                        await refreshAuthorization();
+                        return http.delete(uri, config, instancia + 1);
+                    } else {
+                        toast.dismiss({ 'containerId': loading });
+                        toast.error(JSON.parse(e.request.response));
+                    }
                 } else {
                     toast.dismiss({ 'containerId': loading });
-                    toast.error(JSON.parse(e.request.response));
+                    toast.error(e.toString());
                 }
             }
         }

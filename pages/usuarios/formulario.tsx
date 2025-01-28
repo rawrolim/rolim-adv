@@ -90,7 +90,7 @@ export default function CadastroUsuario() {
   return (
     <div className="d-flex flex-column align-items-center py-5" style={{ minHeight: '75vh' }}>
       <div className="shadow p-4 rounded">
-        <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('/lista_usuarios')}>Voltar</button>
+        <button className="btn btn-outline-primary border-end-0 border-start-0 rounded-4" onClick={() => router.push('/usuarios')}>Voltar</button>
 
         <h2 className="mb-4 text-center">Cadastro de Usuário</h2>
         <form onSubmit={handleSubmit} className="bg-white" style={{ maxWidth: '1200px', width: '100%', display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
