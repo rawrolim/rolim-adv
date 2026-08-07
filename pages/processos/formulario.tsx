@@ -28,10 +28,10 @@ export default function CadastroProceso() {
     parcelas: "",
     entrada: "",
     inicio_prestacao: "",
-        primeira_rescisao: '',
-        segunda_rescisao: '',
-        terceira_rescisao: '',
-        percent_final_processo: '',
+    primeira_rescisao: '',
+    segunda_rescisao: '',
+    terceira_rescisao: '',
+    percent_final_processo: '',
     clientes: [],
     reus: [],
   });
@@ -96,7 +96,6 @@ export default function CadastroProceso() {
   async function getProcesso() {
     try {
       const resData = await http.get(`/api/processo/${router.query.id}`);
-      console.log(resData);
       setFormData({
         id: resData.processo.id || 0,
         advogado: resData.processo.advogado || null,
@@ -113,10 +112,10 @@ export default function CadastroProceso() {
         parcelas: resData.processo.parcelas || "",
         entrada: resData.processo.entrada || "",
         inicio_prestacao: resData.processo.inicio_prestacao || "",
-                primeira_rescisao: resData.processo.primeira_rescisao || '',
-                segunda_rescisao: resData.processo.segunda_rescisao || '',
-                terceira_rescisao: resData.processo.terceira_rescisao || '',
-                percent_final_processo: resData.processo.percent_final_processo || '',
+        primeira_rescisao: resData.processo.primeira_rescisao || '',
+        segunda_rescisao: resData.processo.segunda_rescisao || '',
+        terceira_rescisao: resData.processo.terceira_rescisao || '',
+        percent_final_processo: resData.processo.percent_final_processo || '',
         clientes: resData.clientes || [],
         reus: resData.reus || [],
       });
@@ -144,16 +143,16 @@ export default function CadastroProceso() {
       const updatedFormData = {
         ...formData,
         advogado: id_advogado ? id_advogado.value : null,
-        clientes: formData.clientes.map((cliente) => ({
-          cliente_id: cliente.cliente_id ? cliente.cliente_id.value : null,
-        })),
+        //clientes: formData.clientes.map((cliente) => ({
+        //  cliente_id: cliente.cliente_id ? cliente.cliente_id.value : null,
+        //})),
       };
       if (formData.id === 0) {
         await http.post("/api/processo/", updatedFormData);
       } else {
         await http.put(`/api/processo/${formData.id}`, updatedFormData);
       }
-      router.push("/processos/0");
+      router.push("/processos");
     } catch (error) {
       console.error("Erro ao salvar o processo:", error);
     }
@@ -235,11 +234,12 @@ export default function CadastroProceso() {
       reus: prevFormData.reus.filter((_, i) => i !== index),
     }));
   };
-  const removeCliente = (index) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      clientes: prevFormData.clientes.filter((_, i) => i !== index),
-    }));
+  const removeCliente = (index: number) => {
+    setCliente(cliente_id.splice(index));
+    setFormData({
+      ...formData,
+      clientes: formData.clientes.splice(index),
+      });
   };
 
   const ClienteForm = ({ cliente, index, onChange, onRemove }) => (
@@ -260,7 +260,7 @@ export default function CadastroProceso() {
       <div className="w-100">
         <button
           type="button"
-          className="btn btn-danger mb-2 w-25"
+          className="btn btn-danger mb-2"
           onClick={() => onRemove(index)}
         >
           Remover Cliente
@@ -547,14 +547,14 @@ export default function CadastroProceso() {
               </>
             )}
             {step === 2 && (
-              <>
+              <div className="col-12 d-flex flex-wrap justify-content-start">
                 {cliente_id &&
                   cliente_id.map((cliente, index) => (
                     <div
                       key={index}
-                      className="col-md-12 mb-3 border border-3 p-3 rounded"
+                      className="col-xs-12 col-md-6 col-lg-4 mb-3 p-2"
                     >
-                      <div>
+                      <div className="border rounded p-3">
                         <h5>Autor {index + 1}</h5>
                         <ClienteForm
                           cliente={cliente}
@@ -565,16 +565,18 @@ export default function CadastroProceso() {
                       </div>
                     </div>
                   ))}
-                <button
-                  type="button"
-                  className="btn btn-secondary w-25 mb-3"
-                  onClick={addCliente}
-                >
-                  {formData.clientes.length === 0
-                    ? "Adicionar um Autor"
-                    : "Adicionar Autor"}
-                </button>
-              </>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="btn btn-secondary w-25 mb-3"
+                    onClick={addCliente}
+                  >
+                    {formData.clientes.length === 0
+                      ? "Adicionar um Autor"
+                      : "Adicionar Autor"}
+                  </button>
+                </div>
+              </div>
             )}
             {step === 3 && (
               <>
@@ -826,7 +828,7 @@ export default function CadastroProceso() {
               </>
             )}
 
-            <div className="actions row">
+            <div className="col-12 actions row">
               {step > 1 && (
                 <div className="col-2">
                   <button
@@ -841,7 +843,7 @@ export default function CadastroProceso() {
               )}
 
               {step < 3 && (
-                <div className="col">
+                <div className="col d-flex justify-content-end">
                   <button
                     type="button"
                     className="btn btn-block btn-primary"

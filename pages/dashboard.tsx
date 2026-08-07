@@ -48,16 +48,7 @@ export default function Dashboard() {
         <div className="container-full text-center p-5 bg-body-tertiary">
           <h1 className="text-center">Dashboard</h1>
           <div className="row">
-            <div className="col-md-2 bg-body-secondary border-5">
-              <div className="container-full">
-                <h3 className="m-4">Filtros</h3>
-                <Filter dataInit={data.mes} select={data.mes} title={"Selecione o mês"} />
-                <Filter dataInit={data.ano} select={data.ano} title={"Selecione o ano"} />
-                <Filter dataInit={data.Advogados} select={data.Advogados} title={"Selecione o advogado"} />
-                <Filter dataInit={data.Clientes} select={data.Clientes} title={"Selecione o cliente"} />
-              </div>
-            </div>
-            <div className="col-md-10">
+            <div className="col-md-12">
               <div className="row my-4">
                 <div className="col mx-2">
                   <Card data={data.clientesAtivos} cardTitle={"Clientes Ativos"} />

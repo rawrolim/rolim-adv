@@ -49,7 +49,7 @@ export function Table({ title, columns, dataInit, showFilter = true }) {
         <table className="table table-striped">
           <thead>
             <tr>
-              {columns && columns.map((field, fieldIndex) => {
+              {columns && columns.map((field: any, fieldIndex: number) => {
                 return (
                   <td key={field.name + '-' + fieldIndex.toString()}>{field.name}</td>
                 )
